@@ -22,6 +22,7 @@
     <script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="__STATIC__/index/baisha/js/fastclick.js"></script>
+    <script type="text/javascript" src="__MS__/js/jquery.min.js"></script>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -80,7 +81,7 @@
                         <input  id="login-verfiy_code" type="text" placeholder="图形验证码" autocomplete="off" class="form-control required ">
                     </div>
                     <div class="col-sm-3" style="margin-top: 10%;"  >
-                        <img width="80px" height="30px"  onclick="refresh_verfiy(this)" src="{:captcha_src()}" class=" required" id="app-user-get-vercode">
+                        <img width="80px" height="30px" id="verfyImg"  onclick="this.src='{:url(\'verfy_img\')}?'+Math.random();"  src="{:url('verfy_img',[''])}" class=" required" id="app-user-get-vercode">
                     </div>
 
 
@@ -170,8 +171,9 @@
         }
         else {
             $.ajax({
-                url: "login",
+                url: "/usercenter/login/index",
                 type: "POST",
+                dataType:"json",
                 data: {
                     password: pwd,
                     google_code: secretCode,
@@ -188,15 +190,11 @@
                 icomplete: function () {
                     if (code == "1") {
                         swal({ title: "登录成功", text: "正在跳转...", icon: "success", button: false, timer: 2000 }).then(function (isConfirm) {
-                            // if (message=="key")
-                                window.location.href = '/user';
-                            // else if(true)
-                            //     window.location.href = '/';
-                            // else
-                            //     window.location.href = '';
+                                window.location.href = '/usercenter/index/index';
                         });
                     }
                     else {
+                        freshVerfyCode();
                         swal({ title: "错误", text: message, icon: "error" });
                     }
                 }
@@ -204,13 +202,24 @@
         }
     };
 
+
     /*
      * 刷新验证码
      * @param o
      */
-    function  refresh_verfiy(o) {
-        $(o).attr('src',"/captcha?t=" + (new Date).getTime());
+    // function  refresh_verfiy(o) {
+    //     $(o).attr('src',"login/verfy_img?t=" + (new Date).getTime());
+    // }
+
+    /**
+     *
+     * 刷新验证码
+     */
+    function freshVerfyCode()
+    {
+         $("#verfyImg").trigger('click');
     }
+
 
     $(function () {
         FastClick.attach(document.body);
