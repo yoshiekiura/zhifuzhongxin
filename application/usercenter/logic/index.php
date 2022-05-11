@@ -18,6 +18,7 @@ class index extends BaseLogic
         $password = trim($params['username'] ?? '');
         $vercode = trim($params['vercode'] ?? '');
         $google_code = trim($params['google_code'] ?? '');
+
         if (empty($username)) {
             return ['code' => CodeEnum::ERROR, 'msg' => '用户名不能为空'];
         }
@@ -50,6 +51,7 @@ class index extends BaseLogic
                     return ['code' => CodeEnum::ERROR , 'msg' => 'google验证码不确定'];
                 }
             }
+
             if (pwdMd52($password) != $user_info['password']) {
                 return ['code' => CodeEnum::ERROR, 'msg' => '密码错误'];
             } else {

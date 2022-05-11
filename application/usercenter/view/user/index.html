@@ -1,6 +1,6 @@
 
 
-{extend name="user-layout" /}
+{extend name="../user-layout" /}
 {block name="content"}
 <div class="container-fluid">
     <div class="row">
@@ -51,15 +51,15 @@
                             <tbody id="listBody">
                             <tr>
                                 <!--<td class="text-center">2020-03-31</td>-->
-                                <td class="text-center">{$month.order.total}</td>
-                                <td class="text-center bg-success">￥{$month.fees.total}</td>
-                                <td class="text-center bg-info">￥{$month.fees.paid}</td>
-                                <td class="text-center bg-warning">￥{$month.order.user_all_in}</td>
-                                <td class="text-center bg-success">{$stat.order.total}</td>
-                                <td class="text-center bg-info">￥{:number_format($stat.fees.total,2)}</td>
-                                <td class="text-center bg-warning">￥{:number_format($wallet.enable + $wallet.disable,2)}</td>
-                                <td class="text-center">￥{:number_format($wallet.enable,2)}</td>
-                                <td class="text-center">￥{:number_format($wallet.disable,2)}</td>
+<!--                                <td class="text-center">{$month.order.total}</td>-->
+<!--                                <td class="text-center bg-success">￥{$month.fees.total}</td>-->
+<!--                                <td class="text-center bg-info">￥{$month.fees.paid}</td>-->
+<!--                                <td class="text-center bg-warning">￥{$month.order.user_all_in}</td>-->
+<!--                                <td class="text-center bg-success">{$stat.order.total}</td>-->
+<!--                                <td class="text-center bg-info">￥{:number_format($stat.fees.total,2)}</td>-->
+<!--                                <td class="text-center bg-warning">￥{:number_format($wallet.enable + $wallet.disable,2)}</td>-->
+<!--                                <td class="text-center">￥{:number_format($wallet.enable,2)}</td>-->
+<!--                                <td class="text-center">￥{:number_format($wallet.disable,2)}</td>-->
                             </tr>
                             </tbody>
                             <!--<tfoot>-->
