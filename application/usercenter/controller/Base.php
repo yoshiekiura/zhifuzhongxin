@@ -4,11 +4,12 @@
 namespace app\usercenter\controller;
 
 
+use app\common\controller\Common;
 use app\common\model\PayCenterUser;
 use think\Controller;
 use think\Session;
 
-class Base extends Controller
+class Base extends Common
 {
 
     protected $logined = false; //登录状态

@@ -9,14 +9,14 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <form id="form1" class="form-horizontal">
-                        <input type="text" name="scene" hidden value="add">
+                        <input type="text" name="scene" hidden value="edit">
                         <div class="form-group">
                             <label for="template_id" class="col-sm-2 col-md-2 control-label">渠道模板</label>
                             <div class="col-sm-10 col-md-5">
                                 <select name="template_id" id="template_id" class="form-control">
                                     <option value="">选择收渠道模板</option>
                                     {volist name="channelTemplate" id="vo"}
-                                    <option  value="{$vo.id}">{$vo.name}</option>
+                                    <option  value="{$vo.id}" {$vo.id == $row.template_id ? 'selected' : ''}>{$vo.name}</option>
                                     {/volist}
                                 </select>
                             </div>
@@ -25,33 +25,34 @@
                         <div class="form-group">
                             <label for="name" class="col-sm-2 col-md-2 control-label">渠道名称</label>
                             <div class="col-sm-10 col-md-5">
-                                    <input type="text" class="form-control" required id="name" name="name" value="" placeholder="渠道地址">
+                                <input type="text" class="form-control" required id="name" name="name" value="{$row.name}" placeholder="渠道地址">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="order_address" class="col-sm-2 col-md-2 control-label">下单地址</label>
                             <div class="col-sm-10 col-md-5">
-                                    <input type="text" class="form-control"  id="order_address" name="pay_address" value="" placeholder="下单地址">
+                                <input type="text" class="form-control"  id="order_address" name="pay_address" value="{$row.pay_address}" placeholder="下单地址">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="callback_ip" class="col-sm-2 col-md-2 control-label">回调IP</label>
                             <div class="col-sm-10 col-md-5">
-                                <textarea  class="form-control" name="notify_ips" required id="callback_ip" cols="30" rows="3" placeholder="回调IP，多个回调IP换行"></textarea>
+                                <textarea  class="form-control" name="notify_ips" required id="callback_ip" cols="30" rows="3" placeholder="回调IP，多个回调IP换行">{$row.notify_ips}</textarea>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="remarks" class="col-sm-2 col-md-2 control-label">备注</label>
                             <div class="col-sm-10 col-md-5">
-                                <textarea  class="form-control" name="remarks" id="remarks" cols="30" rows="3" placeholder="备注" ></textarea>
+                                <textarea  class="form-control" name="remarks" id="remarks" cols="30" rows="3" placeholder="备注" >{$row.remarks}</textarea>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <input type='hidden' name='_ajax' value='1'/>
+                                <input type='hidden' name='id' value='{$row.id}'/>
                                 <button type="submit" class="btn btn-success" >保存</button>
                                 <a href="{:url('index')}" class="btn btn-danger" role="button">取消</a>
                             </div>
@@ -70,7 +71,7 @@
     DoPost = function () {
         var code = "", message = "";
         $.ajax({
-            url: "{:url('add')}",
+            url: "{:url('edit')}",
             type: "POST",
             data: $("#form1").serialize(),
             isuccess: function (data) {
@@ -83,7 +84,7 @@
             icomplete: function () {
                 if (code == "1") {
                     swal({ title: "保存成功", text: "正在跳转...", icon: "success", button: false, timer: 2000 }).then(function (isConfirm) {
-                        window.location.href = 'index';
+                        window.location.href = '/usercenter/channels/index';
                     });
                 }
                 else {
