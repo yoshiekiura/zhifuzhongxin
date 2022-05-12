@@ -36,7 +36,7 @@ class User extends Base
         $where['create_time'] = ['between time', [$start, $end]];
         //是否开启代付
 	$whether_open_daifu = $this->logicConfig->getConfigInfo(['name' => 'whether_open_daifu']);
-	$whether_open_daifu =0 ;
+	//$whether_open_daifu =0 ;
         $this->assign('whether_open_daifu', $whether_open_daifu['value']);
         //资金 资产信息
         $this->assign('wallet', $this->logicBalance->getBalanceInfo(['uid'=>is_login()]));
@@ -56,7 +56,7 @@ class User extends Base
             ]);
 
 //        } else {
-            $this->assign('stat', $this->logicOrders->getWelcomeStat($where));
+//            $this->assign('stat', $this->logicOrders->getWelcomeStat($where));
     //    }
         //当月时间
         //当月数据统计
