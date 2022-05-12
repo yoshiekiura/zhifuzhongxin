@@ -1,0 +1,227 @@
+{extend name="../user-layout" /}
+{block name="content"}
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 main">
+            <h3>添加渠道</h3>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form id="form1" class="form-horizontal">
+                        <div class="form-group">
+                            <label for="template_id" class="col-sm-2 col-md-2 control-label">渠道模板</label>
+                            <div class="col-sm-10 col-md-5">
+                                <select name="b[template_id]" id="template_id" class="form-control">
+                                    <option value="">选择收渠道模板</option>
+                                    <option value="1">北极熊支付</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 col-md-2 control-label">渠道名称</label>
+                            <div class="col-sm-10 col-md-5">
+                                    <input type="text" class="form-control" required id="name" name="b[name]" value="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="order_address" class="col-sm-2 col-md-2 control-label">下单地址</label>
+                            <div class="col-sm-10 col-md-5">
+                                    <input type="text" class="form-control" required id="order_address" name="b[order_address]" value="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="address" class="col-sm-2 col-md-2 control-label">开户地址</label>
+                            <div class="col-sm-10 col-md-5">
+                                    <input type="text" class="form-control" required id="address" name="b[address]" value="">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="callback_ip" class="col-sm-2 col-md-2 control-label">回调IP</label>
+                            <div class="col-sm-10 col-md-5">
+                                <textarea  class="form-control" name="b[callback_ip]" required id="callback_ip" cols="30" rows="3" name="b[callback_ip]"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="remarks" class="col-sm-2 col-md-2 control-label">备注</label>
+                            <div class="col-sm-10 col-md-5">
+                                <textarea  class="form-control" name="b[remarks]" id="remarks" cols="30" rows="3" name="b[remarks]"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <input type='hidden' name='_ajax' value='1'/>
+                                <button type="submit" class="btn btn-success" >保存</button>
+                                <a href="{:url('index')}" class="btn btn-danger" role="button">取消</a>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+<script src="__STATIC__/index/baisha/js/jquery.validate.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    DoPost = function () {
+        var code = "", message = "";
+        $.ajax({
+            url: "{:url('add')}",
+            type: "POST",
+            data: $("#form1").serialize(),
+            isuccess: function (data) {
+                code = data.code;
+                message = data.msg;
+            },
+            error: function () {
+                message = "提交失败";
+            },
+            icomplete: function () {
+                if (code == "1") {
+                    swal({ title: "保存成功", text: "正在跳转...", icon: "success", button: false, timer: 2000 }).then(function (isConfirm) {
+                        window.location.href = 'index';
+                    });
+                }
+                else {
+                    swal({ title: "错误", text: message, icon: "error" });
+                }
+            }
+        });
+    };
+
+    $(function () {
+        $("#form1").validate({
+            errorElement: 'span',
+            errorClass: 'help-block',
+            rules: {
+                template_id: {
+                    required: true,
+                },
+                bank_number: {
+                    required: true,
+                    minlength: 4
+                },
+                bank_realname: {
+                    required: true,
+
+                },
+                amount: {
+                    required: true
+                }
+            },
+            messages: {
+                template_id: {
+                    required: "模板不能为空"
+                },
+                bank_realname: "请输入姓名",
+                bank_number: {
+                    required: "请输入帐号",
+                    minlength: $.validator.format("银行帐号不能少于{0}个字符")
+                },
+                amount: {
+                    required: "请输入金额"
+                }
+            },
+            errorPlacement: function (error, element) {
+                if(element.parent().hasClass("input-group"))
+                    element.parent().next().remove();
+                else
+                    element.next().remove();
+                //element.after('<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>');
+                element.closest('.form-group').append(error);
+                //element.after(error);
+            },
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error has-feedback');
+            },
+            success: function (label) {
+                var el = label.closest('.form-group').find("input");
+                if (el.parent().hasClass("input-group"))
+                    el.parent().next().remove();
+                else
+                    el.next().remove();
+                //el.after('<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>');
+                label.closest('.form-group').removeClass('has-error').addClass("has-feedback has-success");
+                label.remove();
+            },
+            submitHandler: function (form) {
+                DoPost();
+            }
+
+        })
+    });
+
+</script>
+
+
+
+<script src="https://cdn.staticfile.org/sweetalert/2.1.2/sweetalert.min.js"></script>
+<script type="text/javascript">
+    var controller = "Withdraw";
+    $.ajaxSetup({
+        //async: false,
+        cache: false,
+        timeout: 15000,
+        dataType: "json",
+        //contentType: "application/json; charset=utf-8",
+        crossDomain: true,
+        success: function (data) {
+            alert(1212)
+            if (data.code == "anonymous") {
+                window.location.href = '/';
+            }
+            else if (this.isuccess) {
+                this.isuccess(data);
+            }
+        },
+        error: function (xhr, status, e) {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    var domObj = xhr.responseXML;
+                    if (domObj) {
+                        var messageNodes = domObj.getElementsByTagName("message");
+                        if (messageNodes.length > 0) {
+                            var textNode = messageNodes[0].firstChild;
+                            var responseMessage = textNode.nodeValue;
+                            swal({ title: "操作错误", text: responseMessage, icon: "error" });
+                        }
+                        else {
+                            swal({ title: "提交错误:" + xhr.status, text: xhr.responseText, icon: "error" });
+                        }
+                    }
+                    else {
+                        swal({ title: "提交错误:" + xhr.status, text: xhr.responseText, icon: "error" });
+                    }
+                }
+                else {
+                    swal({ title: "提交错误:" + xhr.status, text: "参考信息：无", icon: "error" });
+                }
+            }
+        },
+        beforeSend: function (xhr) {
+            $("#loading").show();
+        },
+        complete: function (xhr, status) {
+            $("#loading").hide();
+            if (this.icomplete) {
+                this.icomplete();
+            }
+        }
+    });
+    $(function () {
+        FastClick.attach(document.body);
+    });
+</script>
+{/block}
+</body>
+</html>

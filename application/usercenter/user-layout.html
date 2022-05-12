@@ -17,6 +17,12 @@
     <meta name="msapplication-TileColor" content="#0e90d2">
     <title>{block name="site_title"}商户平台{/block} - {$site.seo_title|default="聚合支付"} - 支付技术服务商，让支付简单、专业、快捷 </title>
     <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="__CLOUD__/vendors/iconfonts/simple-line-icon/css/simple-line-icons.css">
+    <link rel="stylesheet" href="__CLOUD__/vendors/iconfonts/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="__CLOUD__/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="__CLOUD__/vendors/css/vendor.bundle.addons.css">
+
     <link href="__STATIC__/index/baisha/css/dashboard.css" rel="stylesheet" />
     <script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -64,7 +70,13 @@
 <!--            </ul>-->
             <ul class="nav navbar-nav navbar-">
                 <li><a href="{:url('usercenter/user/index')}">首页</a></li>
-                <li><a href="{:url('usercenter/or/index')}">渠道管理</a></li>
+                <li>
+<!--                    <a href="{:url('usercenter/channels/index')}">渠道管理</a>-->
+                    <a href="#" data-toggle="dropdown" >渠道管理</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{:url('usercenter/channels/index')}">渠道列表</a></li>
+                    </ul>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">

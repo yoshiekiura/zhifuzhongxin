@@ -21,6 +21,7 @@ class Base extends Controller
             $this->redirect('usercenter/login/index');
             exit;
         }
+        $this->assign('user_info', $this->user);
     }
     /**
      * 检测是否登录
