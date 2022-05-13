@@ -4,28 +4,11 @@
 namespace app\usercenter\controller;
 
 
-use app\common\logic\User;
+use app\common\logic\MerchantBinding;
 use think\exception\Handle;
 
 class MerchantsBinding extends Base
 {
-    /**
-     * 添加渠道账号
-     */
-    public function addChannelAccount()
-    {
-        if ($this->request->isPost()) {
-            $params = $this->request->param();
-            $logicChannel = new Channel();
-            $ret =$logicChannel->saveChannelAccount($params);
-            if ($ret['code'] == 0){
-                $this->error($ret['msg']);
-            }
-            $this->success($ret['msg']);
-        }
-        $this->assign('channel_id', $this->request->param('channel_id'));
-        return $this->fetch();
-    }
 
 
     /**
@@ -33,21 +16,24 @@ class MerchantsBinding extends Base
      */
     public function applyBindingUser()
     {
+	 if ($this->request->isPost()) {
+            $params = $this->request->param();
+            $logicChannel = new Channel();
+            $ret =$logicChannel->bind($params);
+            if ($ret['code'] == 0){
+                $this->error($ret['msg']);
+            }
+            $this->success($ret['msg']);
+        }
+        $this->assign('channel_id', $this->request->param('channel_id'));
+        return $this->fetch();
+
     }
      /**
      * 商户绑定用户列表
      */
     public function bindingUserList()
     {
-	    $map['pay_center_uid'] = $this->user['id'];
-        $map['status'] = 1;
-        !empty($this->request->get('name')) && $map['name']
-            = ['like', '%'.$this->request->get('name').'%'];
-        $logicChannel = new Channel();
-
-        $channelLists = $logicChannel->getChannelsList($map,true, 'id desc');
-        $this->assign('list',$channelLists );
-        return $this->fetch();
 
     }
      /**
