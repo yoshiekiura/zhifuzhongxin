@@ -32,169 +32,38 @@ class Pay extends BaseLogic
     public function getAllowedAccount($order)
     {
 
-        //1.传入支付方式获取对应渠道cnl_id
-//        $codeInfo = $this->modelPayCode->getInfo(['code' => $order['channel'],'account_type_type'=>'pay'], 'id as co_id,cnl_id,cnl_weight');
         $codeInfo = $this->modelPayCode->getInfo(['code' => $order['channel']], 'id as co_id,cnl_id,cnl_weight');
-        /**  zhangxiaohei 2020-3-10 update 权重越大 优先级越高**/
-//        $codeInfos = $this->modelPayCode->getList(['code' => $order['channel']], 'id as co_id,cnl_id,cnl_weight')->toArray()['data'];
-//        $codeInfo = [];
-//        if($codeInfos) {
-//            $array = [];
-//            foreach ($codeInfos as $k => $v) {
-//                if ($v['cnl_weight']) {
-//                    $cnl_weight = json_decode($v['cnl_weight'], true)[$v['cnl_id']];
-//                    $array[$k] = $cnl_weight;
-//                }
-//            }
-//            //如果有设置了渠道权重的 值越大 优先级越高
-//            if ($array) {
-//                arsort($array);
-//                foreach ($array as $k => $v) {
-//                    $codeInfo = $codeInfos[$k];
-//                    break;
-//                }
-//            } else {
-//                //随机取一个
-//                $codeInfo = $codeInfos[rand(0, count($codeInfos) - 1)];
-//            }
-//        }else{
-//            return ['errorCode' => '400028','msg' => '渠道不存在'];
-//        }
-        /**  end zhangxiaohei 2020-3-10 update 权重越大 优先级越高  **/
 
         if (empty($codeInfo)) {
             return ['errorCode' => '400028', 'msg' => '渠道不存在' . $order['channel']];
-        }
-//        $codeInfo = $codeInfo->toArray();
+	}
 
-        //本pay_code对应的渠道权重
-        $codeCnlWeights = json_decode($codeInfo['cnl_weight'], true);
-        $codeCnlWeights = $codeCnlWeights ? array_filter($codeCnlWeights) : [];
-        //2.cnl_id获取支持该方式的渠道列表
-        $channels = $this->modelPayChannel->getColumn(['id' => ['in', $codeInfo['cnl_id']], 'status' => ['eq', '1']],
-            'id,name,action,timeslot,return_url,notify_url,remarks,limit_moneys');
+	//查找 商户所属用户
+	$userInfo = $this->modelUser->where(['uid'=>$order['uid']])->find();
+	
+        if(empty($userInfo['pay_center_uid']))
+	{
+	   return ['errorCode' => '400028', 'msg' => '该商户存在问题,未找到所属用户'];
+	}
+        //获取该商户绑定的上游
+	$bindings = $this->modelMerchantBinding->where(['merchant_id'=>$order['uid'],'status'=>1])->select();
+	if(empty( $bindings))
+	{
+           return ['errorCode' => '400028', 'msg' => '未匹配到可用的上游渠道'];
+	}
+        
+	//根据用户配置的权重随机挑选一个
+	$binding =  $bindings[0];
+	$channel_user_id = $binding['channel_user_id'];
 
-        //判断商户是否指定渠道   zhangxiaohei  5-21 update
-
-        //读取指定渠道表
-        $appoint = $this->modelUserPayCodeAppoint->where(['uid' => $order['uid'], 'pay_code_id' => $codeInfo['co_id']])->find();
-        if ($appoint) {
-            $channels_tmp = $this->modelPayChannel->getColumn(['id' => ['in', $appoint['cnl_id']], 'status' => ['eq', '1']],
-                'id,name,action,timeslot,return_url,notify_url,remarks');
-            if ($channels_tmp) {
-                $channels = $channels_tmp;
-            }
-        }
-
-
-        //jine pipei
-        $achannelIds = [];
-        foreach ($channels as $channel) {
-            $achannelIds[] = $channel['id'];
-        }
-        $accounts = $this->modelPayAccount->getColumn(['cnl_id'            => ['in', $achannelIds],
-                                                       'status'            => ['eq', '1'],
-                                                       'max_deposit_money' => ['egt', $order['amount']],
-                                                       'min_deposit_money' => ['elt', $order['amount']],
-        ],
-            'id,co_id,name,single,daily,timeslot,param,cnl_id');
-
-
-        $newChannels = [];
-        foreach ($accounts as $account) {
-            if (in_array($codeInfo['co_id'], explode(",", $account['co_id']))) {
-                foreach ($channels as $channel) {
-                    if ($account['cnl_id'] == $channel['id']) {
-                        $newChannels[$channel['id']] = $channel;
-                        break;
-                    }
-                }
-
-            }
-        }
-
-        if (empty($newChannels)) {
-            return ['errorCode' => '400028', 'msg' => '金额不存在'];
-        }
-        //  $newChannels = array_unique($newChannels);
-        //3.规则排序选择合适渠道
-        /*******************************/
-        //TODO 写选择规则  时间、状态、费率 等等
-        //规则处理  我先简便写一下
-        $channelsMap = [];
-        foreach ($newChannels as $key => $val) {
-            //$timeslot = json_decode($val['timeslot'],true);
-            //if ( strtotime($timeslot['start']) < time() && time() < strtotime($timeslot['end']) ){
-            if (1) {
-                if (isset($codeCnlWeights[$key])) {
-                    $val['weight'] = $codeCnlWeights[$key];
-                } else {
-                    $val['weight'] = 0;
-                }
-                $channelsMap[$key] = $val;
-            }
-        }
-
-        //判断可用
-        if (empty($channelsMap)) {
-            return ['errorCode' => '400006', 'msg' => 'Route Payment Error. [No available channels]'];
-        }
-
-
-        if (empty($codeCnlWeights)) {
-            //没有设置渠道权重-----随机
-            $channel = $channelsMap[array_rand($channelsMap)];
-        } else {
-            //设置了渠道权重 根据权重随机匹配
-            $channelsMapTmp = array_values($channelsMap);
-            $cnl_id         = getidbyweight($channelsMapTmp);
-            $channel        = $channelsMap[$cnl_id];
-        }
-
-        //此渠道金额判断
-        $limitMoney = trim($channel['limit_moneys']) ? array_filter(explode(',', $channel['limit_moneys'])) : [];
-        if ($limitMoney) {
-            $limitMoney = array_map(function ($mon) {
-                return $mon * 100;
-            }, $limitMoney);
-            //全部转换为分
-            if (!in_array($order['amount'] * 100, $limitMoney)) {
-                return ['errorCode' => '400008', 'msg' => 'Order Money Not Allowed'];
-            }
-        }
-
-
-        /*******************************/
-        //3.获取该渠道下可用账户
-        $accounts = $this->modelPayAccount->getColumn(['cnl_id' => ['eq', $channel['id']], 'status' => ['eq', '1']],
-            'id,co_id,name,single,daily,timeslot,param');
-        //4.规则取出可用账户
-        /*******************************/
-        //TODO 写选择规则  时间、状态、费率 等等
-        //规则处理  我先简便写一下
-        $accountsMap = [];
-        foreach ($accounts as $key => $val) {
-            $timeslot = json_decode($val['timeslot'], true);
-            if (in_array($codeInfo['co_id'], str2arr($val['co_id']))) {
-                $accountsMap[$key] = $val;
-            }
-        }
-
-        //判断可用
-        if (empty($accountsMap)) {
-            return ['errorCode' => '400008', 'msg' => 'Route Payment Error. [No available merchants account.]'];
-        }
-        $account     = $accountsMap[array_rand($accountsMap)];
-
-        $accountConf = json_decode(htmlspecialchars_decode($account['param']), true);
-        //判断配置是否正确
-        if (is_null($accountConf)) {
-            return ['errorCode' => '400008', 'msg' => 'Route Payment Error. [Payment account was misconfigured.]'];
-        }
-        //配置合并
-        $configMap = array_merge($channel, $accountConf);
+	$channel =  $this->modelPayChannel->where(['pay_center_uid'=>$channel_user_id])->find();
+        if(empty($channel))
+	{
+	   return ['errorCode' => '400028', 'msg' => '匹配到的上游渠道出现问题'];
+	}
+	
         //添加订单支付通道ID
-        $this->logicOrders->setOrderValue(['trade_no' => $order['trade_no']], 'cnl_id', $account['id']);
+        $this->logicOrders->setOrderValue(['trade_no' => $order['trade_no']], 'cnl_id', $bingding['channel_account_id']);
         /*******************************/
         return [
             'channel' => $configMap['action'],
