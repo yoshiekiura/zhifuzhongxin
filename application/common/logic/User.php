@@ -286,7 +286,7 @@ class User extends BaseLogic
 
 
             //账户记录
-            $this->modelUserAccount->setInfo(['uid' => $user]);
+//            $this->modelUserAccount->setInfo(['uid' => $user]);
             //资金记录
             $this->modelBalance->setInfo(['uid' => $user]);
             //生成API记录
@@ -304,9 +304,8 @@ class User extends BaseLogic
             $jobData['scene'] = 'register';
             $this->logicQueue->pushJobDataToQueue('AutoEmailWork', $jobData, 'AutoEmailWork');
 
-
-            action_log('新增', '新增商户。UID:' . $user);
-
+//            action_log('新增', '新增商户。UID:' . $user);
+//            halt($user);
             Db::commit();
             return ['code' => CodeEnum::SUCCESS, 'msg' => '添加商户成功', 'data' => ['uid' => $user]];
         } catch (\Exception $ex) {

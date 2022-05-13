@@ -1,0 +1,243 @@
+
+{extend name="../user-layout" /}
+{block name="content"}
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12 main">
+      <h3>
+        商户管理&nbsp;<a href="{:url('index/user/index')}" class="btn btn-xs btn-primary">商户列表</a>
+      </h3>
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover">
+          <thead>
+          <tr>
+            <td colspan="10">
+              <form id="form1" action="index.html" class="form-inline">
+                <div class="input-group">
+                  <a href="add_merchant" class="btn btn-primary" role="button">添加</a>
+                </div>
+                <div class="form-group">
+
+                </div>
+                <div class="form-group">
+                  <div class="input-group">
+                    <input type="text" name="username" value="{$Request.get.username}" class="form-control" placeholder="用户名">
+                    <span class="input-group-btn">
+                                    <button id="btnSearch" class="btn btn-success" type="submit" onclick="$('#p').val('');$('#form1').attr('action','');"><i class="glyphicon glyphicon-search"></i></button>
+<!--                                    <button id="btnExport" class="btn btn-primary" type="submit" onclick="$('#form1').attr('action','exportOrder');"><i class="glyphicon glyphicon-download-alt"></i></button>-->
+                                    <a  href="{:url('usercenter/merchants/list_merchant')}" class="btn btn-warning" ><i class="glyphicon glyphicon-remove"></i></a>
+                                </span>
+                  </div>
+                </div>
+              </form>
+            </td>
+          </tr>
+          <tr>
+            <th>商户名称</th>
+            <th>操作</th>
+          </tr>
+          </thead>
+          <tbody id="listBody">
+          {volist name="list" id="vo"}
+          <tr>
+            <td>{$vo['username']}</td>
+            <td>
+<!--              <a href="{:url('setChannelCode',['channel_id' => $vo.uid ])}" class="btn btn-xs btn-warning">配置编码</a>-->
+<!--              <a href="{:url('addChannelAccount',['channel_id' => $vo.uid ])}" class="btn btn-xs  btn-info">添加账号</a>-->
+              <a href="{:url('edit_merchant',['uid' => $vo.uid ])}" class="btn btn-xs btn-primary">编辑</a>
+              <a href="#" onclick="PostCancel('{$vo.uid}')" class="btn btn-xs btn-danger">删除</a>
+            </td>
+            </td>
+          </tr>
+
+          {/volist}
+
+          {empty name="list"}
+          <tr>
+            <td colspan="12" class="text-center">
+              未查到数据
+            </td>
+          </tr>
+          {/empty}
+          </tbody>
+          <tfoot>
+          <td colspan="10" class="text-right">
+            <nav aria-label="Page navigation">
+              {$list->render()}
+            </nav>
+          </td>
+          </tfoot>
+        </table>
+      </div>
+      <script src="__STATIC__/index/baisha/js/WdatePicker.js"></script>
+      <!--<script src="/Content/js/bootstrap-paginator.min.js"></script>-->
+
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+    var code, message;
+    PostCancel = function (uid) {
+        swal({
+            title: "确定要删除该商户？",
+            buttons: {
+                confirm: true,
+                cancel: true
+            },
+        }).then(function (isConfirm) {
+            if (isConfirm) {
+                $.ajax({
+                    url: "del_merchant",
+                    type: "POST",
+                    data: { uid: uid, _ajax:'1' },
+                    isuccess: function (data) {
+                        code = data.code;
+                        message = data.message;
+                    },
+                    error: function () {
+                        message = "提交失败";
+                    },
+                    icomplete: function () {
+                        if (code == 1) {
+                            swal({ title: "处理成功", text: "正在更新...", icon: "success", button: false, timer: 2000 }).then(function (isConfirm) {
+                                window.location.reload();
+                            });
+                        }
+                        else {
+                            swal({ title: "错误", text: message, icon: "error" });
+                        }
+                    }
+                });
+            }
+        });
+    };
+
+    InitPage = function () {
+
+        $('#divPage').bootstrapPaginator({
+            currentPage: 1,
+            totalPages: 0,
+            size: "normal",
+            bootstrapMajorVersion: 3,
+            alignment: "right",
+            pageUrl: "javascript:void(0);",
+            numberOfPages: 8,
+            itemTexts: function (type, page, current) {
+                switch (type) {
+                    case "first": return "<<";
+                    case "prev": return "<";
+                    case "next": return ">";
+                    case "last": return ">>";
+                    case "page": return page;
+                }
+            },
+            onPageClicked: function (event, originalEvent, type, page) {
+                $("#p").val(page);
+                $("#s").val(15);
+                $("#form1").submit();
+            }
+        });
+    }();
+
+    $(function () {
+    });
+
+</script>
+
+<script type="text/javascript">
+
+  InitPage = function () {
+
+    $('#divPage').bootstrapPaginator({
+      currentPage: 1,
+      totalPages: 1,
+      size: "normal",
+      bootstrapMajorVersion: 3,
+      alignment: "right",
+      pageUrl: "javascript:void(0);",
+      numberOfPages: 8,
+      itemTexts: function (type, page, current) {
+        switch (type) {
+          case "first": return "<<";
+          case "prev": return "<";
+          case "next": return ">";
+          case "last": return ">>";
+          case "page": return page;
+        }
+      },
+      onPageClicked: function (event, originalEvent, type, page) {
+        $("#p").val(page);
+        $("#s").val(15);
+        $("#form1").submit();
+      }
+    });
+  }();
+
+  $(function () {
+  });
+
+</script>
+
+
+
+<script src="https://cdn.staticfile.org/sweetalert/2.1.2/sweetalert.min.js"></script>
+<script type="text/javascript">
+  var controller = "Order";
+  $.ajaxSetup({
+    //async: false,
+    cache: false,
+    timeout: 15000,
+    dataType: "json",
+    //contentType: "application/json; charset=utf-8",
+    crossDomain: true,
+    success: function (data) {
+      if (data.code == "anonymous") {
+        window.location.href = '/';
+      }
+      else if (this.isuccess) {
+        this.isuccess(data);
+      }
+    },
+    error: function (xhr, status, e) {
+      if (xhr.readyState == 4) {
+        if (xhr.status == 200) {
+          var domObj = xhr.responseXML;
+          if (domObj) {
+            var messageNodes = domObj.getElementsByTagName("message");
+            if (messageNodes.length > 0) {
+              var textNode = messageNodes[0].firstChild;
+              var responseMessage = textNode.nodeValue;
+              swal({ title: "操作错误", text: responseMessage, icon: "error" });
+            }
+            else {
+              swal({ title: "提交错误:" + xhr.status, text: xhr.responseText, icon: "error" });
+            }
+          }
+          else {
+            swal({ title: "提交错误:" + xhr.status, text: xhr.responseText, icon: "error" });
+          }
+        }
+        else {
+          swal({ title: "提交错误:" + xhr.status, text: "参考信息：无", icon: "error" });
+        }
+      }
+    },
+    beforeSend: function (xhr) {
+      $("#loading").show();
+    },
+    complete: function (xhr, status) {
+      $("#loading").hide();
+      if (this.icomplete) {
+        this.icomplete();
+      }
+    }
+  });
+  $(function () {
+    FastClick.attach(document.body);
+  });
+</script>
+{/block}
+</body>
+</html>

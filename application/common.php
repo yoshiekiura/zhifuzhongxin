@@ -76,6 +76,7 @@ function clear_user_login_session()
     session('user_info', null);
     session('user_auth', null);
     session('user_auth_sign', null);
+    session('usercenter', null);
 }
 
 

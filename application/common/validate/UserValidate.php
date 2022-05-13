@@ -20,7 +20,7 @@ class UserValidate extends BaseValidate
     protected $rule = [
         'username'  => 'require|length:3,10|unique:user',
         'password'  => 'require|length:6,30',
-        'account'     => 'require|email|unique:user',
+//        'account'     => 'require|email|unique:user',
        // 'phone'    => 'require|number|length:11|unique:user',
         //'qq'    => 'require|number|length:5,10|unique:user'
     ];
@@ -32,9 +32,9 @@ class UserValidate extends BaseValidate
         'username.unique'     => '用户名已存在',
         'password.require'    => '密码不能为空',
         'password.length'     => '密码长度为6-30个字符之间',
-        'account.require'       => '邮箱不能为空',
-        'account.email'         => '邮箱格式不正确',
-        'account.unique'        => '邮箱已存在',
+//        'account.require'       => '邮箱不能为空',
+//        'account.email'         => '邮箱格式不正确',
+//        'account.unique'        => '邮箱已存在',
        // 'phone.require'      => '手机号码不能为空',
         //'phone.number'      => '手机号码必须为数字',
         //'phone.length'      => '手机号码长度不对',
