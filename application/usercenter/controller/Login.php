@@ -43,4 +43,13 @@ class Login extends Controller
         $captcha->useNoise = false;
         return $captcha->entry('usercenter_login');
     }
+
+    /**
+     * 退出登录
+     */
+    public function logout()
+    {
+        clear_user_login_session();
+        return $this->redirect('usercenter/login/index');
+    }
 }

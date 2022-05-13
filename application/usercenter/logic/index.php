@@ -15,7 +15,7 @@ class index extends BaseLogic
     {
         //去除前后空格
         $username = trim($params['username'] ?? '');
-        $password = trim($params['username'] ?? '');
+        $password = trim($params['password'] ?? '');
         $vercode = trim($params['vercode'] ?? '');
         $google_code = trim($params['google_code'] ?? '');
 
