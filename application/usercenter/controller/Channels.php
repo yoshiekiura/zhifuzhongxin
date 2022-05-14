@@ -96,6 +96,7 @@ class Channels extends Base
         if ($this->request->isPost()) {
             $params = $this->request->param();
             $logicChannel = new Channel();
+            $params['status'] = 0;
             $ret =$logicChannel->saveChannelAccount($params);
             if ($ret['code'] == 0){
                 $this->error($ret['msg']);
@@ -133,5 +134,45 @@ class Channels extends Base
         $this->assign('channel_id', $channel_id);
         $this->assign('codes',   $logicChannel->matchingCode($channel_id));
         return $this->fetch();
+    }
+
+
+    /**
+     * 获取渠道下面得账号
+     */
+    public function getChannelAccountList()
+    {
+        //做了限制只能选择添加一个渠道，这里直接获取一条数据就可以了
+        $map = [
+            'pay_center_uid' => $this->user['id'],
+            'status' => 1
+        ];
+        $channel =  $this->modelPayChannel->where($map)->find();
+        halt($channel);
+    }
+
+    /**
+     * 获取第一个渠道下面得账户
+     */
+    public function getOneChannelAccountList()
+    {
+        $map = [
+            'pay_center_uid' => $this->user['id'],
+            'status' => 1
+        ];
+        $channel = $this->modelPayChannel->where($map)->order('id asc')->find();
+        if (!$channel){
+            $this->error('没有可用得渠道');
+        }
+        $accountMap = [
+            'channel_id' =>     $channel['id'],
+            'status' => 0
+        ];
+        $field = 'id,channel_id,name';
+        $PayCenterChannelAccount = $this->modelPayCenterChannelAccount->field($field)->where($accountMap)->select();
+        if (collection($PayCenterChannelAccount)->isEmpty()){
+            $this->error('没有可用的账号，请先添加渠道账号');
+        }
+        $this->success('操作成功', null, $PayCenterChannelAccount);
     }
 }
