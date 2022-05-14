@@ -13,12 +13,6 @@
                     <tr>
                         <td colspan="10">
                             <form id="form1" action="index.html" class="form-inline">
-                                <div class="input-group">
-                                    <a href="add_merchant" class="btn btn-primary" role="button">添加</a>
-                                </div>
-                                <div class="form-group">
-
-                                </div>
                                 <div class="form-group">
                                     <div class="input-group">
                                         <input type="text" name="user_username" value="{$Request.get.user_username}"
@@ -29,7 +23,7 @@
                                             onclick="$('#p').val('');$('#form1').attr('action','');"><i
                                             class="glyphicon glyphicon-search"></i></button>
                                             <!--                                    <button id="btnExport" class="btn btn-primary" type="submit" onclick="$('#form1').attr('action','exportOrder');"><i class="glyphicon glyphicon-download-alt"></i></button>-->
-                                    <a href="{:url('usercenter/MerchantsBinding/bindingUserList')}"
+                                    <a href="{:url('/usercenter/merchants_binding/channelbindinguserlist')}"
                                        class="btn btn-warning"><i
                                             class="glyphicon glyphicon-remove"></i></a>
                                 </span>
@@ -53,7 +47,7 @@
                         <td>
                             {switch $vo.status}
                             {case 0}<a href="javascript:void(0);" class="btn btn-xs btn-warning">待审核</a>{/case}
-                            {case 1}<a href="javascript:void(0);" class="btn btn-xs badge-success">审核通过</a>{/case}
+                            {case 1}<a href="javascript:void(0);" class="btn btn-xs btn-success">审核通过</a>{/case}
                             {case 2}<a href="javascript:void(0);" class="btn btn-xs btn-danger">审核失败</a>{/case}
                             {/switch}
                         </td>
@@ -201,7 +195,7 @@
                 }
             }
         });
-        
+
     };
 
     InitPage = function () {

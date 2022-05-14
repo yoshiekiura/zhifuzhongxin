@@ -127,7 +127,7 @@ class MerchantsBinding extends Base
     {
     }
 
-    /*
+    /**
          * 启用绑定用户
         */
     public function enableBindingUser()
