@@ -118,6 +118,36 @@ class MerchantsBinding extends Base
      */
     public function cancelBindingUser()
     {
+        $id = $this->request->param('id');
+        if (empty($id)){
+            $this->error('数据错误');
+        }
+        $logicMerchantsBinding = new \app\usercenter\logic\MerchantsBinding();
+        $ret  = $logicMerchantsBinding->cancelBindingUser($id, $this->user['id']);
+        if ($ret['code'] != 1){
+            $this->error($ret['msg']);
+        }
+        $this->success($ret['msg']);
+    }
+
+    /**
+     * 禁用启用
+     * @throws \think\exception\DbException
+     */
+    public function enableHandel()
+    {
+        $en_able = $this->request->param('en_able', '');
+        $id = $this->request->param('id', 0);
+        if ((empty($en_able) && $en_able !=0) or !in_array($en_able, [0,1])){
+            $this->error('数据错误！');
+        }
+        $row = $this->modelMerchantBinding->get($id);
+        if (!$row or $row['merchant_user_id'] != $this->user['id']){
+            $this->error('数据错误！');
+        }
+        $row->en_able = $en_able;
+        $row->save();
+        $this->success('操作成功');
     }
 
     /**

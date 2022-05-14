@@ -36,6 +36,11 @@ class Channels extends Base
     {
         if ($this->request->isPost()) {
             $params = $this->request->param();
+            //暂时只能添加一个渠道，前端添加按钮是隐藏了的，这里再判断一下，
+            $withChannel =  $this->modelPayChannel->where('pay_center_uid' ,'=', $this->user['id'])->select();
+            if (!collection($withChannel)->isEmpty()){
+                $this->error('只能添加一个渠道');
+            }
             $logicChannel = new Channel();
             $params['pay_center_uid'] = $this->user['id'];
             $ret =$logicChannel->saveChannel($params);
@@ -97,6 +102,7 @@ class Channels extends Base
             $params = $this->request->param();
             $logicChannel = new Channel();
             $params['status'] = 0;
+            $params['create_time'] = time();
             $ret =$logicChannel->saveChannelAccount($params);
             if ($ret['code'] == 0){
                 $this->error($ret['msg']);
