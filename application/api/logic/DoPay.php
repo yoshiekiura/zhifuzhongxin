@@ -116,7 +116,8 @@ class DoPay extends BaseApi
         $start_time = msectime();
 
         //支付分发
-        $result = ApiPayment::$payment($config)->$action($order);
+        //$result = ApiPayment::$payment($config)->$action($order);
+        $result = ApiPayment::$payment($config)->pay($order, $config['channel_code_value']);
 
         $elapsed_time = msectime() - $start_time;
 

@@ -36,6 +36,9 @@
         .table-hover > tbody > tr:hover {
             background-color: #cfcfcf;
         }
+        .table td {
+            vertical-align: middle!important;
+        }
     </style>
 </head>
 <body>
@@ -54,7 +57,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{:url('index/user/index')}" style="color:#eee;">
+            <a class="navbar-brand" href="#" style="color:#eee;">
                 <!--<img src="__STATIC__/index/baisha/images/logo.png" style="height:20px;float:left;" />-->
                 &nbsp;&nbsp;{$site.seo_title|default="支付中心"}
             </a>
@@ -69,17 +72,19 @@
 <!--                &lt;!&ndash;<li><a href="/Withdraw/MerAdjust">调账查询</a></li>&ndash;&gt;-->
 <!--            </ul>-->
             <ul class="nav navbar-nav navbar-">
-                <li><a href="{:url('usercenter/user/index')}">首页</a></li>
+                <li><a href="#">首页</a></li>
                 <li>
                     <a href="#" data-toggle="dropdown" >渠道管理</a>
                     <ul class="dropdown-menu">
                         <li><a href="{:url('usercenter/channels/index')}">渠道列表</a></li>
+                        <li><a href="{:url('usercenter/MerchantsBinding/channelBindingUserList')}">渠道绑定用户列表</a></li>
                     </ul>
                 </li>
                 <li>
                     <a href="#" data-toggle="dropdown" >商户管理</a>
                     <ul class="dropdown-menu">
                         <li><a href="{:url('usercenter/Merchants/list_merchant')}">商户列表</a></li>
+                        <li><a href="{:url('usercenter/MerchantsBinding/bindingUserList')}">绑定用户列表</a></li>
                     </ul>
                 </li>
             </ul>

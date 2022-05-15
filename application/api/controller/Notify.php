@@ -105,7 +105,15 @@ class Notify extends BaseApi
             ]);
         }
 
-        $result = ApiPayment::$channel()->notify();
+        //获取模板里面的class_name
+        $channelTemplate = $this->modelPayChannel
+            ->alias('a')
+            ->join('channel_template c', 'c.id = a.template_id')
+            ->where([
+                'a.notify_url' => $channel
+            ])->field('c.class_name')->find();
+
+        $result = ApiPayment::{$channelTemplate['class_name']}()->notify();
 
         Log::notice('处理结果:'.json_encode($result));
 

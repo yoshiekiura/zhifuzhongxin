@@ -92,6 +92,13 @@ class CheckAppkey extends ApiCheck
                 'errorCode' => 400003
             ]);
 	}*/
+//        $userPaycode = $this->logicUser->userPayCode(['uid' => $request->param('mchid'), 'co_id' => $codeInfo['id']]);
+//        if (empty($userPaycode) || $userPaycode['status'] == 0) {
+//            throw new ParameterException([
+//                'msg' => 'Invalid Request.[ 该渠道没有开通,请联系管理员开通渠道.]',
+//                'errorCode' => 400003
+//            ]);
+//        }
 
 //        if (empty(self::get('payload')['channel']) ?: !in_array(self::get('payload')['channel'],$appCodeMap)) {
 //            throw new ParameterException([
