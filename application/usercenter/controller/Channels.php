@@ -43,6 +43,9 @@ class Channels extends Base
             }
             $logicChannel = new Channel();
             $params['pay_center_uid'] = $this->user['id'];
+            $randKey = time().'_'.getRandChar().'Pay';
+            $params['notify_url'] = $randKey;
+            $params['return_url'] = $randKey;
             $ret =$logicChannel->saveChannel($params);
             if ($ret['code'] == 0){
                 $this->error($ret['msg']);

@@ -17,7 +17,7 @@ class ChannelAccount extends Validate
         'channel_id' => 'require|integer',
         'name'  => 'require',
         'secret_key' => 'require',
-
+        'appid' => 'require'
     ];
 
     /**
@@ -30,9 +30,10 @@ class ChannelAccount extends Validate
         'channel_id.integer' => '渠道标识类型错误',
         'name.require' => '账号名称不能为空',
         'secret_key.require'    => '密钥不能为空',
+        'appid.require'    => '商户号不能为空',
     ];
 
     protected $scene = [
-        'add' => ['channel_id', 'name', 'secret_key'],
+        'add' => ['channel_id', 'name', 'secret_key', 'appid'],
     ];
 }

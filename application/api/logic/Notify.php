@@ -220,7 +220,8 @@ class Notify extends BaseApi
      */
     public function  checkNotifyIp($channel)
     {
-       $channelInfo   = $this->logicpay->getChannelInfo(['action'=>$channel]);
+//       $channelInfo   = $this->logicpay->getChannelInfo(['action'=>$channel]);
+       $channelInfo   = $this->logicpay->getChannelInfo(['notify_url'=>$channel]);
        $notifyIps  = explode(',',trim($channelInfo['notify_ips']));
        if($notifyIps && !in_array($_SERVER['REMOTE_ADDR'],$notifyIps))
        {
