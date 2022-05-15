@@ -6,7 +6,7 @@
   <div class="row">
     <div class="col-xs-12 main">
       <h3>
-        渠道列表
+        用户列表
       </h3>
       <div class="table-responsive">
         <table class="table table-striped table-bordered table-hover">
@@ -19,10 +19,10 @@
                 </div>
                 <div class="form-group">
                   <div class="input-group">
-                    <input type="text" id="q" name="name" value="{$Request.get.name}" class="form-control" placeholder="渠道名称">
+                    <input type="text" name="username" value="{$Request.get.username}" class="form-control" placeholder="用户名称">
                     <span class="input-group-btn">
                                     <button id="btnSearch" class="btn btn-success" type="submit" onclick="$('#p').val('');$('#form1').attr('action','');"><i class="glyphicon glyphicon-search"></i></button>
-                                    <a  href="{:url('usercenter/channels/index')}" class="btn btn-warning" ><i class="glyphicon glyphicon-remove"></i></a>
+                                    <a  href="{:url('usercenter/paycenteruser/index')}" class="btn btn-warning" ><i class="glyphicon glyphicon-remove"></i></a>
                                 </span>
                   </div>
                 </div>

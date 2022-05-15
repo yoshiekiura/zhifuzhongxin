@@ -15,8 +15,8 @@ class Paycenteruser extends Base
         if (!$this->isAgent()){
             $this->error('无权限访问！');
         }
-        !empty($this->request->get('name')) && $map['name']
-            = ['name', '%'.$this->request->get('name').'%'];
+        !empty($this->request->get('username')) && $map['username']
+            = ['LIKE','%'.$this->request->get('username').'%'];
         $map['pid'] = $this->user['id'];
         $lists = $this->logicPayusercenter->getUserList($map);
         $this->assign('list', $lists);
