@@ -53,7 +53,7 @@ class Pay extends BaseLogic
             ->alias('a')
             ->where($merchantBindingMap)
             ->join('pay_center_channel_account ca', 'ca.id  = a.channel_account_id', 'left')
-            ->field('a.*, ca.secret_key,ca.appid')
+            ->field('a.*, ca.id as channel_account_id, ca.secret_key,ca.appid')
             ->find();
 
         if (!$MerchantBinding){
@@ -86,51 +86,13 @@ class Pay extends BaseLogic
         $channel['pay_secret'] = $MerchantBinding['secret_key'];
         $channel['pay_merchant'] = $MerchantBinding['appid'];
 
+        //添加订单支付通道ID
+        $this->logicOrders->setOrderValue(['trade_no' => $order['trade_no']], 'cnl_id', $MerchantBinding['channel_account_id']);
         return [
             'channel' => $channelTemplate['class_name'],
             'action'  => $order['channel'],
             'config'  => $channel->toArray()
         ];
-
-        $codeInfo = $this->modelPayCode->getInfo(['code' => $order['channel']], 'id as co_id,cnl_id,cnl_weight');
-
-        if (empty($codeInfo)) {
-            return ['errorCode' => '400028', 'msg' => '渠道不存在' . $order['channel']];
-	}
-
-	//查找 商户所属用户
-	$userInfo = $this->modelUser->where(['uid'=>$order['uid']])->find();
-	
-        if(empty($userInfo['pay_center_uid']))
-	{
-	   return ['errorCode' => '400028', 'msg' => '该商户存在问题,未找到所属用户'];
-	}
-        //获取该商户绑定的上游
-	$bindings = $this->modelMerchantBinding->where(['merchant_id'=>$order['uid'],'status'=>1])->select();
-	if(empty( $bindings))
-	{
-           return ['errorCode' => '400028', 'msg' => '未匹配到可用的上游渠道'];
-	}
-        
-	//根据用户配置的权重随机挑选一个
-	$binding =  $bindings[0];
-	$channel_user_id = $binding['channel_user_id'];
-
-	$channel =  $this->modelPayChannel->where(['pay_center_uid'=>$channel_user_id])->find();
-        if(empty($channel))
-	{
-	   return ['errorCode' => '400028', 'msg' => '匹配到的上游渠道出现问题'];
-	}
-	
-        //添加订单支付通道ID
-        $this->logicOrders->setOrderValue(['trade_no' => $order['trade_no']], 'cnl_id', $bingding['channel_account_id']);
-        /*******************************/
-        return [
-            'channel' => $configMap['action'],
-            'action'  => $order['channel'],
-            'config'  => $configMap
-        ];
-
     }
 
     /**

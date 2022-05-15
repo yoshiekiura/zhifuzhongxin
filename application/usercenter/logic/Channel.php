@@ -108,4 +108,16 @@ class Channel extends BaseLogic
         return $pay_code;
     }
 
+    /**
+     * 账号列表
+     */
+    public function channelAccountList($map, $alias ='a', $field = true, $order='id desc', $paginate = 15)
+    {
+         $modelPayCenterChannelAccount = $this->modelPayCenterChannelAccount;
+         $modelPayCenterChannelAccount->alias($alias);
+         $modelPayCenterChannelAccount->join = [
+            ['pay_channel c', 'c.id = a.channel_id']
+         ];
+        return $modelPayCenterChannelAccount->getList($map, $field, $order, $paginate);
+    }
 }

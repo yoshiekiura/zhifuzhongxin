@@ -51,7 +51,6 @@ class index extends BaseLogic
                     return ['code' => CodeEnum::ERROR , 'msg' => 'google验证码不确定'];
                 }
             }
-
             if (pwdMd52($password) != $user_info['password']) {
                 return ['code' => CodeEnum::ERROR, 'msg' => '密码错误'];
             } else {

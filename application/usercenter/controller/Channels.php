@@ -5,7 +5,6 @@ namespace app\usercenter\controller;
 
 
 use app\usercenter\logic\Channel;
-use think\exception\Handle;
 
 class Channels extends Base
 {
@@ -25,7 +24,6 @@ class Channels extends Base
         $field = 'a.*,t.name as template_name';
         $channelLists = $logicChannel->getChannelsList($map, 'a', $field, 'id desc');
         $this->assign('list',$channelLists );
-        return $this->fetch();
         return $this->fetch();
     }
 
@@ -184,5 +182,54 @@ class Channels extends Base
             $this->error('没有可用的账号，请先添加渠道账号');
         }
         $this->success('操作成功', null, $PayCenterChannelAccount);
+    }
+
+    /**
+     * 渠道账户列表
+     */
+    public function channelAccountList()
+    {
+        !empty($this->request->get('name')) && $map['a.name']
+            = ['like', '%'.$this->request->get('name').'%'];
+        $logicChannel = new Channel();
+        $map['c.pay_center_uid'] =$this->user['id'];
+        $map['c.status'] = 1;
+        $field = 'a.*, c.name as channel_name';
+        $accountLists = $logicChannel->channelAccountList($map, 'a', $field, 'id desc', 10);
+        $this->assign('list', $accountLists );
+        return $this->fetch();
+    }
+
+    /**
+     * 编辑渠道账户
+     */
+    public function editChannelAccount()
+    {
+            $id = $this->request->param('id', '');
+            $map = [
+                'a.id' => $id,
+                'c.pay_center_uid' => $this->user['id'],
+                'c.status' => 1
+            ];
+            $modelPayCenterChannelAccount = $this->modelPayCenterChannelAccount;
+            $modelPayCenterChannelAccount->alias('a');
+            $row = $modelPayCenterChannelAccount->join('pay_channel c', 'c.id = a.channel_id', 'left')
+                ->field('a.*')
+                ->where($map)->find();
+            if (!$row){
+                $this->error('数据错误');
+            }
+            if ($this->request->post()){
+                $params = $this->request->param();
+                $logicChannel = new Channel();
+                $params['create_time'] = time();
+                $ret =$logicChannel->saveChannelAccount($params);
+                if ($ret['code'] == 0){
+                    $this->error($ret['msg']);
+                }
+                $this->success($ret['msg']);
+            }
+            $this->assign('row', $row);
+            return $this->fetch();
     }
 }

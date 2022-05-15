@@ -46,4 +46,10 @@ class Base extends Common
         return true;
     }
 
+    public function isAgent()
+    {
+        if ($this->user['user_type'] != 4 )
+            return false;
+        return true;
+    }
 }

@@ -4,9 +4,7 @@
 namespace app\common\model;
 
 
-use think\Model;
-
-class PayCenterUser extends Model
+class PayCenterUser extends BaseModel
 {
-
+    protected $autoWriteTimestamp =false;
 }

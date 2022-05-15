@@ -45,6 +45,17 @@ class Orders extends BaseLogic
         return $this->modelOrders->getList($where, $field, $order, $paginate);
     }
 
+    public function getUsercenterOrderList($where = [], $field = true, $order = 'create_time desc', $paginate = 15)
+    {
+        $modelOrders  = $this->modelOrders;
+        $modelOrders->limit = !$paginate;
+        $modelOrders->alias('a');
+        $modelOrders->join = [
+            ['pay_center_channel_account ca', 'ca.id = a.cnl_id', 'left'],
+            ['pay_channel c' ,'c.id = ca.channel_id', 'left']
+        ];
+        return $modelOrders->getList($where, $field, $order, $paginate);
+    }
 
     /**
      * 重新一个吧  保留原来的
@@ -526,6 +537,7 @@ class Orders extends BaseLogic
             $userInfo       = $User->where('uid=' . $orderData['mchid'])->find();
             $order->puid    = empty($userInfo['puid']) ? 0 : $userInfo['puid']; //代理id
             $order->uid     = $orderData['mchid']; //商户ID
+            $order->pay_center_uid     = $this->modelUser->where('uid', '=', $orderData['mchid'])->value('pay_center_uid'); //支付中心用户id
             $order->subject = $orderData['subject'];//支付项目
             $order->body    = $orderData['body'];//支付具体内容
 
@@ -662,6 +674,47 @@ class Orders extends BaseLogic
         $data['total_finish_money'] = $this->modelOrders->where($where)->value('cast(sum(amount) AS decimal(15,2)) as total_mount');
         //完成订单数量
         $data['total_finish_count'] = $this->modelOrders->where($where)->count('id');
+        //成功率
+        if ($data['total_finish_count'] == 0) {
+            $success_percent = '0.00';
+        } else {
+            $success_percent = sprintf("%.2f", $data['total_finish_count'] / $data['total_count']);
+        }
+        $data['success_percent'] = $success_percent;
+        return $data;
+    }
+
+    /*
+  * 统计订单相关数据
+  *
+  * @param array $where
+  */
+    public
+    function calUsercenterOrdersData($where = [])
+    {
+        $join = [
+            ['pay_center_channel_account ca', 'ca.id = a.cnl_id', 'left'],
+            ['pay_channel c' ,'c.id = ca.channel_id', 'left']
+        ];
+        //订单总金额cast(sum(amount) AS decimal(15,2))
+        $data['total_money'] = $this->modelOrders->alias('a')->join($join)->where($where)->value('cast(sum(amount) AS decimal(15,2)) as total_mount');
+        //平台总收入
+        $data['total_platform_in'] =$this->modelOrders->alias('a')->join($join)->where($where)->value('cast(sum(platform_in) AS decimal(15,2)) as total_platform_in');
+        //代理总收入
+        $data['total_agent_in'] = $this->modelOrders->alias('a')->join($join)->where($where)->value('cast(sum(agent_in) AS decimal(15,2)) as total_agent_in');
+        //手续费
+        $data['service_charge'] = $this->modelOrders->alias('a')->join($join)->where($where)->value('cast(sum(platform_in+agent_in) AS decimal(15,2)) as service_charge');
+        //用户总收入
+        $data['total_user_in'] = $this->modelOrders->alias('a')->join($join)->where($where)->value('cast(sum(user_in) AS decimal(15,2)) as total_user_in');
+        //订单总订单数量
+        $data['total_count'] = $this->modelOrders->alias('a')->join($join)->where($where)->count('a.id');
+        //订单完成金额
+        $where['a.status']            = 2;
+        $data['total_finish_money'] = $this->modelOrders->alias('a')->join($join)->where($where)->value('cast(sum(amount) AS decimal(15,2)) as total_mount');
+        //完成订单数量
+
+        $data['total_finish_count'] = $this->modelOrders->alias('a')->join($join)->where($where)->count('a.id');
+
         //成功率
         if ($data['total_finish_count'] == 0) {
             $success_percent = '0.00';

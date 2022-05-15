@@ -51,7 +51,9 @@ class M1Pay extends ApiPayment
                 'errCode'   => 200009
             ]);
         }
-        return $result['url'];
+        return [
+            'request_url' => $result['url']
+        ];
     }
 
 
