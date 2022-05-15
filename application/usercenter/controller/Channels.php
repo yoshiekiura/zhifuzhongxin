@@ -22,7 +22,8 @@ class Channels extends Base
             = ['like', '%'.$this->request->get('name').'%'];
         $logicChannel = new Channel();
 
-        $channelLists = $logicChannel->getChannelsList($map,true, 'id desc');
+        $field = 'a.*,t.name as template_name';
+        $channelLists = $logicChannel->getChannelsList($map, 'a', $field, 'id desc');
         $this->assign('list',$channelLists );
         return $this->fetch();
         return $this->fetch();

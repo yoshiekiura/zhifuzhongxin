@@ -31,9 +31,14 @@ class Channel extends BaseLogic
     /**
      * 获取渠道列表
      */
-    public function getChannelsList($map, $field = true, $order='id desc', $paginate = 15)
+    public function getChannelsList($map, $alias ='a', $field = true, $order='id desc', $paginate = 15)
     {
-        return $this->modelPayChannel->getList($map, $field, $order, $paginate);
+        $modelPayChannel = $this->modelPayChannel;
+        $modelPayChannel->alias($alias);
+        $modelPayChannel->join= [
+            ['cm_channel_template t', 't.id = a.template_id', 'left']
+        ];
+        return $modelPayChannel->getList($map, $field, $order, $paginate);
     }
 
     /**
