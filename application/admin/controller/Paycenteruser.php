@@ -34,4 +34,16 @@ class Paycenteruser extends BaseAdmin
         return $this->fetch();
     }
 
+    /**
+     * 添加用户
+     */
+    public function addUser()
+    {
+        if ($this->request->isPost()){
+
+        }
+        return $this->fetch('add_user');
+    }
+
+
 }

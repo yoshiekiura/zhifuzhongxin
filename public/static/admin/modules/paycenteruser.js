@@ -34,15 +34,15 @@ layui.define(["table", "form"],
                     sort: !0
                 }, {
                     field: "username",
-                    width: 150,
+                    width: 250,
                     title: "用户名"
                 }, {
                     field: "alias_name",
-                    width: 150,
+                    width: 250,
                     title: "别名"
                 }, {
                     field: "user_type",
-                    width: 150,
+                    width: 250,
                     title: "用户类型",
                     templet: function (d) {
                         let str = '';
@@ -63,56 +63,8 @@ layui.define(["table", "form"],
             limit: 10,
             limits: [10, 15, 20, 25, 30],
             text: "对不起，加载出现异常！"
-        }),
-            i.on("tool(app-pay-code-list)",
-                function (t) {
-                    var e = t.data;
-                    "del" === t.event ? layer.confirm("确定删除此二维码？",
-                        function (d) {
-                            q.ajax({
-                                url: 'delPayCode?id=' + e.id,
-                                method: 'POST',
-                                success: function (res) {
-                                    if (res.code == 1) {
-                                        t.del()
-                                    }
-                                    layer.msg(res.msg, {icon: res.code == 1 ? 1 : 2, time: 1500});
-                                    layer.close(d); //关闭弹层
-                                }
-                            });
-                        }) : "edit" === t.event && layer.open({
-                        type: 2,
-                        title: "编辑文章",
-                        content: "edit.html?id=" + e.id,
-                        maxmin: !0,
-                        maxmin: !0, area: ['80%', '60%'],
-                        btn: ["确定", "取消"],
-                        yes: function (e, i) {
-                            var l = window["layui-layer-iframe" + e],
-                                a = i.find("iframe").contents().find("#app-article-form-edit");
-                            l.layui.form.on("submit(app-article-form-edit)",
-                                function (i) {
-                                    var l = i.field;
-                                    layui.$.post("edit", l, function (res) {
-                                        if (res.code == 1) {
-                                            //更新数据表
-                                            t.update({
-                                                label: l.label,
-                                                title: l.title,
-                                                author: l.author,
-                                                status: l.status
-                                            }),
-                                                n.render(),
-                                                layer.close(e)
-                                        }
-                                        layer.msg(res.msg, {icon: res.code == 1 ? 1 : 2, time: 1500});
-                                    });
-                                }),
-                                a.trigger("click")
-                        }
-                    })
-                });
+        })
 
 
-
+        e("paycenteruser", {})
     });

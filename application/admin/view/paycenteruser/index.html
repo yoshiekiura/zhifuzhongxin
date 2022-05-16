@@ -11,6 +11,7 @@
 </head>
 <body>
 <div class="layui-fluid">
+
     <div class="layui-card">
         <!--头部-->
         <div class="layui-form layui-card-header layuiadmin-card-header-auto">
@@ -28,7 +29,9 @@
         </div>
         <!--数据表-->
         <div class="layui-card-body">
-
+            <div class="app-pay-paycenteruser-list" style="padding-bottom: 10px;">
+                <button class="layui-btn layuiadmin-btn-useradmin layui-btn-normal layui-btn-sm" data-events="add">添1245加</button>
+            </div>
             <table id="app-pay-paycenteruser-list" lay-filter="app-pay-paycenteruser-list"></table>
 
             <script type="text/html" id="buttonTpl">
@@ -54,17 +57,18 @@
         base: '__ADMIN__/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
-    }).use(['index','paycenteruser', 'table'], function(){
+    }).use(['index', 'table', 'paycenteruser'], function(){
         var $ = layui.$
             ,form = layui.form
             ,table = layui.table;
+
 
         //监听搜索
         form.on('submit(app-pay-channel-list-search)', function(data){
             var field = data.field;
 
             //执行重载
-            table.reload('app-pay-channel-list', {
+            table.reload('app-pay-paycenteruser-list', {
                 where: field
             });
         });
@@ -72,7 +76,7 @@
         //事件
         var active = {
             batchdel: function(){
-                var checkStatus = table.checkStatus('app-pay-channel-list')
+                var checkStatus = table.checkStatus('app-pay-paycenteruser-list')
                     ,checkData = checkStatus.data; //得到选中的数据
 
                 if(checkData.length === 0){
@@ -93,22 +97,21 @@
             ,add: function(){
                 layer.open({
                     type: 2
-                    ,title: '添加渠道'
-                    ,content: 'addChannel'
+                    ,title: '添加用户'
+                    ,content: 'addUser'
                     ,maxmin: true
                     ,area: ['80%','60%']
                     ,btn: ['确定', '取消']
                     ,yes: function(index, layero){
                         var iframeWindow = window['layui-layer-iframe'+ index]
-                            ,submitID = 'app-pay-channel-submit'
+                            ,submitID = 'app-pay-paycenteruser-submit'
                             ,submit = layero.find('iframe').contents().find('#'+ submitID);
-
                         //监听提交
                         iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
                             var l = data.field; //获取提交的字段
                             //提交 Ajax 成功后，静态更新表格中的数据
                             $.ajax({
-                                url:'addChannel',
+                                url:'addUuser',
                                 type:'post',
                                 data: l,
                                 success:function (res) {
