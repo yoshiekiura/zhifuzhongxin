@@ -5,6 +5,7 @@ namespace app\common\logic;
 
 
 use app\common\library\enum\CodeEnum;
+use think\Request;
 
 class Payusercenter extends BaseLogic
 {
@@ -16,10 +17,17 @@ class Payusercenter extends BaseLogic
     public function  getUserList($where = [], $field = true,  $order = 'id desc',$paginate = 10)
     {
         $this->modelPayCenterUser->limit = !$paginate;
-        return $this->modelPayCenterUser->getList($where, $field, $order, $paginate);
+        $paginate  = Request::instance()->get('limit', 10);
+        return $this->modelPayCenterUser->where($where)->field($field)->order($order)->paginate($paginate);
+//         $this->modelPayCenterUser->getList($where, $field, $order, $paginate);
     }
 
-    public function addUser($data)
+    /**
+     * 保存用户
+     * @param $data
+     * @return array
+     */
+    public function saveUser($data)
     {
         $validate = $this->validatePaycenteruser->scene($data['scene'])->check($data);
 

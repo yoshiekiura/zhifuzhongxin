@@ -16,19 +16,26 @@
     <div class="layui-form-item">
         <label class="layui-form-label">用户名：</label>
         <div class="layui-input-block">
-            <input type="text" name="username" required lay-verify="required|username" placeholder="请输入用户名" autocomplete="off" class="layui-input" value="">
+            <input type="text" name="username" required lay-verify="required|username" disabled placeholder="请输入用户名" autocomplete="off" class="layui-input" value="{$row.username}">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">别名：</label>
+        <div class="layui-input-block">
+            <input type="text" name="alias_name"  placeholder="请输入别名" autocomplete="off" class="layui-input" value="{$row.alias_name}">
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">用户类型：</label>
         <div class="layui-input-block">
-            <select name="user_type" required lay-verify="required" class="form-control">
+            <select name="user_type" required lay-verify="required" class="form-control"  disabled>
                 <option value="">请选择</option>
-                <option value="1">渠道用户</option>
-                <option value="2">商户用户</option>
-                <option value="3">三方用户</option>
-                <option value="4">代理用户</option>
+                <option value="1" {if condition="$row.user_type eq 1"} selected = "selected"{/if}>渠道用户</option>
+                <option value="2" {if condition="$row.user_type eq 2"} selected = "selected"{/if} >商户用户</option>
+                <option value="3" {if condition="$row.user_type eq 3"} selected = "selected"{/if}>三方用户</option>
+                <option value="4" {if condition="$row.user_type eq 4"} selected = "selected"{/if}>代理用户</option>
             </select>
         </div>
     </div>
@@ -36,19 +43,20 @@
     <div class="layui-form-item">
         <label class="layui-form-label">密码：</label>
         <div class="layui-input-block">
-            <input type="password" name="password" required lay-verify="required|password" placeholder="请输入密码" autocomplete="off" class="layui-input" value="">
+            <input type="password" name="password" lay-verify="password"  placeholder="请输入密码" autocomplete="off" class="layui-input" value="">
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">重复密码：</label>
         <div class="layui-input-block">
-            <input type="password" required lay-verify="required|confirmPass" placeholder="请输入密码" autocomplete="off" class="layui-input" value="">
+            <input type="password" required lay-verify="confirmPass" placeholder="请输入密码" autocomplete="off" class="layui-input" value="">
         </div>
     </div>
 
     <div class="layui-form-item layui-hide">
-        <input type="hidden" name="scene" value="add">
+        <input type="hidden" name="scene" value="edit">
+        <input type="hidden" name="id" value="{$row.id}">
         <input type="button" lay-submit lay-filter="app-pay-paycenteruser-submit" id="app-pay-paycenteruser-submit" value="确认">
     </div>
 </div>
@@ -67,7 +75,7 @@
         form.verify({
             username: function(value, item){
                 if(!new RegExp("^[a-zA-Z0-9_-]{6,30}$").test(value)){
-                    return '用户名只能为字母，数字，下划线，减号6到30的字符';
+                    return '用户名只能为字母，数字，下划线，中划线，组成的6到30的字符';
                 }
                 if(/(^\_)|(\__)|(\_+$)/.test(value)){
                     return '用户名首尾不能出现下划线\'_\'';
@@ -75,9 +83,11 @@
                 if(/^\d+\d+\d$/.test(value)){
                     return '用户名不能全为数字';
                 }
-            },password:function (value, item) {
-                if (!new RegExp("^[^\\s]{6,12}$").test(value)){
-                    return '密码必须6到12位，且不能出现空格';
+            },password: function (value,item){
+                if (value != ''){
+                    if (!new RegExp("^[^\\s]{6,12}$").test(value)){
+                        return '密码必须6到12位，且不能出现空格';
+                    }
                 }
             },confirmPass:function (value,item) {
                 if( $('input[name=password]').val()  !== value ){

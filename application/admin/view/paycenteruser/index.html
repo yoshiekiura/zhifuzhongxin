@@ -18,7 +18,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">用户名称：</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="username" required lay-verify="required" placeholder="请输入用户名称" autocomplete="off" class="layui-input" >
+                    <input type="text" name="username" placeholder="请输入用户名称" autocomplete="off" class="layui-input" >
                 </div>
                 <div class="layui-inline">
                     <button class="layui-btn layuiadmin-btn-order" lay-submit lay-filter="app-pay-channel-list-search">
@@ -30,7 +30,7 @@
         <!--数据表-->
         <div class="layui-card-body">
             <div class="app-pay-paycenteruser-list" style="padding-bottom: 10px;">
-                <button class="layui-btn layuiadmin-btn-useradmin layui-btn-normal layui-btn-sm" data-events="add">添1245加</button>
+                <button class="layui-btn layuiadmin-btn-useradmin layui-btn-normal layui-btn-sm" data-events="add">添加</button>
             </div>
             <table id="app-pay-paycenteruser-list" lay-filter="app-pay-paycenteruser-list"></table>
 
@@ -43,8 +43,8 @@
             </script>
             <script type="text/html" id="table-pay-channel">
 
-                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="fund_details"><i class="layui-icon layui-icon-edit"></i>查看明细</a>
-                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="op_pay_channel"><i class="layui-icon layui-icon-edit"></i>余额增减</a>
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
 
             </script>
         </div>
@@ -75,7 +75,8 @@
 
         //事件
         var active = {
-            batchdel: function(){
+            del: function(){
+                alert(11)
                 var checkStatus = table.checkStatus('app-pay-paycenteruser-list')
                     ,checkData = checkStatus.data; //得到选中的数据
 
@@ -111,7 +112,7 @@
                             var l = data.field; //获取提交的字段
                             //提交 Ajax 成功后，静态更新表格中的数据
                             $.ajax({
-                                url:'addUuser',
+                                url:'addUser',
                                 type:'post',
                                 data: l,
                                 success:function (res) {

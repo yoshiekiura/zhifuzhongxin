@@ -36,13 +36,16 @@ class User extends BaseLogic
     public function getUserList($where = [], $field = '*', $order = '', $paginate = 20)
     {
         $this->modelUser->limit = !$paginate;
-        $this->modelUserAccount->alias('a');
-
-        $join = [
-            ['admin_group b', 'a.uid = b.id'],
-        ];
-
-        $this->modelUserAccount->join = $join;
+//        $this->modeUser->join = [
+//            ['cm_pay_center_user pu', 'pu.id']
+//        ];
+//        $this->modelUserAccount->alias('a');
+//
+//        $join = [
+//            ['admin_group b', 'a.uid = b.id'],
+//        ];
+//
+//        $this->modelUserAccount->join = $join;
         return $this->modelUser->getList($where, $field, $order, $paginate);
     }
 

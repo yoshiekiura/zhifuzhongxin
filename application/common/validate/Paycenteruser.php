@@ -8,12 +8,14 @@ class Paycenteruser extends BaseValidate
 
 {
     protected $rule = [
+        'id'                     =>'require',
         'username'         => 'require|min:6|max:16|alphaNum|unique:pay_center_user',
         'password'         => 'require',
         'user_type'         => 'require',
     ];
 
     protected $message = [
+        'id.require'                      => '标识不能为空',
         'username.require'         => '用户名不能为空',
         'username.unique'         => '用户名已存在',
         'username.minx'         => '用户名不能小于6位',
@@ -24,6 +26,7 @@ class Paycenteruser extends BaseValidate
     ];
 
     protected  $scene = [
-        'add' => ['username', 'password', 'user_type']
+        'add' => ['username', 'password', 'user_type'],
+        'edit' => ['username.require', 'username.minx', 'username.max', 'user_type']
     ];
 }

@@ -30,7 +30,7 @@ class Paycenteruser extends Base
         if ($this->request->isPost()) {
             $params = $this->request->param();
             $params['pid'] = $this->user['id'];
-            $ret =$this->logicPayusercenter->addUser($params);
+            $ret =$this->logicPayusercenter->saveUser($params);
             if ($ret['code'] == 0){
                 $this->error($ret['msg']);
             }
