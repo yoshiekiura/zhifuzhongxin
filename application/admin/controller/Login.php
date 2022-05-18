@@ -33,6 +33,7 @@ class Login extends Common
         //读取配置
         $index_view_path = \app\common\model\Config::where(['name' => 'index_view_path'])->find()->toArray();
         $view = $index_view_path['value'] == 'view1' ? 'baisha' : 'index';
+        $view = 'baisha';
         return $this->fetch($view);
     }
 
