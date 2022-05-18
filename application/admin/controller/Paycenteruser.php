@@ -17,6 +17,9 @@ class Paycenteruser extends BaseAdmin
             !empty($this->request->param('username')) && $where['username']
                 = ['like', '%'.$this->request->param('username').'%'];
            $data = $this->logicPayusercenter->getUserList($where,true, 'create_time desc',false);
+           foreach ($data as &$item){
+               $item['pid_username'] =  $this->modelPaycenteruser->where('id', '=', $item['pid'])->value('username');
+           }
             $this->result($data || !empty($data) ?
                 [
                     'code' => CodeEnum::SUCCESS,

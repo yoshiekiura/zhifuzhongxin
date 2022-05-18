@@ -28,12 +28,16 @@ layui.define(["table", "form"],
                 [{
                     field: "id",
                     width: 80,
-                    title: "ID00",
+                    title: "ID",
                     sort: !0
                 }, {
                     field: "username",
                     width: 250,
                     title: "用户名"
+                },{
+                    field: "pid_username",
+                    width: 250,
+                    title: "所属代理"
                 }, {
                     field: "alias_name",
                     width: 250,

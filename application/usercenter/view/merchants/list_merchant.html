@@ -47,6 +47,8 @@
                         <td>{$vo['username']}</td>
                         <td>
                             <a href="{:url('/usercenter/merchants_binding/applyBindingUser', ['uid' => $vo.uid])}" class="btn btn-sm btn-success">绑定上游</a>
+
+                            <a href="{:url('edit_merchant',['uid' => $vo.uid ])}" class="btn btn-sm btn-warning">对接信息</a>
                             <a href="{:url('edit_merchant',['uid' => $vo.uid ])}" class="btn btn-sm btn-primary">编辑</a>
                             <a href="#" onclick="PostCancel('{$vo.uid}')" class="btn btn-sm btn-danger">删除</a>
                         </td>

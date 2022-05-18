@@ -18,7 +18,10 @@ class Merchants extends Base
         $logicUser = new User();
 
         $userList = $logicUser->getUserList($map, true, 'create_time desc');
-
+//        $banding = 0;
+//        foreach ($userList as &$item){
+//
+//        }
         $this->assign('list', $userList);
         return $this->fetch('list_merchant');
     }

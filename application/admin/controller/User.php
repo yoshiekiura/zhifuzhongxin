@@ -110,24 +110,28 @@ $orderInfo['notify_url'] =  $data[0]['notify_url'];
         $where = [];
 
         //组合搜索
-        !empty($this->request->param('uid')) && $where['uid']
+        !empty($this->request->param('uid')) && $where['a.uid']
             = ['eq', $this->request->param('uid')];
 
-        !empty($this->request->param('username')) && $where['username']
+        !empty($this->request->param('username')) && $where['a.username']
             = ['like', '%' . $this->request->param('username') . '%'];
 
-        !empty($this->request->param('email')) && $where['account']
+        !empty($this->request->param('email')) && $where['a.account']
             = ['like', '%' . $this->request->param('email') . '%'];
 
         if ($this->request->get('status') !== '') {
-            $where['status'] = ['eq', $this->request->get('status', UserStatusEnum::ENABLE)];
+            $where['a.status'] = ['eq', $this->request->get('status', UserStatusEnum::ENABLE)];
         }
-
         //时间搜索  时间戳搜素
         // $where['create_time'] = $this->parseRequestDate();
         //dd($where);
+        $field = 'a.*, pu.username as center_username';
 
-        $data = $this->logicUser->getUserList($where, true, 'create_time desc', false);
+        $data = $this->modelUser->where($where)
+            ->alias('a')
+            ->join('pay_center_user pu', 'pu.id = a.pay_center_uid', 'left')
+            ->field($field)->order('a.create_time desc')->paginate($this->request->get('limit', 10));
+//        $data = $this->logicUser->getUserList($where, $field, 'create_time desc', false);
 
         $is_open_daifu = 0;
         //获取配置 判断代付是否开启
@@ -138,22 +142,21 @@ $orderInfo['notify_url'] =  $data[0]['notify_url'];
                 $is_open_daifu = 1;
             }
         }
-        foreach ($data as $k => $v) {
-            $data[$k]['whether_open_daifu'] = $is_open_daifu;
+        foreach ($data->items() as $k => &$v) {
+            $v['whether_open_daifu'] = $is_open_daifu;
         }
-        $count = $this->logicUser->getUserCount($where);
 
-        $this->result($data || !empty($data) ?
+        $this->result(count($data->items()) > 0 ?
             [
                 'code' => CodeEnum::SUCCESS,
                 'msg' => '',
-                'count' => $count,
-                'data' => $data
+                'count' => $data->total(),
+                'data' => $data->items()
             ] : [
                 'code' => CodeEnum::ERROR,
                 'msg' => '暂无数据',
-                'count' => $count,
-                'data' => $data
+                'count' =>$data->total(),
+                'data' =>$data->items()
             ]
         );
     }
@@ -194,7 +197,8 @@ $orderInfo['notify_url'] =  $data[0]['notify_url'];
         $this->assign('user', $this->logicUser->getUserInfo(['uid' => $this->request->param('id')]));
         //所有代理商
         $where['is_agent'] = $where['status'] = 1;
-        $agents = $this->logicUser->getUserList($where, 'uid,puid,username', 'create_time desc', false);
+        $agents = $this->modelUser->where($where)->select();
+
         $this->assign('agents', $agents);
         return $this->fetch();
     }
