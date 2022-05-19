@@ -163,28 +163,32 @@ class Pay extends BaseAdmin
 
         $where = [];
         //组合搜索
-        !empty($this->request->param('id')) && $where['id']
+        !empty($this->request->param('id')) && $where['a.id']
             = ['eq', $this->request->param('id')];
         //name
-        !empty($this->request->param('name')) && $where['name']
+        !empty($this->request->param('name')) && $where['a.name']
             = ['like', '%'.$this->request->param('name').'%'];
 
+        $where['a.status'] = 1;
 
-        $data = $this->logicPay->getChannelList($where,true, 'create_time desc',false);
-        $where['status'] = 1;
-        $count = $this->logicPay->getChannelCount($where);
+        $data = $this->modelPayChannel->alias('a')
+            ->field('a.*,ct.class_name as template_class_name,pu.username')
+            ->join('pay_center_user pu', 'pu.id = a.pay_center_uid', 'left')
+            ->join('channel_template ct', 'ct.id = a.template_id', 'left')
+            ->where($where)
+            ->paginate($this->request->get('limit', 1));
 
-        $this->result($data || !empty($data) ?
+        $this->result( !$data->isEmpty()?
             [
                 'code' => CodeEnum::SUCCESS,
                 'msg'=> '',
-                'count'=>$count,
-                'data'=>$data
+                'count'=>$data->total(),
+                'data'=>$data->items()
             ] : [
                 'code' => CodeEnum::ERROR,
                 'msg'=> '暂无数据',
-                'count'=>$count,
-                'data'=>$data
+                'count'=>0,
+                'data'=>[]
             ]);
     }
 

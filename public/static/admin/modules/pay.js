@@ -241,7 +241,12 @@ layui.define(["table", "form"],
                         title: "渠道名称"
                     },
                     {
-                        field: "action",
+                        field: "username",
+                        width: 100,
+                        title: "所属用户"
+                    },
+                    {
+                        field: "template_class_name",
                         width: 150,
                         title: "控制类名称"
                     },

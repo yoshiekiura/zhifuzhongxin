@@ -247,7 +247,6 @@ return [
         'hostname'        => '127.0.0.1',
         // 数据库名
         'database'        => 'www_cs_com',
-
         // 数据库用户名
         'username'        => 'root',
         // 数据库密码

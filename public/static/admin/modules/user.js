@@ -600,8 +600,13 @@ layui.define(["table", "form"],
                     },
                     {
                         field: "username",
-                        width: 150,
+                        width: 120,
                         title: "商户名"
+                    },
+                    {
+                        field: "center_username",
+                        width: 120,
+                        title: "所属用户"
                     },
                     {
                         field: "account",
