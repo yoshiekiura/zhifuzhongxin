@@ -102,22 +102,36 @@ class DoPay extends BaseApi
      * @throws OrderException
      */
     private function prePayOrder($order){
-        //渠道和参数获取
-        $appChannel = $this->logicPay->getAllowedAccount($order);
-        if (isset($appChannel['errorCode'])){
-            Log::error($appChannel['msg']);
-            throw new OrderException($appChannel);
+
+        //如果是test编码强制匹配test 渠道
+        if ($order['channel'] == 'test'){
+            $result = ApiPayment::TestPay()->pay($order, 0);
+        }else {
+            //渠道和参数获取
+            $appChannel = $this->logicPay->getAllowedAccount($order);
+
+
+            if (isset($appChannel['errorCode'])) {
+                Log::error($appChannel['msg']);
+                throw new OrderException($appChannel);
+            }
+            // dd($appChannel);
+            //取出数据
+            list($payment, $action, $config) = array_values($appChannel);
+
+            $result = ApiPayment::$payment($config)->pay($order, $config['channel_code_value']);
         }
-       // dd($appChannel);
-        //取出数据
-        list($payment,$action,$config) = array_values($appChannel);
+
 
         //获取当前毫秒时间
         $start_time = msectime();
 
         //支付分发
         //$result = ApiPayment::$payment($config)->$action($order);
-        $result = ApiPayment::$payment($config)->pay($order, $config['channel_code_value']);
+
+
+
+
 
         $elapsed_time = msectime() - $start_time;
 

@@ -33,8 +33,6 @@ class Pay extends BaseLogic
      */
     public function getAllowedAccount($order)
     {
-//        halt($order->toArray());
-
       /*  第一期只会有一个渠道，不用考虑权重*/
 
         //获取商户信息
@@ -76,7 +74,9 @@ class Pay extends BaseLogic
             return ['errorCode' => '400028', 'msg' => '模板不存在'];
         }
         //渠道是否设置了该通道编码
-        $pay_center_channel_code = $this->modelPayCenterChannelCode->getInfo(['channel_id' => $channel['id']]);
+        $code = $this->modelPayCode->where('code', '=', $order['channel'])->find();
+        $pay_center_channel_code = $this->modelPayCenterChannelCode->getInfo(['channel_id' => $channel['id'], 'code_id' => $code['id'] ?? '' ]);
+
         if (!$pay_center_channel_code){
             return ['errorCode' => '400028', 'msg' => '没有配置通道编码，请联系管理员'];
         }

@@ -537,7 +537,7 @@ class Orders extends BaseLogic
             $userInfo       = $User->where('uid=' . $orderData['mchid'])->find();
             $order->puid    = empty($userInfo['puid']) ? 0 : $userInfo['puid']; //代理id
             $order->uid     = $orderData['mchid']; //商户ID
-            $order->pay_center_uid     = $this->modelUser->where('uid', '=', $orderData['mchid'])->value('pay_center_uid'); //支付中心用户id
+            $order->pay_center_uid     = $this->modelUser->where('uid', '=', $orderData['mchid'])->value('pay_center_uid') ?? 0; //支付中心用户id
             $order->subject = $orderData['subject'];//支付项目
             $order->body    = $orderData['body'];//支付具体内容
 

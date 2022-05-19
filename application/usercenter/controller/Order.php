@@ -4,6 +4,8 @@
 namespace app\usercenter\controller;
 
 
+use app\common\library\enum\CodeEnum;
+
 class Order extends Base
 {
     /**
@@ -43,5 +45,30 @@ class Order extends Base
         $this->assign('start', $start);
         $this->assign('end', $end);
         return $this->fetch();
+    }
+
+    /**
+     * 强制回调
+     */
+    public function mandatoryCallback()
+    {
+        $orderid = $this->request->param('id');
+        $orderinfo = $this->modelOrders->where(['id'=>$orderid, 'pay_center_uid' => $this->user['id']])->find();
+        if (!$orderinfo){
+            $this->error('数据错误');
+        }
+
+        if (!empty($orderinfo) && $orderinfo['status'] == '1'  ) {
+            $model = new \app\api\logic\Notify();
+            $model->updateOrderInfo($orderinfo, 2);
+            $OrdersNotify = new  \app\common\logic\OrdersNotify();
+            $logicQueue = new  \app\common\logic\Queue();
+
+            $OrdersNotify->saveOrderNotify($orderinfo);
+            $logicQueue->pushJobDataToQueue('AutoOrderNotify' , $orderinfo , 'AutoOrderNotify');
+            //单独修改补单备注(编辑封闭新增放开原则)todo 此处后期事务处理最好
+            $this->modelOrders->where(['id'=>$orderid, 'pay_center_uid' => $this->user['id']])->setField('bd_remarks', '商户强制回调');
+        }
+        $this->success('操作成功');
     }
 }

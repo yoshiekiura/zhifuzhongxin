@@ -113,4 +113,125 @@ class Merchants extends Base
         $this->assign('userinfo', $userinfo);
         return $this->fetch('enter_into');
     }
+
+    /**
+     * 绑定列表
+     */
+
+    public function bind_list()
+    {
+        $map['a.merchant_id'] = $this->request->param('uid', '');
+        if (empty($map['a.merchant_id'])){
+            $this->error('数据错误');
+        }
+        $map['a.merchant_user_id'] = $this->user['id'];
+        !empty($this->request->get('user_username')) && $map['u.username']
+            = ['like', '%' . $this->request->get('user_username') . '%'];
+        $logicMerchantsBinding = new \app\usercenter\logic\MerchantsBinding();
+        $field = 'a.*, pu.username as pay_center_username, u.username as user_username';
+
+        $list = $logicMerchantsBinding->bindingUserList($map, 'a', $field, 'a.channel_user_id', 'a.addtime desc');
+        $this->assign('list', $list);
+        $this->assign('uid', $map['a.merchant_id']);
+        return $this->fetch();
+    }
+
+    /**
+     * 获取支付方式list
+     */
+    public function getChannelCodesList()
+    {
+
+        $ret =  $this->logicPay->getCodeList(['status' => 1], true, 'create_time desc', false);
+         $this->success('操作成功','', $ret);
+    }
+
+
+    /**
+     * 商户渠道测试
+     */
+    public function channelTest()
+    {
+        $id = $this->request->param('bindId');
+        $code = $this->request->param('code', '');
+        $amount = $this->request->param('amount', 0);
+        if (empty($code)){
+            $this->error('没有选择通道编码！');
+        }
+        if ($amount  <= 0){
+            $this->error('金额不正确！');
+        }
+
+        $merchant_binding = $this->modelMerchantBinding
+            ->alias('a')
+            ->join('api p', 'p.uid = a.merchant_id')
+            ->field('a.*, p.key')
+            ->where('a.id', '=', $id)
+            ->find($id);
+        if (!$merchant_binding or $merchant_binding['merchant_user_id'] !=$this->user['id']){
+            $this->error('数据错误');
+        }
+
+        $mchid = $merchant_binding['merchant_id'];
+
+        $Md5key = $merchant_binding['key'];
+        $host = $_SERVER["HTTP_HOST"];
+        $requestUrl = 'http://'.$host.'/api/pay/unifiedorder';
+        $data = array(
+            'mchid' => $mchid,
+            'out_trade_no' => date('ymdHis').rand(1000,9999),
+            'amount' => $amount,
+            'channel' =>$code,
+            'notify_url' => $host.'/test/notify.php',
+            'return_url' => $host.'/test/return.php',
+            'time_stamp' => date("Ymdhis"),
+            'body' => "addH",
+        );
+        ksort($data);
+        $signData = "";
+        foreach ($data as $key=>$value)
+        {
+            $signData = $signData.$key."=".$value;
+            $signData = $signData . "&";
+        }
+
+        $signData = $signData."key=".$Md5key;
+        $sign = md5($signData);
+
+        $data['sign'] = $sign;
+
+        //初始化
+        $curl = curl_init();
+        //设置抓取的url
+        curl_setopt($curl, CURLOPT_URL, $requestUrl);
+        //设置头文件的信息作为数据流输出
+        curl_setopt($curl, CURLOPT_HEADER, 0);
+        //设置获取的信息以文件流的形式返回，而不是直接输出。
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        //设置post方式提交
+        curl_setopt($curl, CURLOPT_POST, 1);
+
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+
+        //执行命令
+        $json = curl_exec($curl);
+
+        if(isset($_GET['debug']) && $_GET['debug']==1)
+        {
+            echo $json;die();
+        }
+        //关闭URL请求
+        curl_close($curl);
+        //显示获得的数据
+        $data = json_decode($json, true);
+        if($data['code'] == 0)
+        {
+            $this->success('操作成功', $data['data']['request_url']);
+        }
+        else
+        {
+            $this->error($data['msg'] ?? '未知错误');
+        }
+
+    }
 }

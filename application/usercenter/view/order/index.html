@@ -48,6 +48,7 @@
                         <th>创建时间</th>
                         <th>更新时间</th>
                         <th>状态</th>
+                        <th>操作</th>
                     </tr>
                     </thead>
                     <tbody id="listBody">
@@ -67,11 +68,16 @@
                         <td class="text-center">{$vo['update_time']}</td>
                         <td class="text-center">
                             {switch $vo.status}
-                            {case 0}<a href="javascript:void(0);" class="btn btn-xs badge-dark">订单关闭</a>{/case}
-                            {case 1}<a href="javascript:void(0);" class="btn btn-xs btn-warning">等待支付</a>{/case}
-                            {case 2}<a href="javascript:void(0);" class="btn btn-xs btn-success">已支付</a>{/case}
-                            {default}<a href="javascript:void(0);" class="btn btn-xs btn-danger">异常订单</a>{/case}
+                            {case 0}<a href="javascript:void(0);" class="btn btn-xs badge-dark disabled">订单关闭</a>{/case}
+                            {case 1}<a href="javascript:void(0);" class="btn btn-xs btn-warning disabled">等待支付</a>{/case}
+                            {case 2}<a href="javascript:void(0);" class="btn btn-xs btn-success disabled">已支付</a>{/case}
+                            {default}<a href="javascript:void(0);" class="btn btn-xs btn-danger disabled">异常订单</a>{/case}
                             {/switch}
+                        </td>
+                        <td>
+                            {if condition="$vo.channel == 'test'" }
+                            <a href="javascript:void(0);" onclick="PostMandatoryCallback('{$vo.id}')" class="btn btn-xs btn-warning">强制回调</a>
+                            {/if}
                         </td>
                     </tr>
 
@@ -105,6 +111,47 @@
 
 
 <script type="text/javascript">
+
+    var code, message;
+    PostMandatoryCallback = function (id) {
+        swal({
+            title: "确定强制回调？",
+            buttons: {
+                confirm: true,
+                cancel: true
+            },
+        }).then(function (isConfirm) {
+            if (isConfirm) {
+                $.ajax({
+                    url: "mandatoryCallback",
+                    type: "POST",
+                    data: {id: id, _ajax: '1'},
+                    isuccess: function (data) {
+                        code = data.code;
+                        message = data.message;
+                    },
+                    error: function () {
+                        message = "提交失败";
+                    },
+                    icomplete: function () {
+                        if (code == 1) {
+                            swal({
+                                title: "处理成功",
+                                text: "正在更新...",
+                                icon: "success",
+                                button: false,
+                                timer: 2000
+                            }).then(function (isConfirm) {
+                                window.location.reload();
+                            });
+                        } else {
+                            swal({title: "错误", text: message, icon: "error"});
+                        }
+                    }
+                });
+            }
+        });
+    };
 
     InitPage = function () {
 
