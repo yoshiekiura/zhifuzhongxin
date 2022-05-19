@@ -1,0 +1,29 @@
+{extend name="../user-layout" /}
+{block name="content"}
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-12 main">
+      <h3>对接信息</h3>
+      <div class="panel panel-default text-center text-center">
+        <div class="col-xs-12 main text-center">
+        <table class="table table-bordered">
+          <tr>
+            <td class="active">商户号</td>
+            <td class="">{$userinfo.uid}</td>
+          </tr>
+          <tr>
+            <td class="active">密钥</td>
+            <td class="">{$userinfo.key}</td>
+          </tr>
+        </table>
+          <a href="{:url('list_merchant')}" class="btn btn-success" role="button">返回</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{/block}
+</body>
+</html>

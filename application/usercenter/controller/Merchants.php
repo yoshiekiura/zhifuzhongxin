@@ -11,18 +11,19 @@ class Merchants extends Base
 {
     public function list_merchant()
     {
-        $map['pay_center_uid'] = $this->user['id'];
-        $map['status'] = 1;
-        !empty($this->request->get('username')) && $map['username']
+        $map['a.pay_center_uid'] = $this->user['id'];
+        $map['a.status'] = 1;
+        !empty($this->request->get('username')) && $map['a.username']
             = ['like', '%' . $this->request->get('username') . '%'];
         $logicUser = new User();
 
-        $userList = $logicUser->getUserList($map, true, 'create_time desc');
-//        $banding = 0;
-//        foreach ($userList as &$item){
-//
-//        }
-        $this->assign('list', $userList);
+        $data = $this->modelUser->where($map)
+            ->alias('a')
+            ->join('api ap', 'a.uid = ap.uid')
+            ->field('a.*, ap.key')
+            ->paginate(10);
+
+        $this->assign('list', $data);
         return $this->fetch('list_merchant');
     }
     /**
@@ -89,5 +90,27 @@ class Merchants extends Base
         $row->status = 0;
         $row->save();
         $this->success('删除成功');
+    }
+
+    /**
+     * 对接信息
+     */
+    public function enter_into()
+    {
+        $uid = $this->request->param('uid');
+        $map = [
+            'a.uid' => $uid,
+            'a.pay_center_uid' => $this->user['id']
+        ];
+        $userinfo = $this->modelUser->where($map)
+            ->alias('a')
+            ->join('api ap', 'a.uid = ap.uid')
+            ->field('a.*, ap.key')
+            ->find();
+        if (!$userinfo){
+            $this->error('数据错误');
+        }
+        $this->assign('userinfo', $userinfo);
+        return $this->fetch('enter_into');
     }
 }

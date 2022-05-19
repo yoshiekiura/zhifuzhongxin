@@ -37,18 +37,22 @@
                         </td>
                     </tr>
                     <tr>
+                        <th>商户号</th>
                         <th>商户名称</th>
+<!--                        <th>商户密钥</th>-->
                         <th>操作</th>
                     </tr>
                     </thead>
                     <tbody id="listBody">
                     {volist name="list" id="vo"}
                     <tr>
+                        <td>{$vo['uid']}</td>
                         <td>{$vo['username']}</td>
+<!--                        <td>{$vo['key']}</td>-->
                         <td>
                             <a href="{:url('/usercenter/merchants_binding/applyBindingUser', ['uid' => $vo.uid])}" class="btn btn-sm btn-success">绑定上游</a>
 
-                            <a href="{:url('edit_merchant',['uid' => $vo.uid ])}" class="btn btn-sm btn-warning">对接信息</a>
+                            <a href="{:url('enter_into',['uid' => $vo.uid ])}" class="btn btn-sm btn-warning">对接信息</a>
                             <a href="{:url('edit_merchant',['uid' => $vo.uid ])}" class="btn btn-sm btn-primary">编辑</a>
                             <a href="#" onclick="PostCancel('{$vo.uid}')" class="btn btn-sm btn-danger">删除</a>
                         </td>
@@ -66,7 +70,7 @@
                     {/empty}
                     </tbody>
                     <tfoot>
-                    <td colspan="10" class="text-right">
+                    <td colspan="10">
                         <nav aria-label="Page navigation">
                             {$list->render()}
                         </nav>
