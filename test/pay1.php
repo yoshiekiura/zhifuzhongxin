@@ -1,8 +1,8 @@
 <?php
 if(!empty($_GET['amount']))
 {
-	$mchid = '100195';
-	$Md5key = '120470490b51b7891732e5310819745b';
+	$mchid = '2';
+	$Md5key = '24f150644304e652f7ae38058fd2a8dc';
     $host = $_SERVER["HTTP_HOST"];
 	$requestUrl = 'http://'.$host.'/api/pay/unifiedorder';
     $data = array(
