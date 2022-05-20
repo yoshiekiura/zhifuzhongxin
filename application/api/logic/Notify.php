@@ -127,7 +127,6 @@ class Notify extends BaseApi
         $income = $order->amount;
         $agent_in = "0.000";
         //商户收入
-        halt($profit['urate']);
         $user_in =bcmul($income, $profit['urate'], 3);
 
         //读取配置  扣除单笔手续费

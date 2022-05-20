@@ -530,6 +530,7 @@ class Orders extends BaseLogic
             ]);
         }
         Db::startTrans();
+        $userInfo = $this->logicUser->getUserInfo(['uid' => $orderData['mchid']]);
         try {
             //这里就这样   不改了
             $order          = new Orders();
@@ -537,9 +538,12 @@ class Orders extends BaseLogic
             $userInfo       = $User->where('uid=' . $orderData['mchid'])->find();
             $order->puid    = empty($userInfo['puid']) ? 0 : $userInfo['puid']; //代理id
             $order->uid     = $orderData['mchid']; //商户ID
-            $order->pay_center_uid     = $this->modelUser->where('uid', '=', $orderData['mchid'])->value('pay_center_uid') ?? 0; //支付中心用户id
+            $order->pay_center_uid     = $userInfo['pay_center_uid']; //支付中心用户id
             $order->subject = $orderData['subject'];//支付项目
             $order->body    = $orderData['body'];//支付具体内容
+            //商户所属的支付中心用户的代理
+            $order->user_agent_uid = $this->logicPayusercenter->getUserInfo(['id' => $userInfo['pay_center_uid']])['pid'] ?? 0;
+
 
             $order->trade_no = intval($orderData['mchid'] % 100) . (microtime(true) * 10000) . rand(100000, 999999);//支付单号
             //读取配置 如果后台配置是使用平台下级订单号

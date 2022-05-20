@@ -46,4 +46,14 @@ class Payusercenter extends BaseLogic
         }
         return ['code' => CodeEnum::SUCCESS, 'msg' =>$msg . '成功'];
     }
+
+
+    /**
+     * 获取支付中心用户信息详情
+     *
+     */
+    public function getUserInfo($where = [], $field = true)
+    {
+        return $this->modelPayCenterUser->getInfo($where, $field);
+    }
 }

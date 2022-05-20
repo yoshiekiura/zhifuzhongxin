@@ -5,6 +5,8 @@ namespace app\usercenter\controller;
 
 
 use app\common\library\enum\CodeEnum;
+use app\common\logic\OrdersNotify;
+use think\Db;
 
 class Order extends Base
 {
@@ -48,7 +50,7 @@ class Order extends Base
     }
 
     /**
-     * 强制回调
+     * test编码强制回调
      */
     public function mandatoryCallback()
     {
@@ -58,16 +60,18 @@ class Order extends Base
             $this->error('数据错误');
         }
 
-        if (!empty($orderinfo) && $orderinfo['status'] == '1'  ) {
-            $model = new \app\api\logic\Notify();
-            $model->updateOrderInfo($orderinfo, 2);
-            $OrdersNotify = new  \app\common\logic\OrdersNotify();
-            $logicQueue = new  \app\common\logic\Queue();
-
+        Db::startTrans();
+        try {
+            $orderinfo->status = 2;
+            $orderinfo->bd_remarks = 'test编码商户强制回调';
+            $orderinfo->save();
+            $OrdersNotify = new OrdersNotify();
             $OrdersNotify->saveOrderNotify($orderinfo);
-            $logicQueue->pushJobDataToQueue('AutoOrderNotify' , $orderinfo , 'AutoOrderNotify');
-            //单独修改补单备注(编辑封闭新增放开原则)todo 此处后期事务处理最好
-            $this->modelOrders->where(['id'=>$orderid, 'pay_center_uid' => $this->user['id']])->setField('bd_remarks', '商户强制回调');
+            Db::commit();
+
+        }catch (\Exception $e){
+            Db::rollback();
+            $this->error(config('app_debug') ? $e->getMessage() : '未知错误');
         }
         $this->success('操作成功');
     }

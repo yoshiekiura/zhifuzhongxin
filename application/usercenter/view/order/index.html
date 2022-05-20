@@ -68,15 +68,15 @@
                         <td class="text-center">{$vo['update_time']}</td>
                         <td class="text-center">
                             {switch $vo.status}
-                            {case 0}<a href="javascript:void(0);" class="btn btn-xs badge-dark disabled">订单关闭</a>{/case}
-                            {case 1}<a href="javascript:void(0);" class="btn btn-xs btn-warning disabled">等待支付</a>{/case}
+                            {case 0}<a href="javascript:void(0);" class="btn btn-xs btn-default disabled">订单关闭</a>{/case}
+                            {case 1}<a href="javascript:void(0);" class="btn btn-xs btn-default disabled">等待支付</a>{/case}
                             {case 2}<a href="javascript:void(0);" class="btn btn-xs btn-success disabled">已支付</a>{/case}
                             {default}<a href="javascript:void(0);" class="btn btn-xs btn-danger disabled">异常订单</a>{/case}
                             {/switch}
                         </td>
                         <td>
-                            {if condition="$vo.channel == 'test'" }
-                            <a href="javascript:void(0);" onclick="PostMandatoryCallback('{$vo.id}')" class="btn btn-xs btn-warning">强制回调</a>
+                            {if condition="$vo.channel == 'test' and $vo.channel== '1'" }
+                            <a href="javascript:void(0);" onclick="PostMandatoryCallback('{$vo.id}')" class="btn btn-sm btn-warning">强制回调</a>
                             {/if}
                         </td>
                     </tr>

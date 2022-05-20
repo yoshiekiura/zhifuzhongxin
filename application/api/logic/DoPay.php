@@ -118,7 +118,6 @@ class DoPay extends BaseApi
             // dd($appChannel);
             //取出数据
             list($payment, $action, $config) = array_values($appChannel);
-
             $result = ApiPayment::$payment($config)->pay($order, $config['channel_code_value']);
         }
 
@@ -140,8 +139,10 @@ class DoPay extends BaseApi
         if($result && $request_elapsed_time == '0' ){
             $request_elapsed_time = '0.001';
         }
-
-        $this->modelOrders->setInfo(['id'=>$order['id'],'request_elapsed_time'=>$request_elapsed_time]);
+        if (isset($config['pay_center_uid'])){
+            $channel_agent_uid = $this->logicPayusercenter->getUserInfo(['id'=>$config['pay_center_uid']])['pid'] ?? 0;
+        }
+        $this->modelOrders->setInfo(['id'=>$order['id'],'request_elapsed_time'=>$request_elapsed_time, 'channel_agent_uid' => $channel_agent_uid ?? 0]);
 
 
         return $result;
