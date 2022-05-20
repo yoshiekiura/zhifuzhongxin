@@ -105,11 +105,11 @@ class Notify extends BaseApi
         /*************订单操作************/
         //1.查找用户对应渠道费率
 
-        $profit = $this->logicUser->getUserProfitInfo(['uid' => $order->uid, 'cnl_id' => $order->cnl_id]);
+/*        $profit = $this->logicUser->getUserProfitInfo(['uid' => $order->uid, 'cnl_id' => $order->cnl_id]);
 
         $account = $this->logicPay->getAccountInfo(['id' => $order->cnl_id]);
 
-        if(empty($profit)) $profit = $account;
+        if(empty($profit)) $profit = $account;*/
 
         //2.数据计算
         //实付金额 - 扣除渠道费率后
@@ -124,10 +124,10 @@ class Notify extends BaseApi
 
 //        $income =  bcsub($order->amount , bcmul($order->amount,$account['rate'],3),  3);
 
-        $income = $order->amount;
+   /*     $income = $order->amount;
         $agent_in = "0.000";
         //商户收入
-        $user_in =bcmul($income, $profit['urate'], 3);
+        $user_in =bcmul($income, $profit['urate'], 3);*/
 
         //读取配置  扣除单笔手续费
      //   $is_single_handling_charge = \app\common\model\Config::where(['name'=>'is_single_handling_charge'])->find()->toArray();
@@ -140,7 +140,7 @@ class Notify extends BaseApi
         /** end **/
 
         //是否有代理
-        if ($order->puid != 0){
+     /*   if ($order->puid != 0){
             //1.获取代理的费率
             $agent_profit = $this->logicUser->getUserProfitInfo(['uid' => $order->puid, 'cnl_id' => $order->cnl_id]);
 
@@ -152,26 +152,26 @@ class Notify extends BaseApi
             {
                 $this->logicBalanceChange->creatBalanceChange($order->puid, $agent_in,'商户单号'. $order->out_trade_no . '支付成功，代理分润金额转入','enable',false);
             }
-            /**************写入商户代理资金结束*****************/
-        }
 
+        }*/
+        /**************写入商户代理资金结束*****************/
         /*************写入商户资金******************/
         //支付成功  扣除待支付金额 (这个操作就只有两个地方   自动关闭订单和这里)
         // $this->logicBalanceChange->creatBalanceChange($order->uid,$order->amount,'单号'. $order->out_trade_no . '支付成功，收入至待结算金额','disable',true);
         //支付成功  写入结算金额
-        $res =  $this->logicBalanceChange->creatBalanceChange($order->uid,$user_in,'单号'. $order->out_trade_no . '支付成功，金额转入','enable',false);
+     /*   $res =  $this->logicBalanceChange->creatBalanceChange($order->uid,$user_in,'单号'. $order->out_trade_no . '支付成功，金额转入','enable',false);
         if(empty($res))
         {
             Log::error("Change Balance error".'单号'. $order->out_trade_no);
             return false;
-        }
+        }*/
 
         /**************写入商户资金结束*****************/
 
         /**************写入渠道资金**********************/
         //读取配置 判断渠道资金是否开启
 
-        $is_open_channel_fund = \app\common\model\Config::where(['name'=>'is_open_channel_fund'])->find()->toArray();
+   /*     $is_open_channel_fund = \app\common\model\Config::where(['name'=>'is_open_channel_fund'])->find()->toArray();
         if($is_open_channel_fund){
             if($is_open_channel_fund['value'] == 1){
                 //计算渠道金额
@@ -184,21 +184,34 @@ class Notify extends BaseApi
                     }
                 }
             }
-        }
+        }*/
 
 
         /**************写入渠道资金结束****************/
 
 
+
+
+        /**************写入渠道用户的代理用户资金开始****************/
+        $channel_id = $this->modelPayCenterChannelAccount->where('id', '=', $order['cnl_id'])->value('channel_id');
+        $pay_center_uid = $this->modelPayChannel->where('id', '=', $channel_id)->value('pay_center_uid');
+        $pid = $this->modelPayCenterUser->where('id', '=', $pay_center_uid)->value('pid');
+
+        if (!empty($pay_center_uid)){
+            //写死0.000025
+            $channel_earnings_rate = 0.00025;
+
+        }
+        /**************写入渠道用户的代理用户资金结束****************/
         //平台收入
-        $platform_in = bcsub($income, bcadd($user_in,$agent_in,3),3);
+//        $platform_in = bcsub($income, bcadd($user_in,$agent_in,3),3);
 
         //3.数据存储
         $res = $this->modelOrders->changeOrderStatusValue([
-            'income'    => $income,
-            'user_in'    => $user_in,
-            'agent_in'    => $agent_in,
-            'platform_in'    => $platform_in,
+            'income'    => $income ?? 0,
+            'user_in'    => $user_in ?? 0,
+            'agent_in'    => $agent_in ?? 0,
+            'platform_in'    => $platform_in ?? 0,
             'status'  => $success ? OrderStatusEnum::PAID : OrderStatusEnum::UNPAID
         ], [
             'id'=>$order->id

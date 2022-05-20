@@ -530,7 +530,8 @@ class Orders extends BaseLogic
             ]);
         }
         Db::startTrans();
-        $userInfo = $this->logicUser->getUserInfo(['uid' => $orderData['mchid']]);
+//        $userInfo = $this->logicUser->getUserInfo(['uid' => $orderData['mchid']]);
+
         try {
             //这里就这样   不改了
             $order          = new Orders();

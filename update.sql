@@ -40,3 +40,17 @@ INSERT INTO cm_menu(`pid`, `sort`, `name`, `module`, `url`, `is_hide`, `icon`, `
 
 alter table cm_orders add column `user_agent_uid` int(11) unsigned not null default '0' comment '商户所属支付中心用户代理';
 alter table cm_orders add column `channel_agent_uid` int(11) unsigned not null default '0' comment '渠道所属支付中心用户代理';
+
+CREATE TABLE `cm_pay_center_bill` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `uid` int(11) NOT NULL COMMENT '支付中心用户ID',
+  `jl_class` int(11) NOT NULL COMMENT '流水类别：1渠道收益2商户收益3代理收益',
+  `info` varchar(225) NOT NULL COMMENT '说明',
+  `jc_class` varchar(225) NOT NULL COMMENT '分+ 或-',
+  `pre_amount` decimal(11,2) NOT NULL DEFAULT '0.00' COMMENT '变化前',
+  `last_amount` decimal(11,2) NOT NULL DEFAULT '0.00' COMMENT '变化后',
+  `addtime` varchar(225) NOT NULL COMMENT '添加时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='支付中心用户流水账单';
+
+alter table cm_pay_center_user add column `money` float(10,2) NOT NULL DEFAULT '0.00' COMMENT '用户余额';

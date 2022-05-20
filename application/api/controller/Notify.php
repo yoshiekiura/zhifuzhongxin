@@ -104,7 +104,6 @@ class Notify extends BaseApi
                 'errCode'   => 200011
             ]);
         }
-
         //获取模板里面的class_name
         $channelTemplate = $this->modelPayChannel
             ->alias('a')
