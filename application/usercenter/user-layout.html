@@ -27,6 +27,7 @@
     <script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="__STATIC__/index/baisha/js/fastclick.js"></script>
+    <script src="https://cdn.staticfile.org/sweetalert/2.1.2/sweetalert.min.js"></script>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -107,6 +108,12 @@
                   {/case}
                 {/switch}
 
+                <li>
+                    <a href="#" data-toggle="dropdown" >账单管理</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{:url('usercenter/Paycenterbill/index')}">账单列表</a></li>
+                    </ul>
+                </li>
 
             </ul>
             <ul class="nav navbar-nav navbar-right">

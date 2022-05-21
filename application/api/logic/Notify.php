@@ -190,6 +190,13 @@ class Notify extends BaseApi
         /**************写入渠道资金结束****************/
 
 
+        //用户信息
+        $userinfo = $this->modelUser->alias('u')
+            ->join('pay_center_user pu', 'u.pay_center_uid = pu.id')
+            ->field('u.*, pu.pid')
+            ->where('u.uid', '=', $order['uid'])
+            ->find();
+
 
 
         /**************写入渠道用户的代理用户资金开始****************/
@@ -197,12 +204,36 @@ class Notify extends BaseApi
         $pay_center_uid = $this->modelPayChannel->where('id', '=', $channel_id)->value('pay_center_uid');
         $pid = $this->modelPayCenterUser->where('id', '=', $pay_center_uid)->value('pid');
 
-        if (!empty($pay_center_uid)){
+        if (!empty($pid)){
             //写死0.000025
             $channel_earnings_rate = 0.00025;
+            $money = bcmul($order->amount, $channel_earnings_rate, 3);
+            if ($money > 0){
+                $agent_chage_bill = $this->logicPayusercenter->moneyChange($pid, 3, 1, $money, '代理渠道收益'.$money.'，订单号：'.$order->id);
 
+                if (!$agent_chage_bill){
+                    return false;
+                }
+            }
         }
         /**************写入渠道用户的代理用户资金结束****************/
+
+        /**************写入商户用户的代理用户资金开始****************/
+
+        if (!empty($userinfo['pid'])){
+            //写死0.000025
+            $channel_earnings_rate = 0.00025;
+            $money = bcmul($order->amount, $channel_earnings_rate, 3);
+            if ($money > 0){
+                $agent_chage_bill = $this->logicPayusercenter->moneyChange($userinfo['pid'], 3, 1, $money, '代理商户收益'.$money.'，订单号：'.$order->id);
+
+                if (!$agent_chage_bill){
+                    return false;
+                }
+            }
+        }
+
+        /**************写入商户用户的代理用户资金结束***************/
         //平台收入
 //        $platform_in = bcsub($income, bcadd($user_in,$agent_in,3),3);
 
