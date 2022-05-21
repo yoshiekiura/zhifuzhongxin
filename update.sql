@@ -54,3 +54,16 @@ CREATE TABLE `cm_pay_center_bill` (
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='支付中心用户流水账单';
 
 alter table cm_pay_center_user add column `money` float(10,2) NOT NULL DEFAULT '0.00' COMMENT '用户余额';
+
+CREATE TABLE `cm_pay_center_bill` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `uid` int(11) NOT NULL COMMENT '支付中心用户ID',
+  `jl_class` int(11) NOT NULL COMMENT '流水类别：1渠道收益2商户收益3代理收益',
+  `info` varchar(225) NOT NULL COMMENT '说明',
+  `jc_class` varchar(225) NOT NULL COMMENT '分+ 或-',
+  `pre_amount` decimal(11,3) NOT NULL DEFAULT '0.000' COMMENT '变化前',
+  `last_amount` decimal(11,3) NOT NULL DEFAULT '0.000' COMMENT '变化后',
+  `change_amount` decimal(11,3) NOT NULL DEFAULT '0.000' COMMENT '变动金额',
+  `create_time` int(11) NOT NULL COMMENT '添加时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='支付中心用户流水账单';
