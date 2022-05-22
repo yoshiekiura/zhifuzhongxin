@@ -1,0 +1,1873 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>支付中心-在线文档</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="__" media="all">
+    <link rel="stylesheet" href="__STATIC__/layui/css/layui.css">
+    <link rel="stylesheet" href="/layuiadmin/style/admin.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin//style//template.css" media="all">
+    <link rel="stylesheet" href="/css/site.css" media="all">
+
+    <link id="layuicss-layer" rel="stylesheet"
+          href="http://154.89.11.240:8888/layuiadmin/layui/css/modules/layer/default/layer.css?v=3.1.1" media="all">
+</head>
+<body layadmin-themealias="default">
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief" overflow="">
+                <ul class="layui-tab-title">
+<!--                    <li class="layui-this">通道类型</li>-->
+                    <li class="layui-this">签名规则</li>
+                    <li>统一下单</li>
+                    <li>异步通知</li>
+                    <li>订单查询</li>
+<!--                    <li>提现申请</li>-->
+<!--                    <li>提现查询</li>-->
+<!--                    <li>余额查询</li>-->
+<!--                    <li>文档下载</li>-->
+                    <span class="layui-unselect layui-tab-bar" lay-stope="tabmore"><i lay-stope="tabmore"
+                                                                                      class="layui-icon"></i></span>
+                </ul>
+                <div class="layui-tab-content">
+<!--                    <div class="layui-tab-item">-->
+<!--                        <div class="layui-row layui-col-space15">-->
+<!--                            <div class="layui-col-lg3">-->
+<!--                                <div class="layui-card">-->
+<!--                                    <div class="layui-card-header" style="background-color:#f2f2f2">通道编码列表</div>-->
+<!--                                    <div class="layui-card-body">-->
+
+<!--                                        <table class="layui-table">-->
+<!--                                            <colgroup>-->
+<!--                                                <col width="120">-->
+<!--                                                <col>-->
+<!--                                            </colgroup>-->
+<!--                                            <tbody>-->
+<!--                                            <tr>-->
+<!--                                                <td style="font-weight:bold">通道编码</td>-->
+<!--                                                <td style="font-weight:bold">说明</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>0</td>-->
+<!--                                                <td>12313</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>1</td>-->
+<!--                                                <td>支付宝原生不抗投</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>2</td>-->
+<!--                                                <td>微信原生不抗投</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>100</td>-->
+<!--                                                <td>微信插件话费</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>101</td>-->
+<!--                                                <td>支付宝转账</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>102</td>-->
+<!--                                                <td>支付宝直付通</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>103</td>-->
+<!--                                                <td>微信小额天然气</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>104</td>-->
+<!--                                                <td>微信油卡ios</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>105</td>-->
+<!--                                                <td>微信小额H5(不抗投)</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>111</td>-->
+<!--                                                <td>钉钉红包</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>132</td>-->
+<!--                                                <td>手机网站</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>201</td>-->
+<!--                                                <td>淘宝零钱</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>202</td>-->
+<!--                                                <td>支付宝点卡</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>203</td>-->
+<!--                                                <td>零花钱</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>204</td>-->
+<!--                                                <td>手表码</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>300</td>-->
+<!--                                                <td>支付宝双端新中油</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>306</td>-->
+<!--                                                <td>微信双端油卡</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>307</td>-->
+<!--                                                <td>支付宝油卡</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>308</td>-->
+<!--                                                <td>微信双端油卡</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>309</td>-->
+<!--                                                <td>微信油卡</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>311</td>-->
+<!--                                                <td>手机纯原生</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>323</td>-->
+<!--                                                <td>支付宝萌推</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>333</td>-->
+<!--                                                <td>微信手机号转账</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>360</td>-->
+<!--                                                <td>石化</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>361</td>-->
+<!--                                                <td>云闪付中油</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>400</td>-->
+<!--                                                <td>支付宝天猫卡密h5</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>401</td>-->
+<!--                                                <td>网关</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>411</td>-->
+<!--                                                <td>超级微信电费</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>444</td>-->
+<!--                                                <td>微信原生</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>500</td>-->
+<!--                                                <td>银联快捷</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>501</td>-->
+<!--                                                <td>云闪付扫码</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>502</td>-->
+<!--                                                <td>支转卡</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>503</td>-->
+<!--                                                <td>卡转卡</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>504</td>-->
+<!--                                                <td>卡转卡小额</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>505</td>-->
+<!--                                                <td>505支付宝游戏H5</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>506</td>-->
+<!--                                                <td>云闪付电费</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>507</td>-->
+<!--                                                <td>微信财付通</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>508</td>-->
+<!--                                                <td>支付宝财付通</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>509</td>-->
+<!--                                                <td>微信扫码财付通</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>554</td>-->
+<!--                                                <td>卡转卡不抗投</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>555</td>-->
+<!--                                                <td>网银转卡</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>556</td>-->
+<!--                                                <td>卡转卡抗投</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>600</td>-->
+<!--                                                <td>支付宝拼多多</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>601</td>-->
+<!--                                                <td>闲鱼SDK</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>602</td>-->
+<!--                                                <td>闲鱼H5</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>603</td>-->
+<!--                                                <td>支付宝电信慢充</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>604</td>-->
+<!--                                                <td>支付宝旗舰慢充</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>605</td>-->
+<!--                                                <td>支付宝苏宁慢充</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>606</td>-->
+<!--                                                <td>微信苏宁慢充</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>607</td>-->
+<!--                                                <td>支付宝极速核销</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>608</td>-->
+<!--                                                <td>支付宝速收款</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>609</td>-->
+<!--                                                <td>支付宝云缴费</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>666</td>-->
+<!--                                                <td>有赞原生</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>701</td>-->
+<!--                                                <td>支付宝天然气ios</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>702</td>-->
+<!--                                                <td>微信天然气ios</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>705</td>-->
+<!--                                                <td>微信小额天然气ios</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>745</td>-->
+<!--                                                <td>现金红包</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>777</td>-->
+<!--                                                <td>微信小程序</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>778</td>-->
+<!--                                                <td>微信小额</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>801</td>-->
+<!--                                                <td>微信话费</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>802</td>-->
+<!--                                                <td>电信iOS单端</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>803</td>-->
+<!--                                                <td>微信小额</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>805</td>-->
+<!--                                                <td>微信超级话费扫码</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>806</td>-->
+<!--                                                <td>超级微信慢充</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>807</td>-->
+<!--                                                <td>微信红包</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>808</td>-->
+<!--                                                <td>微信公众原生</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>809</td>-->
+<!--                                                <td>支付宝慢充</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>810</td>-->
+<!--                                                <td>微信慢充</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>820</td>-->
+<!--                                                <td>微信直播</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>821</td>-->
+<!--                                                <td>微信YY</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>822</td>-->
+<!--                                                <td>支付宝YY</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>823</td>-->
+<!--                                                <td>支付宝小额原生</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>824</td>-->
+<!--                                                <td>支付宝医疗码</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>825</td>-->
+<!--                                                <td>微信网易</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>826</td>-->
+<!--                                                <td>微信大额抖音</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>827</td>-->
+<!--                                                <td>微信支付宝双开抖音币</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>828</td>-->
+<!--                                                <td>支付宝众鸟原生</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>829</td>-->
+<!--                                                <td>微信抖音原生</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>830</td>-->
+<!--                                                <td>支付宝抖音原生</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>831</td>-->
+<!--                                                <td>微信游戏</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>832</td>-->
+<!--                                                <td>支付宝快手</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>833</td>-->
+<!--                                                <td>微信纯原生H5</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>834</td>-->
+<!--                                                <td>微信京东商城</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>840</td>-->
+<!--                                                <td>支付宝虎牙直播</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>845</td>-->
+<!--                                                <td>微信双端旗舰</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>888</td>-->
+<!--                                                <td>美金通道</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>902</td>-->
+<!--                                                <td>支付宝AA</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>903</td>-->
+<!--                                                <td>支付宝IOS专属</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>904</td>-->
+<!--                                                <td>淘宝现金红包</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>905</td>-->
+<!--                                                <td>支付宝亲情卡</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>906</td>-->
+<!--                                                <td>支付宝H5</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>907</td>-->
+<!--                                                <td>支付宝话费</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>908</td>-->
+<!--                                                <td>支付宝内层原生</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>909</td>-->
+<!--                                                <td>支付宝原生</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>910</td>-->
+<!--                                                <td>蜂鸟</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>911</td>-->
+<!--                                                <td>支付宝原生</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>912</td>-->
+<!--                                                <td>支付宝原生H5</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>913</td>-->
+<!--                                                <td>支付宝话费SDK</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>914</td>-->
+<!--                                                <td>微信口令红包</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>915</td>-->
+<!--                                                <td>微信企业红包</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>916</td>-->
+<!--                                                <td>口令红包</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>917</td>-->
+<!--                                                <td>微信慢充</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>918</td>-->
+<!--                                                <td>支付宝慢充</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>919</td>-->
+<!--                                                <td>微信原生</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>920</td>-->
+<!--                                                <td>支付宝原生2</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>921</td>-->
+<!--                                                <td>支付宝商城</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>922</td>-->
+<!--                                                <td>支付宝双端纯原生</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>923</td>-->
+<!--                                                <td>腾讯综合游戏</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>924</td>-->
+<!--                                                <td>支付宝固额</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>925</td>-->
+<!--                                                <td>支付宝阿里巴巴</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>931</td>-->
+<!--                                                <td>支付宝石化原生</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>933</td>-->
+<!--                                                <td>微信复制话费</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>943</td>-->
+<!--                                                <td>默往扫码</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>944</td>-->
+<!--                                                <td>微信群红包</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>945</td>-->
+<!--                                                <td>QQ群红包</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>946</td>-->
+<!--                                                <td>微信企业红包</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>947</td>-->
+<!--                                                <td>支付宝电费</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>948</td>-->
+<!--                                                <td>微信电费</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>949</td>-->
+<!--                                                <td>微信微店</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>950</td>-->
+<!--                                                <td>支付宝双端电费</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>951</td>-->
+<!--                                                <td>微信双端电费</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>955</td>-->
+<!--                                                <td>淘宝小黑群</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>977</td>-->
+<!--                                                <td>原生聚合扫码</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>991</td>-->
+<!--                                                <td>支付宝小荷包</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>992</td>-->
+<!--                                                <td>支付宝个码H5</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>993</td>-->
+<!--                                                <td>支付宝小荷包H5</td>-->
+<!--                                            </tr>-->
+<!--                                            <tr>-->
+<!--                                                <td>999</td>-->
+<!--                                                <td>有赞原生</td>-->
+<!--                                            </tr>-->
+<!--                                            </tbody>-->
+<!--                                        </table>-->
+
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                    <div class="layui-tab-item layui-show">
+                        <blockquote class="layui-elem-quote">
+                            签名算法<br><br>
+                            第一步，设所有发送或者接收到的数据为集合M，将集合M内<span style="color: red">非空参数值</span>的参数按照参数名ASCII码从小到大排序（字典序），使用URL键值对的格式（即key1=value1&amp;key2=value2…）拼接成字符串stringA。<br><br>
+                            特别注意以下重要规则：<br><br>
+                            ◆ 参数名ASCII码从小到大排序（字典序）；<br>
+                            ◆ <span style="color:#ff0000">如果参数的值为空不参与签名；</span><br>
+                            ◆ 参数名区分大小写；<br>
+                            ◆ 商户传送的sign参数不参与签名<br>
+<!--                            ◆ <span style="color:#ff0000">接口可能增加字段，验证签名时必须支持增加的扩展字段</span><br>-->
+                            <br>
+                            第二步，在stringA最后拼接上key得到stringSignTemp字符串，并对stringSignTemp进行MD5运算，得到sign值。<br><br>
+                            举例：<br>
+                            假设传送的参数如下：<br>
+                            <blockquote class="layui-elem-quote layui-quote-nm">
+                                appid： wxd930ea5d5a258f4f<br>
+                                mch_id： 10000100<br>
+                                device_info： 1000<br>
+                                body： test<br>
+                                nonce_str： ibuaiVcKdpRxkhJA<br>
+                            </blockquote>
+                            第一步：对参数按照key=value的格式，并按照参数名ASCII字典序排序如下：<br>
+                            <blockquote class="layui-elem-quote layui-quote-nm">
+                                stringA="appid=wxd930ea5d5a258f4f&amp;body=test&amp;device_info=1000&amp;mch_id=10000100&amp;nonce_str=ibuaiVcKdpRxkhJA";
+                            </blockquote>
+                            第二步：拼接API密钥：<br>
+                            <blockquote class="layui-elem-quote layui-quote-nm">
+                                stringSignTemp=stringA+key //注：key为商户平台设置的密钥key
+                            </blockquote>
+                        </blockquote>
+                    </div>
+                    <div class="layui-tab-item">
+                        <blockquote class="layui-elem-quote">
+                            该链接是通过【统一下单API】中提交的参数notify_url设置，如果链接无法访问，商户将无法接收到通知。<br><br>
+                            通知url必须为直接可访问的url，不能携带参数。示例：notify_url：“https://pay.demo.com/pay.html”<br><br>
+                            该通知以POST方式请求，编码：UTF8，JSON格式数据流<br><br>
+                            商户接收到通知后，返回“SUCCESS”字符串，平台将不再通知(SUCCESS 使用大写字母)；如果没有反馈，平台将在10分钟内，通知3次，之后将不再主动发起通知<br><br>
+                            <span style="color: red">回调IP白名单：154.89.11.241,154.89.11.240</span>
+                        </blockquote>
+
+                        <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+                            <legend>参数说明</legend>
+                        </fieldset>
+                        <div class="layui-tab">
+                            <ul class="layui-tab-title">
+                                <li class="layui-this">参数说明</li>
+                                <li>POST内容示例</li>
+                            </ul>
+                            <div class="layui-tab-content">
+                                <div class="layui-tab-item layui-show">
+                                    <table class="layui-table">
+                                        <colgroup>
+                                            <col width="160">
+                                            <col width="100">
+                                            <col width="120">
+                                            <col width="120">
+                                            <col>
+                                            <col>
+                                        </colgroup>
+                                        <tbody>
+                                        <tr>
+                                            <td style="font-weight:bold">参数</td>
+                                            <td style="font-weight:bold">类型</td>
+                                            <td style="font-weight:bold">是否必填</td>
+                                            <td style="font-weight:bold">最大长度</td>
+                                            <td style="font-weight:bold">描述</td>
+                                            <td style="font-weight:bold">示例值</td>
+                                        </tr>
+                                        <tr>
+                                            <td>mch_id</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>10</td>
+                                            <td>商户号</td>
+                                            <td>100123</td>
+                                        </tr>
+                                        <tr>
+                                            <td>trade_no</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>32</td>
+                                            <td>平台订单号</td>
+                                            <td>20150320010101001</td>
+                                        </tr>
+                                        <tr>
+                                            <td>out_trade_no</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>32</td>
+                                            <td>商户订单号</td>
+                                            <td>20150320010101001</td>
+                                        </tr>
+                                        <tr>
+                                            <td>original_trade_no</td>
+                                            <td>string</td>
+                                            <td>否</td>
+                                            <td>32</td>
+                                            <td>原始订单号：建议保存，可作为异常凭证</td>
+                                            <td>20150320010101001</td>
+                                        </tr>
+                                        <tr>
+                                            <td>money</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>10</td>
+                                            <td>订单金额，单位为元，精确到小数点后两位</td>
+                                            <td>1000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>notify_time</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>19</td>
+                                            <td>发送请求的时间，格式"yyyy-MM-dd HH:mm:ss"</td>
+                                            <td>2014-07-24 03:07:50</td>
+                                        </tr>
+                                        <tr>
+                                            <td>subject</td>
+                                            <td>string</td>
+                                            <td>否</td>
+                                            <td>-</td>
+                                            <td>标题</td>
+                                            <td>Iphone6 16G</td>
+                                        </tr>
+                                        <tr>
+                                            <td>body</td>
+                                            <td>string</td>
+                                            <td>否</td>
+                                            <td>2000</td>
+                                            <td>描述</td>
+                                            <td>XIUSDF8239842KJ</td>
+                                        </tr>
+                                        <tr>
+                                            <td>status</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>-</td>
+                                            <td>状态</td>
+                                            <td>订单状态：0=失败，1=待支付，2=支付成功</td>
+                                        </tr>
+                                        <tr>
+                                            <td>sign</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>19</td>
+                                            <td>签名（详见签名规则）</td>
+                                            <td>8DIIUERIUOWIER987234JH2U34YS9</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <pre class="layui-code">{
+"mch_id": "1001",
+"trade_no": "20150320010101001",
+"out_trade_no": "201812250000201",
+"original_trade_no": "201812250000201",
+"money": "1000",
+"notify_time": "2014-07-24 03:07:50",
+"subject": "xxx",
+"body": "xxxxxxxx",
+"status": "2",
+"sign": "2983KDUIERKJDIUSDF"
+}
+                        </pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-tab-item">
+
+                        <blockquote class="layui-elem-quote">
+                            网关地址：http://154.89.11.240:8888/api/unifiedorder
+                            <br><br>
+                            注意要点：POST方式请求，编码：UTF8，JSON格式
+                        </blockquote>
+                        <div class="layui-tab">
+                            <ul class="layui-tab-title">
+                                <li class="layui-this">参数说明</li>
+                                <li>POST内容示例</li>
+                            </ul>
+                            <div class="layui-tab-content">
+                                <div class="layui-tab-item layui-show">
+                                    <table class="layui-table">
+                                        <colgroup>
+                                            <col width="160">
+                                            <col width="100">
+                                            <col width="120">
+                                            <col width="120">
+                                            <col>
+                                            <col>
+                                        </colgroup>
+                                        <tbody>
+                                        <tr>
+                                            <td style="font-weight:bold">参数</td>
+                                            <td style="font-weight:bold">类型</td>
+                                            <td style="font-weight:bold">是否必填</td>
+                                            <td style="font-weight:bold">最大长度</td>
+                                            <td style="font-weight:bold">描述</td>
+                                            <td style="font-weight:bold">示例值</td>
+                                        </tr>
+                                        <tr>
+                                            <td>mch_id</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>10</td>
+                                            <td>商户号</td>
+                                            <td>100123</td>
+                                        </tr>
+                                        <tr>
+                                            <td>pass_code</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>10</td>
+                                            <td>通道类型</td>
+                                            <td>901</td>
+                                        </tr>
+                                        <tr>
+                                            <td>subject</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>100</td>
+                                            <td>订单标题</td>
+                                            <td>Iphone6 16G</td>
+                                        </tr>
+                                        <tr>
+                                            <td>body</td>
+                                            <td>string</td>
+                                            <td>否</td>
+                                            <td>2000</td>
+                                            <td>订单描述</td>
+                                            <td>Iphone6 16G</td>
+                                        </tr>
+                                        <tr>
+                                            <td>out_trade_no</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>50</td>
+                                            <td>商户订单号</td>
+                                            <td>20150320010101001</td>
+                                        </tr>
+                                        <tr>
+                                            <td>amount</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>10</td>
+                                            <td>金额，单位为元，精确到小数点后两位</td>
+                                            <td>1000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>client_ip</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>30</td>
+                                            <td>客户IP地址</td>
+                                            <td>234.234.23.19</td>
+                                        </tr>
+                                        <tr>
+                                            <td>notify_url</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>500</td>
+                                            <td>异步通知地址，支付成功后将支付成功消息以POST请求发送给这个网址</td>
+                                            <td>http://www.demo.com/recieve_notice.html</td>
+                                        </tr>
+                                        <tr>
+                                            <td>return_url</td>
+                                            <td>string</td>
+                                            <td>否</td>
+                                            <td>500</td>
+                                            <td>用户支付成功后，我们会让用户浏览器自动跳转到这个网址</td>
+                                            <td>http://www.demo.com/success.html</td>
+                                        </tr>
+                                        <tr>
+                                            <td>sign</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>50</td>
+                                            <td>商户请求参数的签名串</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td>timestamp</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>19</td>
+                                            <td>发送请求的时间，格式"yyyy-MM-dd HH:mm:ss"</td>
+                                            <td>2014-07-24 03:07:50</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <pre class="layui-code">{
+"mch_id": "1001",
+"subject": "支付1000元",
+"body": "支付1000元",
+"out_trade_no": "201812250000201",
+"amount": "1000",
+"notify_url": "http://www.demo.com/recieve_notice.html",
+"return_url": "http://www.demo.com/success.html",
+"timestamp": "2014-07-24 03:07:50",
+"sign": "2983KDUIERKJDIUSDF"
+}
+                        </pre>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <blockquote class="layui-elem-quote">
+                            响应参数
+                            <br><br>
+                            编码：UTF8，JSON格式
+                        </blockquote>
+                        <div class="layui-tab">
+                            <ul class="layui-tab-title">
+                                <li class="layui-this">参数说明</li>
+                                <li>响应示例</li>
+                            </ul>
+                            <div class="layui-tab-content">
+                                <div class="layui-tab-item layui-show">
+                                    <table class="layui-table">
+                                        <colgroup>
+                                            <col width="160">
+                                            <col width="100">
+                                            <col width="120">
+                                            <col width="120">
+                                            <col>
+                                            <col>
+                                        </colgroup>
+                                        <tbody>
+                                        <tr>
+                                            <td style="font-weight:bold">参数</td>
+                                            <td style="font-weight:bold">类型</td>
+                                            <td style="font-weight:bold">是否必填</td>
+                                            <td style="font-weight:bold">最大长度</td>
+                                            <td style="font-weight:bold">描述</td>
+                                            <td style="font-weight:bold">示例值</td>
+                                        </tr>
+                                        <tr>
+                                            <td>code</td>
+                                            <td>int</td>
+                                            <td>是</td>
+                                            <td>-</td>
+                                            <td>网关返回码：0=成功，其他失败</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>msg</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>-</td>
+                                            <td>网关返回码描述</td>
+                                            <td>Business Failed</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight:bold">data</td>
+                                            <td colspan="5" style="font-weight:bold">以下是 data 数据说明</td>
+                                        </tr>
+                                        <tr>
+                                            <td>mch_id</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>50</td>
+                                            <td>商户编号</td>
+                                            <td>8003</td>
+                                        </tr>
+                                        <tr>
+                                            <td>trade_no</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>-</td>
+                                            <td>平台订单号</td>
+                                            <td>2015042321001004720</td>
+                                        </tr>
+                                        <tr>
+                                            <td>out_trade_no</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>50</td>
+                                            <td>商户订单号</td>
+                                            <td>20150320010101001</td>
+                                        </tr>
+                                        <tr>
+                                            <td>original_trade_no</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>-</td>
+                                            <td>原始订单号</td>
+                                            <td>20150423212342342420</td>
+                                        </tr>
+                                        <tr>
+                                            <td>money</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>-</td>
+                                            <td>订单金额</td>
+                                            <td>1000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>pay_url</td>
+                                            <td>string</td>
+                                            <td>否</td>
+                                            <td>-</td>
+                                            <td>支付地址。商户需要展示该地址给付款用户</td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>qrcode_url</td>
+                                            <td>string</td>
+                                            <td>否</td>
+                                            <td>-</td>
+                                            <td>付款二维码图片地址</td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>qrcode_content</td>
+                                            <td>string</td>
+                                            <td>否</td>
+                                            <td>-</td>
+                                            <td>付款二维码图片内容</td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>expired_time</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>-</td>
+                                            <td>订单有效截止时间yyyy-MM-dd HH:mm:ss</td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>sdk_content</td>
+                                            <td>string</td>
+                                            <td>否</td>
+                                            <td>-</td>
+                                            <td>SDK内容(例如支付宝现金红包需要)</td>
+                                            <td>-</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <pre class="layui-code">{
+"code": 0,
+"msg": "success",
+"data": {
+        "mch_id": "2521245",
+        "trade_no": "20181225034343535",
+        "out_trade_no": "201812250000201",
+        "original_trade_no": "20181228349287349287349",
+        "money": "1000",
+        "pay_url": "https://www.xxxx.com/payment.html?p=DgLlHVQqblKNh242vXDGU/14wY72CQlB6Kjq7+kcTaWTrRBr/7AwjoPawz9fqO1v6yw&amp;t=alipay",
+        "qrcode_url": "https://www.xxxx.com/upload/qrcode/d58ecb9bf1734967a7e124f6605d59cfac.jpg",
+        "qrcode_content": "https://www.xxxx.com//pay/v1/go_pay?p=DgLlHVQqblKNh75643vXDGU/14wY72CQlB6Kjq7+kcTaWTrRBr/7AwjoPawz9fqO1v6yw&amp;t=alipay",
+        "expired_time": "2019-04-11 23:00:46"
+    }
+}
+                        </pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-tab-item">
+                        <blockquote class="layui-elem-quote">
+                            网关地址：http://154.89.11.240:8888/api/query
+                            <br><br>
+                            注意要点：POST方式请求，编码：UTF8，JSON格式
+                        </blockquote>
+                        <div class="layui-tab">
+                            <ul class="layui-tab-title">
+                                <li class="layui-this">参数说明</li>
+                                <li>POST内容示例</li>
+                            </ul>
+                            <div class="layui-tab-content">
+                                <div class="layui-tab-item layui-show">
+                                    <table class="layui-table">
+                                        <colgroup>
+                                            <col width="160">
+                                            <col width="100">
+                                            <col width="120">
+                                            <col width="120">
+                                            <col>
+                                            <col>
+                                        </colgroup>
+                                        <tbody>
+                                        <tr>
+                                            <td style="font-weight:bold">参数</td>
+                                            <td style="font-weight:bold">类型</td>
+                                            <td style="font-weight:bold">是否必填</td>
+                                            <td style="font-weight:bold">最大长度</td>
+                                            <td style="font-weight:bold">描述</td>
+                                            <td style="font-weight:bold">示例值</td>
+                                        </tr>
+                                        <tr>
+                                            <td>mch_id</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>10</td>
+                                            <td>商户号</td>
+                                            <td>100123</td>
+                                        </tr>
+                                        <tr>
+                                            <td>out_trade_no</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>50</td>
+                                            <td>商户订单号</td>
+                                            <td>20150320010101001</td>
+                                        </tr>
+                                        <tr>
+                                            <td>timestamp</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>19</td>
+                                            <td>当前时间，格式"yyyy-MM-dd HH:mm:ss"</td>
+                                            <td>2014-07-24 03:07:50</td>
+                                        </tr>
+                                        <tr>
+                                            <td>sign</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>50</td>
+                                            <td>商户请求参数的签名串</td>
+                                            <td></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <pre class="layui-code">{
+"mch_id": "1001",
+"out_trade_no": "201812250000201",
+"timestamp": "2014-07-24 03:07:50",
+"sign": "2983KDUIERKJDIUSDF"
+}
+            </pre>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <blockquote class="layui-elem-quote">
+                            响应参数
+                            <br><br>
+                            编码：UTF8，JSON格式
+                        </blockquote>
+                        <div class="layui-tab">
+                            <ul class="layui-tab-title">
+                                <li class="layui-this">参数说明</li>
+                                <li>响应示例</li>
+                            </ul>
+                            <div class="layui-tab-content">
+                                <div class="layui-tab-item layui-show">
+                                    <table class="layui-table">
+                                        <colgroup>
+                                            <col width="160">
+                                            <col width="100">
+                                            <col width="120">
+                                            <col width="120">
+                                            <col>
+                                            <col>
+                                        </colgroup>
+                                        <tbody>
+                                        <tr>
+                                            <td style="font-weight:bold">参数</td>
+                                            <td style="font-weight:bold">类型</td>
+                                            <td style="font-weight:bold">是否必填</td>
+                                            <td style="font-weight:bold">最大长度</td>
+                                            <td style="font-weight:bold">描述</td>
+                                            <td style="font-weight:bold">示例值</td>
+                                        </tr>
+                                        <tr>
+                                            <td>code</td>
+                                            <td>int</td>
+                                            <td>是</td>
+                                            <td>-</td>
+                                            <td>网关返回码：0=成功，其他失败</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>msg</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>-</td>
+                                            <td>网关返回码描述</td>
+                                            <td>Business Failed</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight:bold">data</td>
+                                            <td colspan="5" style="font-weight:bold">以下是 data 数据说明</td>
+                                        </tr>
+                                        <tr>
+                                            <td>passage_code</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>50</td>
+                                            <td>通道类型</td>
+                                            <td>801</td>
+                                        </tr>
+                                        <tr>
+                                            <td>money</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>-</td>
+                                            <td>订单金额</td>
+                                            <td>1000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>trade_no</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>-</td>
+                                            <td>平台订单号</td>
+                                            <td>2015042321001004720</td>
+                                        </tr>
+                                        <tr>
+                                            <td>out_trade_no</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>50</td>
+                                            <td>商户订单号</td>
+                                            <td>20150320010101001</td>
+                                        </tr>
+                                        <tr>
+                                            <td>original_trade_no</td>
+                                            <td>string</td>
+                                            <td>否</td>
+                                            <td>-</td>
+                                            <td>原始订单号</td>
+                                            <td>20150423212342342420</td>
+                                        </tr>
+                                        <tr>
+                                            <td>notify_succ</td>
+                                            <td>int</td>
+                                            <td>是</td>
+                                            <td>-</td>
+                                            <td>是否通知成功</td>
+                                            <td>1=成功，0=未成功</td>
+                                        </tr>
+                                        <tr>
+                                            <td>expired_time</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>-</td>
+                                            <td>订单有效截止时间yyyy-MM-dd HH:mm:ss</td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>status</td>
+                                            <td>int</td>
+                                            <td>是</td>
+                                            <td>-</td>
+                                            <td>订单状态：0=失败，1=待支付，2=支付成功</td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>notify_url</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>-</td>
+                                            <td>通知地址</td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>pay_url</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>-</td>
+                                            <td>支付地址。商户需要展示该地址给付款用户</td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>qrcode_url</td>
+                                            <td>string</td>
+                                            <td>否</td>
+                                            <td>-</td>
+                                            <td>付款二维码图片地址</td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>qrcode_content</td>
+                                            <td>string</td>
+                                            <td>否</td>
+                                            <td>-</td>
+                                            <td>付款二维码图片内容</td>
+                                            <td>-</td>
+                                        </tr>
+                                        <tr>
+                                            <td>subject</td>
+                                            <td>string</td>
+                                            <td>否</td>
+                                            <td>-</td>
+                                            <td>标题</td>
+                                            <td>Iphone6 16G</td>
+                                        </tr>
+                                        <tr>
+                                            <td>body</td>
+                                            <td>string</td>
+                                            <td>否</td>
+                                            <td>2000</td>
+                                            <td>描述</td>
+                                            <td>XIUSDF8239842KJ</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <pre class="layui-code">{
+"code": 0,
+"msg": "success",
+"data": {
+        "passage_code": "801",
+        "money": "1000",
+        "trade_no": "2018122523423401",
+        "out_trade_no": "201812250000201",
+        "original_trade_no": "20181228349287349287349",
+        "pay_succ": 1,
+        "status":0,
+        "notify_succ": 0,
+        "expired_time": "2019-04-11 23:00:46",
+        "notify_url": "https://www.xxxx.com/notice.html",
+        "pay_url": "https://www.xxxx.com/payment.html?p=DgLlHVQqblKNh242vXDGU/14wY72CQlB6Kjq7+kcTaWTrRBr/7AwjoPawz9fqO1v6yw&amp;t=alipay",
+        "qrcode_url": "https://www.xxxx.com/upload/qrcode/d58ecb9bf1734967a7e124f6605d59cfac.jpg",
+        "qrcode_content": "https://www.xxxx.com//pay/v1/go_pay?p=DgLlHVQqblKNh75643vXDGU/14wY72CQlB6Kjq7+kcTaWTrRBr/7AwjoPawz9fqO1v6yw&amp;t=alipay",
+        "subject": "xxxx",
+        "body": "xxxxxx",
+    }
+}
+                        </pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-tab-item">
+                        <blockquote class="layui-elem-quote">
+                            网关地址：http://154.89.11.240:8888/api/mchcashout
+                            <br><br>
+                            注意要点：POST方式请求，编码：UTF8，JSON格式
+                        </blockquote>
+                        <div class="layui-tab">
+                            <ul class="layui-tab-title">
+                                <li class="layui-this">参数说明</li>
+                                <li>POST内容示例</li>
+                            </ul>
+                            <div class="layui-tab-content">
+                                <div class="layui-tab-item layui-show">
+                                    <table class="layui-table">
+                                        <colgroup>
+                                            <col width="160">
+                                            <col width="100">
+                                            <col width="120">
+                                            <col width="120">
+                                            <col>
+                                            <col>
+                                        </colgroup>
+                                        <tbody>
+                                        <tr>
+                                            <td style="font-weight:bold">参数</td>
+                                            <td style="font-weight:bold">类型</td>
+                                            <td style="font-weight:bold">是否必填</td>
+                                            <td style="font-weight:bold">最大长度</td>
+                                            <td style="font-weight:bold">描述</td>
+                                            <td style="font-weight:bold">示例值</td>
+                                        </tr>
+                                        <tr>
+                                            <td>mch_id</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>10</td>
+                                            <td>商户号</td>
+                                            <td>100123</td>
+                                        </tr>
+                                        <tr>
+                                            <td>money</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>10</td>
+                                            <td>提现金额：元</td>
+                                            <td>30000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>bank_name</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>30</td>
+                                            <td>银行名称</td>
+                                            <td>中国XX银行</td>
+                                        </tr>
+                                        <tr>
+                                            <td>acct_name</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>30</td>
+                                            <td>账户名</td>
+                                            <td>老王</td>
+                                        </tr>
+                                        <tr>
+                                            <td>acct_no</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>30</td>
+                                            <td>卡号</td>
+                                            <td>622759373658</td>
+                                        </tr>
+                                        <tr>
+                                            <td>open_bank_name</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>50</td>
+                                            <td>开户行名称</td>
+                                            <td>XX分行</td>
+                                        </tr>
+                                        <tr>
+                                            <td>timestamp</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>19</td>
+                                            <td>当前时间，格式"yyyy-MM-dd HH:mm:ss"</td>
+                                            <td>2014-07-24 03:07:50</td>
+                                        </tr>
+                                        <tr>
+                                            <td>sign</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>50</td>
+                                            <td>商户请求参数的签名串</td>
+                                            <td></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="layui-tab-item">
+                        <pre class="layui-code">{
+"mch_id": "1001",
+"money": "30000",
+"bank_name": "中国XX银行",
+"acct_name": "老王",
+"acct_no": "622759373658",
+"open_bank_name": "XX分行",
+"timestamp": "2014-07-24 03:07:50",
+"sign": "2983KDUIERKJDIUSDF"
+}
+            </pre>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <blockquote class="layui-elem-quote">
+                            响应参数
+                            <br><br>
+                            编码：UTF8，JSON格式
+                        </blockquote>
+                        <div class="layui-tab">
+                            <ul class="layui-tab-title">
+                                <li class="layui-this">参数说明</li>
+                                <li>响应示例</li>
+                            </ul>
+                            <div class="layui-tab-content">
+                                <div class="layui-tab-item layui-show">
+                                    <table class="layui-table">
+                                        <colgroup>
+                                            <col width="160">
+                                            <col width="100">
+                                            <col width="120">
+                                            <col width="120">
+                                            <col>
+                                            <col>
+                                        </colgroup>
+                                        <tbody>
+                                        <tr>
+                                            <td style="font-weight:bold">参数</td>
+                                            <td style="font-weight:bold">类型</td>
+                                            <td style="font-weight:bold">是否必填</td>
+                                            <td style="font-weight:bold">最大长度</td>
+                                            <td style="font-weight:bold">描述</td>
+                                            <td style="font-weight:bold">示例值</td>
+                                        </tr>
+                                        <tr>
+                                            <td>code</td>
+                                            <td>int</td>
+                                            <td>是</td>
+                                            <td>-</td>
+                                            <td>网关返回码：0=成功，其他失败</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>msg</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>-</td>
+                                            <td>网关返回码描述</td>
+                                            <td>Business Failed</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight:bold">data</td>
+                                            <td colspan="5" style="font-weight:bold">以下是 data 数据说明</td>
+                                        </tr>
+                                        <tr>
+                                            <td>id</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>-</td>
+                                            <td>提现ID</td>
+                                            <td>13241</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="layui-tab-item">
+                        <pre class="layui-code">{
+"code": 0,
+"msg": "ok",
+"data":{ "id" = "13214" }
+}
+            </pre>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="layui-tab-item">
+                        <blockquote class="layui-elem-quote">
+                            网关地址：http://x.x.x./api/mchcashquery
+                            <br><br>
+                            注意要点：POST方式请求，编码：UTF8，JSON格式
+                        </blockquote>
+                        <div class="layui-tab">
+                            <ul class="layui-tab-title">
+                                <li class="layui-this">参数说明</li>
+                                <li>POST内容示例</li>
+                            </ul>
+                            <div class="layui-tab-content">
+                                <div class="layui-tab-item layui-show">
+                                    <table class="layui-table">
+                                        <colgroup>
+                                            <col width="160">
+                                            <col width="100">
+                                            <col width="120">
+                                            <col width="120">
+                                            <col>
+                                            <col>
+                                        </colgroup>
+                                        <tbody>
+                                        <tr>
+                                            <td style="font-weight:bold">参数</td>
+                                            <td style="font-weight:bold">类型</td>
+                                            <td style="font-weight:bold">是否必填</td>
+                                            <td style="font-weight:bold">最大长度</td>
+                                            <td style="font-weight:bold">描述</td>
+                                            <td style="font-weight:bold">示例值</td>
+                                        </tr>
+                                        <tr>
+                                            <td>mch_id</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>10</td>
+                                            <td>商户号</td>
+                                            <td>100123</td>
+                                        </tr>
+                                        <tr>
+                                            <td>cash_id</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>-</td>
+                                            <td>提现唯一标识</td>
+                                            <td>2342234</td>
+                                        </tr>
+                                        <tr>
+                                            <td>timestamp</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>19</td>
+                                            <td>当前时间，格式"yyyy-MM-dd HH:mm:ss"</td>
+                                            <td>2014-07-24 03:07:50</td>
+                                        </tr>
+                                        <tr>
+                                            <td>sign</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>50</td>
+                                            <td>商户请求参数的签名串</td>
+                                            <td></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <pre class="layui-code">{
+"mch_id": "1001",
+"cash_id": "30013",
+"timestamp": "2014-07-24 03:07:50",
+"sign": "2983KDUIERKJDIUSDF"
+}
+            </pre>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <blockquote class="layui-elem-quote">
+                            响应参数
+                            <br><br>
+                            编码：UTF8，JSON格式
+                        </blockquote>
+                        <div class="layui-tab">
+                            <ul class="layui-tab-title">
+                                <li class="layui-this">参数说明</li>
+                                <li>响应示例</li>
+                            </ul>
+                            <div class="layui-tab-content">
+                                <div class="layui-tab-item layui-show">
+                                    <table class="layui-table">
+                                        <colgroup>
+                                            <col width="160">
+                                            <col width="100">
+                                            <col width="120">
+                                            <col width="120">
+                                            <col>
+                                            <col>
+                                        </colgroup>
+                                        <tbody>
+                                        <tr>
+                                            <td style="font-weight:bold">参数</td>
+                                            <td style="font-weight:bold">类型</td>
+                                            <td style="font-weight:bold">是否必填</td>
+                                            <td style="font-weight:bold">最大长度</td>
+                                            <td style="font-weight:bold">描述</td>
+                                            <td style="font-weight:bold">示例值</td>
+                                        </tr>
+                                        <tr>
+                                            <td>code</td>
+                                            <td>int</td>
+                                            <td>是</td>
+                                            <td>-</td>
+                                            <td>网关返回码：0=成功，其他失败</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>msg</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>-</td>
+                                            <td>网关返回码描述</td>
+                                            <td>Business Failed</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight:bold">data</td>
+                                            <td colspan="5" style="font-weight:bold">以下是 data 数据说明</td>
+                                        </tr>
+                                        <tr>
+                                            <td>cash_id</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>-</td>
+                                            <td>提现标识</td>
+                                            <td>13241</td>
+                                        </tr>
+                                        <tr>
+                                            <td>apply_time</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>-</td>
+                                            <td>申请时间</td>
+                                            <td>2020-01-01 01:00:00</td>
+                                        </tr>
+                                        <tr>
+                                            <td>state</td>
+                                            <td>int</td>
+                                            <td>是</td>
+                                            <td>-</td>
+                                            <td>状态</td>
+                                            <td>状态：1=待审，2=驳回，3=成功</td>
+                                        </tr>
+                                        <tr>
+                                            <td>money</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>-</td>
+                                            <td>提现金额</td>
+                                            <td>30000</td>
+                                        </tr>
+                                        <tr>
+                                            <td>cash_fee</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>-</td>
+                                            <td>提现手续费</td>
+                                            <td>5</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <pre class="layui-code">{
+"code": 0,
+"msg": "ok",
+"data":{
+    "cash_id" = "13214",
+    "apply_time" = "2020-01-01 01:00:00",
+    "state" = 1,
+    "money" = 30000,
+    "cash_fee" = 5
+}
+}
+            </pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-tab-item">
+
+                        <blockquote class="layui-elem-quote">
+                            网关地址：http://154.89.11.240:8888/api/balance
+                            <br><br>
+                            注意要点：POST方式请求，编码：UTF8，JSON格式
+                        </blockquote>
+                        <div class="layui-tab">
+                            <ul class="layui-tab-title">
+                                <li class="layui-this">参数说明</li>
+                                <li>POST内容示例</li>
+                            </ul>
+                            <div class="layui-tab-content">
+                                <div class="layui-tab-item layui-show">
+                                    <table class="layui-table">
+                                        <colgroup>
+                                            <col width="160">
+                                            <col width="100">
+                                            <col width="120">
+                                            <col width="120">
+                                            <col>
+                                            <col>
+                                        </colgroup>
+                                        <tbody>
+                                        <tr>
+                                            <td style="font-weight:bold">参数</td>
+                                            <td style="font-weight:bold">类型</td>
+                                            <td style="font-weight:bold">是否必填</td>
+                                            <td style="font-weight:bold">最大长度</td>
+                                            <td style="font-weight:bold">描述</td>
+                                            <td style="font-weight:bold">示例值</td>
+                                        </tr>
+                                        <tr>
+                                            <td>mch_id</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>10</td>
+                                            <td>商户号</td>
+                                            <td>100123</td>
+                                        </tr>
+                                        <tr>
+                                            <td>timestamp</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>19</td>
+                                            <td>当前时间，格式"yyyy-MM-dd HH:mm:ss"</td>
+                                            <td>2014-07-24 03:07:50</td>
+                                        </tr>
+                                        <tr>
+                                            <td>sign</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>50</td>
+                                            <td>商户请求参数的签名串</td>
+                                            <td></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <pre class="layui-code">{
+"mch_id": "1001",
+"timestamp": "2014-07-24 03:07:50",
+"sign": "2983KDUIERKJDIUSDF"
+}
+            </pre>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <blockquote class="layui-elem-quote">
+                            响应参数
+                            <br><br>
+                            编码：UTF8，JSON格式
+                        </blockquote>
+                        <div class="layui-tab">
+                            <ul class="layui-tab-title">
+                                <li class="layui-this">参数说明</li>
+                                <li>响应示例</li>
+                            </ul>
+                            <div class="layui-tab-content">
+                                <div class="layui-tab-item layui-show">
+                                    <table class="layui-table">
+                                        <colgroup>
+                                            <col width="160">
+                                            <col width="100">
+                                            <col width="120">
+                                            <col width="120">
+                                            <col>
+                                            <col>
+                                        </colgroup>
+                                        <tbody>
+                                        <tr>
+                                            <td style="font-weight:bold">参数</td>
+                                            <td style="font-weight:bold">类型</td>
+                                            <td style="font-weight:bold">是否必填</td>
+                                            <td style="font-weight:bold">最大长度</td>
+                                            <td style="font-weight:bold">描述</td>
+                                            <td style="font-weight:bold">示例值</td>
+                                        </tr>
+                                        <tr>
+                                            <td>code</td>
+                                            <td>int</td>
+                                            <td>是</td>
+                                            <td>-</td>
+                                            <td>网关返回码：0=成功，其他失败</td>
+                                            <td>0</td>
+                                        </tr>
+                                        <tr>
+                                            <td>msg</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>-</td>
+                                            <td>网关返回码描述</td>
+                                            <td>Business Failed</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight:bold">data</td>
+                                            <td colspan="5" style="font-weight:bold">以下是 data 数据说明</td>
+                                        </tr>
+                                        <tr>
+                                            <td>balance</td>
+                                            <td>string</td>
+                                            <td>是</td>
+                                            <td>-</td>
+                                            <td>余额</td>
+                                            <td>10000</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="layui-tab-item">
+                                    <pre class="layui-code">{
+                                "code": 0,
+                                "msg": "success",
+                                "data": {
+                                        "passage_code": "801",
+                                        "money": "1000",
+                                        "trade_no": "2018122523423401",
+                                        "out_trade_no": "201812250000201",
+                                        "original_trade_no": "20181228349287349287349",
+                                        "pay_succ": 1,
+                                        "status":0,
+                                        "notify_succ": 0,
+                                        "expired_time": "2019-04-11 23:00:46",
+                                        "notify_url": "https://www.xxxx.com/notice.html",
+                                        "pay_url": "https://www.xxxx.com/payment.html?p=DgLlHVQqblKNh242vXDGU/14wY72CQlB6Kjq7+kcTaWTrRBr/7AwjoPawz9fqO1v6yw&amp;t=alipay",
+                                        "qrcode_url": "https://www.xxxx.com/upload/qrcode/d58ecb9bf1734967a7e124f6605d59cfac.jpg",
+                                        "qrcode_content": "https://www.xxxx.com//pay/v1/go_pay?p=DgLlHVQqblKNh75643vXDGU/14wY72CQlB6Kjq7+kcTaWTrRBr/7AwjoPawz9fqO1v6yw&amp;t=alipay"
+                                    }
+                                }
+                        </pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-tab-item">
+                        <fieldset class="layui-elem-field site-demo-button" style="margin-top: 30px;">
+                            <legend>文档下载</legend>
+                            <div style="padding:10px">
+                                <button type="button"
+                                        onclick="javascript:window.open('http://www.yag07.cn/doc/sf_api.docx')"
+                                        class="layui-btn">API文档
+                                </button>
+                                <button type="button"
+                                        onclick="javascript:window.open('http://www.yag07.cn/doc/sf_php_demo.zip')"
+                                        class="layui-btn layui-btn-normal">PHP DEMO
+                                </button>
+                                <button type="button"
+                                        onclick="javascript:window.open('http://www.yag07.cn/doc/sf_help.pdf')"
+                                        class="layui-btn layui-btn-warm">使用帮助
+                                </button>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="__STATIC__/layui/layui.js"></script>
+
+<script>
+    layui.use('element', function () {
+    });
+</script>
+
+</body>
+</html>

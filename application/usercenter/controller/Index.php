@@ -11,4 +11,12 @@ class Index extends Base
         $this->assign('user_info', $this->user);
         return $this->fetch('index');
     }
+
+    /**
+     * 在线文档
+     */
+    public function apiDoc()
+    {
+        return $this->fetch();
+    }
 }

@@ -9,12 +9,16 @@
         <div class="col-xs-12 main text-center">
         <table class="table table-bordered">
           <tr>
-            <td class="active">商户号</td>
+            <td class="active"><strong>商户号</strong></td>
             <td class="">{$userinfo.uid}</td>
           </tr>
           <tr>
-            <td class="active">密钥</td>
+            <td class="active"><strong>密钥</strong> </td>
             <td class="">{$userinfo.key}</td>
+          </tr>
+          <tr>
+            <td class="active"><strong>在线文档</strong> </td>
+            <td class="active"><a href="{:url('usercenter/index/apiDoc')}" class="btn btn-xs btn-primary">进入</a></td>
           </tr>
         </table>
           <a href="{:url('list_merchant')}" class="btn btn-success" role="button">返回</a>
