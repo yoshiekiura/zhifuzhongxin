@@ -38,4 +38,12 @@ class Paycenteruser extends Base
         }
         return $this->fetch('pay_center_user/add_user');
     }
+
+    /**
+     * 个人中心
+     */
+    public function info()
+    {
+        return $this->fetch('pay_center_user/info');
+    }
 }
