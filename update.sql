@@ -69,3 +69,6 @@ CREATE TABLE `cm_pay_center_bill` (
 ) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='支付中心用户流水账单';
 
 alter table cm_pay_center_user add column `money` decimal(10,3) NOT NULL DEFAULT '0.000' COMMENT '用户余额';
+
+alter table cm_pay_center_user add column `is_info_public` tinyint(1) NOT NULL DEFAULT 0 COMMENT '公开信息 0否 1是';
+alter table cm_pay_center_user add column `avatar` varchar(255) NOT NULL DEFAULT '' COMMENT '头像';

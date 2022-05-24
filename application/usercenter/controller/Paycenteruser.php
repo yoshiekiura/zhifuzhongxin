@@ -44,6 +44,23 @@ class Paycenteruser extends Base
      */
     public function info()
     {
+        if ($this->request->isPost()){
+            $params = $this->request->param();
+            $params['id'] = $this->user['id'];
+            $this->modelPayCenterUser->allowField(['is_info_public', 'avatar'])->isUpdate(true)->save($params);
+            $this->success('操作成功');
+        }
         return $this->fetch('pay_center_user/info');
     }
+
+    /**
+     * 商户用户头像图片
+     */
+    public function uploadAvatar()
+    {
+        if ($this->request->isPost()) {
+            $this->result($this->logicFile->fileUpload('file', 'avatar'));
+        }
+    }
+
 }
