@@ -1,3 +1,43 @@
 {extend name="../user-layout" /}
 {block name="content"}
 
+<div class="container-fluid">
+    {if condition = "$user_info.is_info_public"}
+    <div class="col-xs-12 col-sm-12 right" style="margin-top: 60px;">
+        <div class="panel panel-default">
+            <div class="panel-heading">资料展示</div>
+            <div class="panel-body">
+
+<!--                <div class="row">-->
+<!--                    <div class="col-xs-6 col-md-3">-->
+
+<!--                            <img src="{$user_info.avatar}" width="75" height="75" class="img-circle" alt="...">-->
+
+<!--                    </div>-->
+<!--                </div>-->
+
+                <p><strong>类型</strong>：
+                    {switch name="$user_info.user_type"}
+                    {case value='1'}渠道用户{/case}
+                    {case value='2'}商户用户{/case}
+                    {case value='3'}四方用户{/case}
+                    {case value='4'}代理用户{/case}
+                    {default/}
+                    {/switch}
+                </p>
+                <p><strong>公开频道</strong>：{$user_info.public_channel_link}</p>
+                <p><strong>飞机号</strong>：{$user_info.tg_principal_ids}</p>
+<!--                <p><strong>支付名称</strong>：</p>-->
+                <p><strong>创建时间</strong>：{$user_info.create_time}</p>
+                <!--<p>对接文档：<a target="_blank" href="#">查看在线文档</a></p>-->
+                <a href="{:url('usercenter/index/apiDoc')}"  class="btn btn-primary btn-submit-apiinfo btn-fw"  >在线文档</a>
+            </div>
+        </div>
+    </div>
+    {/if}
+</div>
+
+
+{/block}
+
+
