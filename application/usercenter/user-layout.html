@@ -118,7 +118,13 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-user"></i>&nbsp;欢迎您，{$user_info.username}</a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        {if condition="$user_info.avatar"}
+                        <img style="width: 25px;height: 25px;" src="{$user_info.avatar}" class="img-rounded image-responsive" alt="">
+                        {else/}
+                        <i class="glyphicon glyphicon-user"></i>
+                        {/if}
+                        &nbsp;欢迎您，{$user_info.username}</a>
                     <ul class="dropdown-menu">
 <!--                        <li><a href="{:url('index/User/blndGoogle')}">Google密钥</a></li>-->
                         <!--<li role="separator" class="divider"></li>-->

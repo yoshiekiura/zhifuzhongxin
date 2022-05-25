@@ -36,6 +36,7 @@ class MerchantsBinding extends Base
         }
         $map = [
             'status' => 1,
+            'user_type' => 1,
             'id' => ['<>', $this->user['id']]
         ];
         $users = $this->modelPayCenterUser->where($map)->select();
