@@ -107,6 +107,12 @@ class Merchants extends Base
             ->join('api ap', 'a.uid = ap.uid')
             ->field('a.*, ap.key')
             ->find();
+
+        //下面几个写死
+        $userinfo['pay_address']= 'http://97.74.83.73:81/api/pay/unifiedorder';
+        $userinfo['query_address'] = 'http://97.74.83.73:81/api/pay/query';
+        $userinfo['callback_ip'] = '97.74.83.73';
+
         if (!$userinfo){
             $this->error('数据错误');
         }
