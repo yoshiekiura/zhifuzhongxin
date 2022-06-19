@@ -14,15 +14,24 @@ class Base extends Common
 
     protected $logined = false; //登录状态
     public $user = null; //用户信息
+    private $noCheck = [
+        'usercenter/index/apidoc'
+    ];
 
     public function _initialize()
     {
-        //检测是否登录
-        if (!$this->isLogin()) {
-            $this->redirect('usercenter/login/index');
-            exit;
+        $module = request()->module();
+        $controller = request()->controller();
+        $action = request()->action();
+
+        if (!in_array(strtolower($module.'/'.$controller.'/'.$action), $this->noCheck)){
+            //检测是否登录
+            if (!$this->isLogin()) {
+                $this->redirect('usercenter/login/index');
+                exit;
+            }
+            $this->assign('user_info', $this->user);
         }
-        $this->assign('user_info', $this->user);
     }
     /**
      * 检测是否登录
