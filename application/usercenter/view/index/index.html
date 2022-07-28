@@ -1,20 +1,198 @@
 {extend name="../user-layout" /}
 {block name="content"}
 
-<div class="container-fluid">
+<style>
+    .search-table01-l table {
+        text-align: center;
+        width: 100%;
+        color: #55595f;
+        font-size: 16px;
+        border-collapse: collapse;
+    }
+
+
+    .search-table01-l table tr td {
+        padding: 22px 0;
+        border: none;
+        vertical-align: middle;
+    }
+
+    .search-table01-l table tr .name-des {
+        text-align: left;
+    }
+
+    .public_tbl .name-des {
+        position: relative !important;
+    }
+
+    .search-table01-l table tr td {
+        padding: 22px 0;
+        border: none;
+        vertical-align: middle;
+    }
+
+    .search-table01-l table tr .name-des {
+        text-align: left;
+    }
+
+    .public_tbl .name-des {
+        position: relative !important;
+    }
+
+    .search-table01-l table tr td {
+        padding: 10px 0;
+        border: none;
+        vertical-align: middle;
+    }
+
+    .search-table01-l table tr .user-icon {
+        width: 80px;
+        text-align: left;
+    }
+
+    .search-table01-l table tr .user-icon img {
+        width: 60px;
+        height: 60px;
+        border-radius: 30px;
+    }
+
+    .search-table01-l table tr {
+        border-bottom: 1px solid #eee;
+        border-top: 1px solid #eee;
+    }
+
+    .search-table01-l table tr .name-des {
+        text-align: left;
+    }
+
+    .public_tbl .name-des {
+        position: relative !important;
+    }
+
+    .search-table01-l table tr td {
+        padding: 10px 0;
+        border: none;
+        vertical-align: middle;
+    }
+
+    .search-table01-l table tr .name-des {
+        text-align: left;
+    }
+
+    .public_tbl .name-des {
+        position: relative !important;
+    }
+
+    .lin-searchnav {
+        width: 100%;
+        margin-top: 25px;
+    }
+
+    .bd-bottom .lin-ul {
+        width: 100%;
+        margin: 0px auto;
+        background: rgb(255, 255, 255);
+        height: 62px;
+        padding: 20px 0px 0px;
+        line-height: 62px;
+    }
+
+
+    .lin-searchnav .center-box .search-find {
+        border: 1px solid #eee;
+        width: 100%;
+        margin-bottom: 20px;
+        padding: 15px 20px 15px;
+    }
+
+    .input-info {
+        font-size: 14px;
+        line-height: 39px;
+        height: 39px;
+        border: 1px solid #eee;
+        width: 330px;
+        color: #7c7c7c;
+        outline: none;
+        box-shadow: none;
+        border-radius: 0;
+        margin-right: 10px;
+        padding-left: 10px;
+        border: 1px solid #eee !important;
+        outline: 0 !important;
+        border-radius: 6px !important;
+        height: 39px !important;
+    }
+
+    .search .search-btn{
+        width: 80px;
+        height: 39px;
+        text-align: center;
+        background-color: #337AB7;
+        color: #fff;
+        cursor: pointer;
+        border-radius: 6px!important;
+        vertical-align: top;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        border: none;
+    }
+
+    .lin-ul li
+    {
+        display: block;
+        float: left;
+        font-size: 20px;
+        height: 42px;
+        line-height: 42px;
+        line-height: 42px\9;
+        line-height: 42px;
+        _line-height: 42px;
+        color: #333;
+        position: relative;
+         cursor: pointer;
+         padding: 0 20px;
+         border-top: 1px solid transparent;
+         border-right: 1px solid transparent;
+         border-left: 1px solid transparent;
+    }
+
+    .lin-ul li.lin-senav-active {
+        color: #E5B1A0;
+        border-top: 1px solid #eee;
+        border-right: 1px solid #eee;
+        border-left: 1px solid #eee;
+    }
+
+    .lin-ul li.lin-senav-active:after
+    {
+        display: block;
+        content: "";
+        width: 100%;
+        height: 4px;
+        background: #fff;
+        position: absolute;
+        left: 0;
+        bottom: -3px;
+        z-index: 100;
+    }
+
+</style>
+
+<div class="container">
     {if condition = "$user_info.is_info_public"}
     <div class="col-xs-12 col-sm-12 right" style="margin-top: 60px;">
         <div class="panel panel-default">
             <div class="panel-heading">资料展示</div>
             <div class="panel-body">
 
-<!--                <div class="row">-->
-<!--                    <div class="col-xs-6 col-md-3">-->
+                <!--                <div class="row">-->
+                <!--                    <div class="col-xs-6 col-md-3">-->
 
-<!--                            <img src="{$user_info.avatar}" width="75" height="75" class="img-circle" alt="...">-->
+                <!--                            <img src="{$user_info.avatar}" width="75" height="75" class="img-circle" alt="...">-->
 
-<!--                    </div>-->
-<!--                </div>-->
+                <!--                    </div>-->
+                <!--                </div>-->
 
                 <p><strong>类型</strong>：
                     {switch name="$user_info.user_type"}
@@ -27,16 +205,73 @@
                 </p>
                 <p><strong>公开频道</strong>：{$user_info.public_channel_link}</p>
                 <p><strong>飞机号</strong>：{$user_info.tg_principal_ids}</p>
-<!--                <p><strong>支付名称</strong>：</p>-->
+                <!--                <p><strong>支付名称</strong>：</p>-->
                 <p><strong>创建时间</strong>：{$user_info.create_time}</p>
                 <!--<p>对接文档：<a target="_blank" href="#">查看在线文档</a></p>-->
-                <a href="{:url('usercenter/index/apiDoc')}"  class="btn btn-primary btn-submit-apiinfo btn-fw"  >在线文档</a>
+                <a href="{:url('usercenter/index/apiDoc')}" class="btn btn-primary btn-submit-apiinfo btn-fw">在线文档</a>
             </div>
         </div>
     </div>
     {/if}
-</div>
+    <div class="row">
+        <div class="lin-searchnav">
+            <div class="lin-searchnav-box">
+                <div class="bd-bottom">
+                    <ul class="lin-ul">
+                        <li class="lin-senav-active">商户</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="center-box">
+                <div class="search-find">
+                    <div>
+                        <div class="search search_public">
+                            <div class="inp_wrap">
+                                <form action="index.html">
+                                    <input maxlength="50" class="input-info" name="username" placeholder="输入商户名称" value="{:input('username', '')}">
+                                    <div style="display: inline-block; vertical-align: top;">
+                                        <button class="search-btn">搜索</button>
+                                    </div>
+                                </form>
+                            </div>
 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="search-table01-l">
+            {if condition="$users->total() > 0"}
+            <table id="myTable" class="public_tbl">
+                <tbody>
+                {volist name='users' id='vo'}
+                <tr class="line">
+                    <td class="user-icon">
+                        <a class="imga" data-publish=""><img src="{$vo.avatar}"></a>
+                    </td>
+                    <td class="name-des">
+                        {$vo.username}
+                    </td>
+                    <td> {$vo.account}</td>
+                </tr>
+                {/volist}
+                </tbody>
+            </table>
+            {else/}
+            <div class="text-center">
+                <img src="/public/static/usercenter/images/noData.png" alt="">
+            </div>
+            {/if}
+        </div>
+        <div class="text-center">
+            <nav>
+                {$users->render()}
+            </nav>
+        </div>
+        <div style="height: 250px"></div>
+    </div>
+</div>
 
 {/block}
 
