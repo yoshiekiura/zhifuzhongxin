@@ -229,9 +229,9 @@ class Merchants extends Base
         //关闭URL请求
         curl_close($curl);
         //显示获得的数据
-
+//halt($json);
         $data = json_decode($json, true);
-        if( isset($data['code']) && $data['code'] == 0)
+        if(isset($data['code']) && $data['code'] == 0)
         {
             $this->success('操作成功', $data['data']['request_url']);
         }

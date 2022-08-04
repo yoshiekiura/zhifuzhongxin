@@ -36,7 +36,7 @@ class Channels extends Base
         if ($this->request->isPost()) {
             $params = $this->request->param();
             //暂时只能添加一个渠道，前端添加按钮是隐藏了的，这里再判断一下，
-            $withChannel =  $this->modelPayChannel->where('pay_center_uid' ,'=', $this->user['id'])->select();
+            $withChannel =  $this->modelPayChannel->where(['pay_center_uid'=>$this->user['id'], 'status' => 1])->select();
             if (!collection($withChannel)->isEmpty()){
                 $this->error('只能添加一个渠道');
             }

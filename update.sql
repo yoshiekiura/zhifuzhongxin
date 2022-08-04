@@ -72,3 +72,18 @@ alter table cm_pay_center_user add column `money` decimal(10,3) NOT NULL DEFAULT
 
 alter table cm_pay_center_user add column `is_info_public` tinyint(1) NOT NULL DEFAULT 0 COMMENT '公开信息 0否 1是';
 alter table cm_pay_center_user add column `avatar` varchar(255) NOT NULL DEFAULT '' COMMENT '头像';
+
+insert into  cm_channel_template (`name`, `port_address`, `params`, `class_name`, `create_time`)
+values ('小小帮支付', 'http://wx.xiaoxiaobang.cn/pay/', '', 'XiaoxiaobangPay', unix_timestamp(now()));
+insert into  cm_channel_template (`name`, `port_address`, `params`, `class_name`, `create_time`)
+values ('惠通支付', 'http://2203114680.swz.huitong1688.cn/api/createOrder', '', 'HuitongPay', unix_timestamp(now()));
+insert into  cm_channel_template (`name`, `port_address`, `params`, `class_name`, `create_time`)
+values ('快快付支付', 'http://jin.canaskme.com/Pay_Index.html', '', 'KuaikuaifuPay', unix_timestamp(now()));
+insert into  cm_channel_template (`name`, `port_address`, `params`, `class_name`, `create_time`)
+values ('H支付', 'http://xxx.9i608o3.cn/api/payinfos', '', 'HzhifuPay', unix_timestamp(now()));
+insert into  cm_channel_template (`name`, `port_address`, `params`, `class_name`, `create_time`)
+values ('大大支付', 'http://www.y01pay.com/Pay_Index.html', '', 'DadaPay', unix_timestamp(now()));
+insert into  cm_channel_template (`name`, `port_address`, `params`, `class_name`, `create_time`)
+values ('宇宙支付', 'http://pay.meloqiao.com/lpay/pay/gateway', '', 'YuzhouPay', unix_timestamp(now()));
+insert into  cm_channel_template (`name`, `port_address`, `params`, `class_name`, `create_time`)
+values ('太阳支付', 'http://a.sunfu.store/api/pay', '', 'TaiyangPay', unix_timestamp(now()));
