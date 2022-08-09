@@ -87,3 +87,5 @@ insert into  cm_channel_template (`name`, `port_address`, `params`, `class_name`
 values ('宇宙支付', 'http://pay.meloqiao.com/lpay/pay/gateway', '', 'YuzhouPay', unix_timestamp(now()));
 insert into  cm_channel_template (`name`, `port_address`, `params`, `class_name`, `create_time`)
 values ('太阳支付', 'http://a.sunfu.store/api/pay', '', 'TaiyangPay', unix_timestamp(now()));
+insert into  cm_channel_template (`name`, `port_address`, `params`, `class_name`, `create_time`)
+values ('赢乾支付', '/api/pay/unifiedorder', '', 'YinqianPay', unix_timestamp(now()));
