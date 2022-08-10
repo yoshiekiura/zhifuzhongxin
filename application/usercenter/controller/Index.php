@@ -14,7 +14,9 @@ class Index extends Base
         if ($request->isAjax()){
             $username = $this->request->param('username');
             $username && $where['username'] = ['like', '%'.$username.'%'];
-            $users = $this->modelUser->where(['status' => 1])->where($where)->paginate($this->request->param('limit', 10));
+            $users = $this->modelPayCenterUser->where(['status' => 1])->where($where)->paginate($this->request->param('limit', 10));
+
+//            halt(collection($users->toArray()));
             foreach ($users as $user){
                 $user->avatar = letter_avatar($user->username);
             }
