@@ -361,25 +361,25 @@
                             <li class="listSpan"><span class="list-key">创建时间</span><i class="icon-jiantou"></i>
                                 <div class="more-search time">
                                     <span class="spanActive createTime" data-value="">全部</span>
-                                    <span class="createTime" data-value="86400*7">一周</span>
-                                    <span class="createTime" data-value="86400*30">一个月</span>
-                                    <span class="createTime" data-value="86400*30*3">三个月</span>
-                                    <span class="createTime" data-value="86400*30*24">一年</span>
+                                    <span class="createTime" data-value="w">一周</span>
+                                    <span class="createTime" data-value="m">一个月</span>
+                                    <span class="createTime" data-value="3m">三个月</span>
+                                    <span class="createTime" data-value="d">一年</span>
                                 </div>
                                 <div style="clear: both;"></div>
                             </li>
-                            <li class="listSpan"><span
-                                    class="list-key">类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型</span><i
-                                    class="icon-jiantou"></i>
-                                <div class="more-search">
-                                    <span class="spanActive" >全部</span>
-                                    <span class="">渠道用户</span>
-                                    <span class="">商户用户</span>
-                                    <span class="">三方用户</span>
-                                    <span class="">代理用户</span>
-                                </div>
-                                <div style="clear: both;"></div>
-                            </li>
+<!--                            <li class="listSpan"><span-->
+<!--                                    class="list-key">类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型</span><i-->
+<!--                                    class="icon-jiantou"></i>-->
+<!--                                <div class="more-search">-->
+<!--                                    <span class="spanActive" >全部</span>-->
+<!--                                    <span class="">渠道用户</span>-->
+<!--                                    <span class="">商户用户</span>-->
+<!--                                    <span class="">三方用户</span>-->
+<!--                                    <span class="">代理用户</span>-->
+<!--                                </div>-->
+<!--                                <div style="clear: both;"></div>-->
+<!--                            </li>-->
                         </ul>
                     </div>
                 </div>
@@ -514,8 +514,8 @@
     $('.createTime').on('click', function () {
         $('.time .spanActive').removeClass('spanActive');
         $(this).addClass('spanActive');
-        // user.searchVal = {page:page, limit:pagesize, username:username};
-        // user.getUserLists();
+        user.searchVal = {createTime:$(this).attr('data-value')};
+        user.getUserLists();
     })
 
 </script>

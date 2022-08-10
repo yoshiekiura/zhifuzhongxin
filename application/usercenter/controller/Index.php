@@ -13,10 +13,27 @@ class Index extends Base
         $where = [];
         if ($request->isAjax()){
             $username = $this->request->param('username');
+            $createTime = $this->request->param('createTime');
             $username && $where['username'] = ['like', '%'.$username.'%'];
-            $users = $this->modelPayCenterUser->where(['status' => 1])->where($where)->paginate($this->request->param('limit', 10));
 
-//            halt(collection($users->toArray()));
+            if ($createTime){
+                switch ($createTime){
+                    case 'w':
+                        $where['create_time'] = ['>', strtotime('-1 week')];
+                        break;
+                    case 'm':
+                        $where['create_time'] = ['>', strtotime('-1 month')];
+                        break;
+                    case '3m':
+                        $where['create_time'] = ['>', strtotime('-3 month')];
+                        break;
+                    case 'd':
+                        $where['create_time'] = ['>', strtotime('-1 year')];
+                        break;
+                }
+            }
+            $users = $this->modelPayCenterUser->where(['status' => 1])->where($where)->paginate($this->request->param('limit', 10));;
+
             foreach ($users as $user){
                 $user->avatar = letter_avatar($user->username);
             }
