@@ -10,8 +10,8 @@
     }
 
     .search {
-         width: 840px;
-         padding-bottom: 15px;
+        width: 840px;
+        padding-bottom: 15px;
     }
 
     .search-table01-l table {
@@ -202,6 +202,7 @@
         line-height: 24px;
         width: 58px;
     }
+
     #condition li {
         cursor: pointer;
     }
@@ -233,7 +234,7 @@
         box-sizing: border-box;
     }
 
-    .listSpan{
+    .listSpan {
         width: 100%;
         /*white-space:nowrap;*/
     }
@@ -248,6 +249,7 @@
     #condition .listSpan .more-search span {
         transition: all .4s;
     }
+
     #condition .spanActive {
         color: #ff6602;
     }
@@ -268,8 +270,64 @@
         color: #999;
     }
 
-    .icon-youhua-:before {
-        content: "\e61b";
+
+    .icon-jiantou:before {
+        float: left;
+        content: '';
+        color: #757575;
+        height: 24px;
+        line-height: 24px;
+    }
+    .fypages, .fypages ul {
+        overflow: hidden;
+        text-align: center;
+    }
+
+
+    .fypages {
+        margin: 30px 0 10px;
+    }
+
+    .fypages, .fypages ul {
+        overflow: hidden;
+        text-align: center;
+    }
+
+    .fypages ul {
+        background: #fff;
+        margin-bottom: 0;
+        display: inline-block;
+    }
+
+    .fypages ul li {
+        cursor: pointer;
+        display: inline-block;
+        font-size: 12px;
+        color: #000;
+        line-height: 26px\9;
+        line-height: 26px;
+        padding: 0 10px;
+        margin-right: 5px;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        border-radius: 100%;
+        height: 26px;
+        float: left;
+        display: flex!important;
+        justify-content: center!important;
+        align-items: center!important;
+    }
+
+    .fypages ul li.active {
+        background: #676667;
+        width: 26px;
+        padding: 0;
+        color: #fff;
+    }
+
+    .fypages ul li:hover {
+        color: #ff6602;
     }
 
 </style>
@@ -314,6 +372,7 @@
                 <div class="bd-bottom">
                     <ul class="lin-ul">
                         <li class="lin-senav-active">商户</li>
+                        <li class="">渠道</li>
                     </ul>
                 </div>
             </div>
@@ -333,41 +392,26 @@
 
                         </div>
                         <ul id="condition">
-                            <li class="listSpan"><span class="list-key">院校所属</span><i class="iconfont icon-youhua-"></i>
-                                <div class="more-search"><span class="spanActive">全部</span><span class="">北京</span><span
-                                        class="">天津</span><span class="">河北</span><span class="">山西</span><span
-                                        class="">内蒙古</span><span class="">辽宁</span><span class="">吉林</span><span
-                                        class="">黑龙江</span><span class="">上海</span><span class="">江苏</span><span
-                                        class="">浙江</span><span class="">安徽</span><span class="">福建</span><span
-                                        class="">江西</span><span class="">山东</span><span class="">河南</span><span
-                                        class="">湖北</span><span class="">湖南</span><span class="">广东</span><span
-                                        class="">广西</span><span class="">海南</span><span class="">重庆</span><span
-                                        class="">四川</span><span class="">贵州</span><span class="">云南</span><span
-                                        class="">西藏</span><span class="">陕西</span><span class="">甘肃</span><span
-                                        class="">青海</span><span class="">宁夏</span><span class="">新疆</span><span
-                                        class="">香港</span><span class="">澳门</span></div>
-                                <div style="clear: both;"></div>
-                            </li>
-                            <li class="listSpan"><span class="list-key">院校类型</span><i class="iconfont icon-youhua-"></i>
-                                <div class="more-search"><span class="spanActive">全部</span><span class="">综合</span><span
-                                        class="">理工</span><span class="">农林</span><span class="">医药</span><span
-                                        class="">师范</span><span class="">语言</span><span class="">财经</span><span
-                                        class="">政法</span><span class="">体育</span><span class="">艺术</span><span
-                                        class="">民族</span><span class="">军事</span><span class="">其他</span></div>
-                                <div style="clear: both;"></div>
-                            </li>
-                            <li class="listSpan"><span class="list-key">办学类型</span><i class="iconfont icon-youhua-"></i>
-                                <div class="more-search"><span class="spanActive">全部</span><span
-                                        class="">普通本科</span><span class="">专科（高职）</span><span class="">公办</span><span
-                                        class="">民办</span><span class="">中外合作办学</span><span class="">内地与港澳台地区合作办学</span>
+                            <li class="listSpan"><span class="list-key">创建时间</span><i class="icon-jiantou"></i>
+                                <div class="more-search">
+                                    <span class="spanActive">全部</span>
+                                    <span class="一周">一周</span>
+                                    <span class="">一个月</span>
+                                    <span class="">三个月</span>
+                                    <span class="">一年</span>
                                 </div>
                                 <div style="clear: both;"></div>
                             </li>
-                            <li class="listSpan"><span class="list-key">院校特色</span><i class="iconfont icon-youhua-"></i>
-                                <div class="more-search"><span class="spanActive">全部</span><span
-                                        class="">985</span><span class="">211</span><span class="">双一流</span><span
-                                        class="">教育部直属</span><span class="">中央部委</span><span class="">强基计划</span><span
-                                        class="">双高计划</span></div>
+                            <li class="listSpan"><span
+                                    class="list-key">类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型</span><i
+                                    class="icon-jiantou"></i>
+                                <div class="more-search">
+                                    <span class="spanActive">全部</span>
+                                    <span class="">渠道用户</span>
+                                    <span class="">商户用户</span>
+                                    <span class="">三方用户</span>
+                                    <span class="">代理用户</span>
+                                </div>
                                 <div style="clear: both;"></div>
                             </li>
                         </ul>
@@ -377,36 +421,122 @@
         </div>
 
         <div class="search-table01-l">
-            {if condition="$users->total() > 0"}
             <table id="myTable" class="public_tbl">
-                <tbody>
-                {volist name='users' id='vo'}
-                <tr class="line">
-                    <td class="user-icon">
-                        <a class="imga" data-publish=""><img src="{$vo.avatar}"></a>
-                    </td>
-                    <td class="name-des">
-                        {$vo.username}
-                    </td>
-                    <td> {$vo.account}</td>
-                </tr>
-                {/volist}
-                </tbody>
+                <tbody></tbody>
             </table>
-            {else/}
-            <div class="text-center">
+            <div class="text-center" id="no-data" style="display: none">
                 <img src="/public/static/usercenter/images/noData.png" alt="">
             </div>
-            {/if}
         </div>
-        <div class="text-center">
-            <nav>
-                {$users->render()}
-            </nav>
+        <div class="fypages">
+
         </div>
         <div style="height: 250px"></div>
     </div>
 </div>
+
+<script type="text/javascript">
+    var currentPage = 0;
+    var totalPage = 0;
+    var totalNum = 0;
+    var page = 1;
+    var pagesize = 10;
+    var noData = document.getElementById("no-data");
+    var show = function (elem) {
+        elem.style.display = 'inline'
+    }
+    var hide = function (elem) {
+        elem.style.display = 'none';
+    }
+    var user = {
+        searchVal: {page:page, limit:pagesize},
+        getUserLists: function (d) {
+            $.ajax({
+                url: "index",
+                type: 'POST',
+                data: this.searchVal,
+                dataType: 'json',
+                success: function (result) {
+                    if (result.code == 1) {
+                        if (result.data.total === 0) {
+                            show(noData)
+                        } else {
+                            var totalNum = result.data.total;
+                             currentPage = result.data.current_page;
+                            $('#myTable > tbody').html('');
+                            $.each(result.data.data, function (index, user) {
+                                let r  = $('<tr className="line"></tr>'),
+                                    d1 = $('<td class="user-icon"><a class="imga" data-publish=""><img src="' + user.avatar + '"></a></td>'),
+                                    d2 = $('<td class="name-des">'+ user.username + '</td>'),
+                                    d3 = $('<td>' + user.account + '</td>');
+                                r.append(d1).append(d2).append(d3);
+                                r.appendTo( $('#myTable > tbody'))
+                            })
+                            totalPage = totalNum % pagesize == 0 ? totalNum / pagesize : Math.ceil(totalNum / pagesize) ;
+                            pageHtml();
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    var pageHtml = function (){
+        if (totalPage > 1){
+            $('.fypages').html('');
+            let u = $('<ul></ul>');
+                $('<li class="pages">首页</li>').appendTo(u);
+                $('<li class="pages">上一页</li>').appendTo(u);
+            if  (totalPage > 7 && currentPage > 3){
+                if ( (currentPage + 3) >= totalPage ){
+                    i = currentPage - (7 - (totalPage-currentPage));
+                    pageNumberSection = totalPage
+                }else{
+                    pageNumberSection = currentPage+3;
+                    i = currentPage - 3;
+                }
+            }else if(totalPage > 7 && currentPage < 4){
+                i = 1;
+                pageNumberSection = 7;
+            }else{
+                i = 1;
+                pageNumberSection = totalPage;
+            }
+            for (i; i <= pageNumberSection; i++) {
+                if  (i === currentPage){
+                    $(' <li class="pages active">'+i+'</li>').appendTo(u);
+                }else{
+                    $(' <li class="pages none">'+i+'</li>').appendTo(u);
+                }
+            }
+            $('<li class="pages">下一页</li>').appendTo(u);
+            $('<li class="pages">末页</li>').appendTo(u);
+            $('.fypages').append(u)
+        }
+    }
+
+    $('.fypages').on('click', '.pages', function (){
+        if (this.innerHTML == '首页'){
+            if (currentPage == 1) return false;
+            page = 1;
+        }else if(this.innerHTML == '上一页'){
+            if (currentPage == 1) return false;
+            page = currentPage - 1;
+        }else if(this.innerHTML == '末页'){
+            if (currentPage == totalPage) return false;
+            page = totalPage;
+        }else if(this.innerHTML == '下一页') {
+            if (currentPage == totalPage) return false;
+            page = currentPage + 1;
+        }else{
+            page = this.innerHTML;
+        }
+        user.searchVal = {page:page, limit:pagesize};
+        user.getUserLists();
+
+    })
+    user.getUserLists();
+</script>
 
 {/block}
 
