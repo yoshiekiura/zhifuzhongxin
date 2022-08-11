@@ -360,37 +360,37 @@
                         <ul id="condition">
                             <li class="listSpan"><span class="list-key">创建时间</span><i class="icon-jiantou"></i>
                                 <div class="more-search time">
-                                    <span class="spanActive createTime" data-value="">全部</span>
-                                    <span class="createTime" data-value="w">一周</span>
-                                    <span class="createTime" data-value="m">一个月</span>
-                                    <span class="createTime" data-value="3m">三个月</span>
-                                    <span class="createTime" data-value="d">一年</span>
+                                    <span class="spanActive createTime" data-field="createTime" data-value="">全部</span>
+                                    <span class="createTime" data-field="createTime" data-value="w">一周</span>
+                                    <span class="createTime" data-field="createTime" data-value="m">一个月</span>
+                                    <span class="createTime" data-field="createTime" data-value="3m">三个月</span>
+                                    <span class="createTime" data-field="createTime" data-value="d">一年</span>
                                 </div>
                                 <div style="clear: both;"></div>
                             </li>
-<!--                            <li class="listSpan"><span-->
-<!--                                    class="list-key">类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型</span><i-->
-<!--                                    class="icon-jiantou"></i>-->
-<!--                                <div class="more-search">-->
-<!--                                    <span class="spanActive" >全部</span>-->
-<!--                                    <span class="">渠道用户</span>-->
-<!--                                    <span class="">商户用户</span>-->
-<!--                                    <span class="">三方用户</span>-->
-<!--                                    <span class="">代理用户</span>-->
-<!--                                </div>-->
-<!--                                <div style="clear: both;"></div>-->
-<!--                            </li>-->
+                            <li class="listSpan"><span
+                                    class="list-key">用户类型</span><i
+                                    class="icon-jiantou"></i>
+                                <div class="more-search">
+                                    <span class="spanActive" data-field="userType" data-value="">全部</span>
+                                    <span class="" data-field="userType" data-value="1">渠道用户</span>
+                                    <span class="" data-field="userType" data-value="2">商户用户</span>
+                                    <span class="" data-field="userType" data-value="3">三方用户</span>
+                                    <span class="" data-field="userType" data-value="4">代理用户</span>
+                                </div>
+                                <div style="clear: both;"></div>
+                            </li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="search-table01-l">
+        <div class="search-table01-l text-center" >
             <table id="myTable" class="public_tbl">
                 <tbody></tbody>
             </table>
-            <div class="text-center" id="no-data" style="display: none">
+            <div id="no-data" style="display: none">
                 <img src="/public/static/usercenter/images/noData.png" alt="">
             </div>
         </div>
@@ -406,8 +406,11 @@
     var totalPage = 0;
     var totalNum = 0;
     var page = 1;
-    var pagesize = 10;
+    var pagesize = 5;
     var noData = document.getElementById("no-data");
+    var userCreateTime = '';
+    var userUsername = '';
+    var userUserType = '';
     var show = function (elem) {
         elem.style.display = 'inline'
     }
@@ -415,19 +418,27 @@
         elem.style.display = 'none';
     }
     var user = {
-        searchVal: {page:page, limit:pagesize},
+        getSearchField:function (){
+           return {
+               page:page,
+               limit:pagesize,
+               createTime: userCreateTime,
+               username:userUsername,
+               userType:userUserType
+            }
+        },
         getUserLists: function (d) {
             $.ajax({
                 url: "index",
                 type: 'POST',
-                data: this.searchVal,
+                data: this.getSearchField(),
                 dataType: 'json',
                 success: function (result) {
                     if (result.code == 1) {
-                        $('#myTable > tbody').html('');
+                        $('#myTable > tbody').children().remove();
                         if (result.data.total === 0) {
                             show(noData)
-                            $('.fypages').html('');
+                            $('.fypages').children().remove();
                         } else {
                             hide(noData)
                             var totalNum = result.data.total;
@@ -436,8 +447,9 @@
                                 let r  = $('<tr className="line"></tr>'),
                                     d1 = $('<td class="user-icon"><a class="imga" data-publish=""><img src="' + user.avatar + '"></a></td>'),
                                     d2 = $('<td class="name-des">'+ user.username + '</td>'),
-                                    d3 = $('<td>' + user.account + '</td>');
-                                r.append(d1).append(d2).append(d3);
+                                    d3 = $('<td>' + user.user_type_text + '</td>'),
+                                    d4 = $('<td>' + user.create_time + '</td>');
+                                r.append(d1).append(d2).append(d3).append(d4);
                                 r.appendTo( $('#myTable > tbody'))
                             })
                             totalPage = totalNum % pagesize == 0 ? totalNum / pagesize : Math.ceil(totalNum / pagesize) ;
@@ -450,7 +462,7 @@
     }
 
     var pageHtml = function (){
-        $('.fypages').html('');
+        $('.fypages').children().remove();
         if (totalPage > 1){
             let u = $('<ul></ul>');
                 $('<li class="pages">首页</li>').appendTo(u);
@@ -483,6 +495,14 @@
         }
     }
 
+    var pageInit = function (){
+        currentPage = 0
+        totalPage = 0;
+        totalNum = 0;
+        page = 1;
+        pagesize = 5;
+    }
+
     $('.fypages').on('click', '.pages', function (){
         if (this.innerHTML == '首页'){
             if (currentPage == 1) return false;
@@ -499,24 +519,39 @@
         }else{
             page = this.innerHTML;
         }
-        user.searchVal = {page:page, limit:pagesize};
         user.getUserLists();
 
+    })
+
+
+    $('.search-btn').on('click', function () {
+        userUsername = $('[name="username"]').val();
+        pageInit();
+        user.getUserLists();
+    })
+
+    $('.more-search span').on('click', function () {
+        $.each($(this).siblings(), function (index, elem) {
+            $(elem).removeClass('spanActive')
+        })
+        $(this).addClass('spanActive');
+        let dataField = $(this).attr('data-field'),
+            dataValue = $(this).attr('data-value');
+       /* console.log('dataField:' + dataField);
+        console.log('dataValue:' + dataValue);*/
+        switch (dataField){
+            case 'createTime':
+                userCreateTime = dataValue;
+                break;
+            case 'userType':
+                userUserType = dataValue;
+                break;
+        }
+        pageInit();
+        user.getUserLists();
     })
     user.getUserLists();
 
-    $('.search-btn').on('click', function () {
-       var username = $('[name="username"]').val();
-       user.searchVal = {username:username};
-       user.getUserLists();
-    })
-
-    $('.createTime').on('click', function () {
-        $('.time .spanActive').removeClass('spanActive');
-        $(this).addClass('spanActive');
-        user.searchVal = {createTime:$(this).attr('data-value')};
-        user.getUserLists();
-    })
 
 </script>
 

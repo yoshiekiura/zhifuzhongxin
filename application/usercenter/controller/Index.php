@@ -14,8 +14,8 @@ class Index extends Base
         if ($request->isAjax()){
             $username = $this->request->param('username');
             $createTime = $this->request->param('createTime');
+            $userType = $this->request->param('userType');
             $username && $where['username'] = ['like', '%'.$username.'%'];
-
             if ($createTime){
                 switch ($createTime){
                     case 'w':
@@ -32,7 +32,8 @@ class Index extends Base
                         break;
                 }
             }
-            $users = $this->modelPayCenterUser->where(['status' => 1])->where($where)->paginate($this->request->param('limit', 10));;
+            $userType && $where['user_type'] = $userType;
+            $users = $this->modelPayCenterUser->where(['status' => 1])->where($where)->order('create_time desc')->paginate($this->request->param('limit', 10));;
 
             foreach ($users as $user){
                 $user->avatar = letter_avatar($user->username);
