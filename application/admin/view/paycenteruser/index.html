@@ -20,6 +20,16 @@
                 <div class="layui-input-inline">
                     <input type="text" name="username" placeholder="请输入用户名称" autocomplete="off" class="layui-input" >
                 </div>
+                <label class="layui-form-label">用户类型：</label>
+                <div class="layui-input-inline">
+                    <select name="user_type" id="user_type">
+                        <option value="">请选择</option>
+                        <option value="1" {if condition="input('user_type') == 1"}selected{/if}>渠道用户</option>
+                        <option value="2" {if condition="input('user_type') == 2"}selected{/if}>商户用户</option>
+                        <option value="3" {if condition="input('user_type') == 3"}selected{/if}>三方用户</option>
+                        <option value="4" {if condition="input('user_type') == 4"}selected{/if}>代理用户</option>
+                    </select>
+                </div>
                 <div class="layui-inline">
                     <button class="layui-btn layuiadmin-btn-order" lay-submit lay-filter="app-pay-channel-list-search">
                         <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>

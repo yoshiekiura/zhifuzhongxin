@@ -16,6 +16,8 @@ class Paycenteruser extends BaseAdmin
             //组合搜索
             !empty($this->request->param('username')) && $where['username']
                 = ['like', '%'.$this->request->param('username').'%'];
+            !empty($this->request->param('user_type')) && $where['user_type']
+                = $this->request->param('user_type');
            $data = $this->logicPayusercenter->getUserList($where,true, 'create_time desc',false);
            foreach ($data as &$item){
                $item['pid_username'] =  $this->modelPaycenteruser->where('id', '=', $item['pid'])->value('username');

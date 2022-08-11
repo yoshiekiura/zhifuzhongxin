@@ -111,6 +111,12 @@ class Channels extends Base
             }
             $this->success($ret['msg']);
         }
+
+        $channelMap['pay_center_uid'] = $this->user['id'];
+        $channelMap['status'] = 1;
+        $logicChannel = new Channel();
+        $channelLists = $logicChannel->getChannelsList($channelMap, 'a', 'a.*', 'id desc');
+        $this->assign('channel', $channelLists );
         $this->assign('channel_id', $this->request->param('channel_id'));
         return $this->fetch();
     }
@@ -196,7 +202,9 @@ class Channels extends Base
         $map['c.status'] = 1;
         $field = 'a.*, c.name as channel_name';
         $accountLists = $logicChannel->channelAccountList($map, 'a', $field, 'id desc', 10);
+
         $this->assign('list', $accountLists );
+
         return $this->fetch();
     }
 

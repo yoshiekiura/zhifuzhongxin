@@ -50,7 +50,8 @@
             <td>{$vo['create_time']}</td>
             <td>
               <a href="{:url('setChannelCode',['channel_id' => $vo.id ])}" class="btn btn-sm btn-warning">配置编码</a>
-              <a href="{:url('addChannelAccount',['channel_id' => $vo.id ])}" class="btn btn-sm  btn-info">添加账号</a>
+<!--              <a href="{:url('addChannelAccount',['channel_id' => $vo.id ])}" class="btn btn-sm  btn-info">添加账号</a>-->
+              <a href="{:url('channelaccountlist')}" class="btn btn-sm  btn-info">账号列表</a>
               <a href="{:url('edit',['id' => $vo.id ])}" class="btn btn-sm btn-primary">编辑</a>
               <a href="{:url('del',['id' => $vo.id ])}" class="btn btn-sm btn-danger">删除</a>
             </td>

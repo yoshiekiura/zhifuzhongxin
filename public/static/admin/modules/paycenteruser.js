@@ -32,19 +32,19 @@ layui.define(["table", "form"],
                     sort: !0
                 }, {
                     field: "username",
-                    width: 250,
+                    width: 150,
                     title: "用户名"
                 },{
                     field: "pid_username",
-                    width: 250,
+                    width: 100,
                     title: "所属代理"
                 }, {
                     field: "alias_name",
-                    width: 250,
+                    width: 100,
                     title: "别名"
                 }, {
                     field: "user_type",
-                    width: 250,
+                    width: 100,
                     title: "用户类型",
                     templet: function (d) {
                         let str = '';
@@ -63,6 +63,7 @@ layui.define(["table", "form"],
                 },{
                     title: "操作",
                     align: "center",
+                    minWidth:500,
                     fixed: "right",
                     toolbar: "#table-pay-channel"
                 }
