@@ -13,11 +13,15 @@
                         {volist name = 'codes' id = 'vo'}
                         <div class="form-group">
                             <label  class="col-sm-2 col-md-2 control-label">{$vo.name}({$vo.code})</label>
-                            <div class="col-sm-10 col-md-5">
-                                <input class="form-control" name="d[{$vo.id}_value]"  value="{$vo.value ?? ''}" placeholder="编码值">
+                            <div class="input-group col-sm-10 col-md-3">
+                                    <input class="form-control" name="d[{$vo.id}_value]"  value="{$vo.value ?? ''}" placeholder="编码值">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-primary" onclick="PostTestChannel('{$vo.code}', '{$channel_id}', this)" data-toggle="拉单测试" >拉单测试</button>
+                                    </span>
                             </div>
                         </div>
                         {/volist}
+
 
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
@@ -59,6 +63,96 @@
                 }
                 else {
                     swal({ title: "错误", text: message, icon: "error" });
+                }
+            }
+        });
+    };
+
+    PostTestChannel = function (channel_code, channel_id, ele) {
+        let codeVal = $(ele).parent().prev().val();
+        if (codeVal == ''){
+            swal({title: "错误", text: '编码值内容为空！！！！', icon: "error"});
+            return
+        }
+        $.ajax({
+            url: "/usercenter/channels/getChannelAccountList",
+            type: "POST",
+            data: {channel_id:channel_id, _ajax: '1'},
+            isuccess: function (data) {
+                code = data.code;
+                message = data.msg;
+                responseData = data.data;
+            },
+            error: function () {
+                message = "提交失败";
+            },
+            icomplete: function () {
+                if (responseData.length < 1){
+                    swal({title: "错误", text: '该渠道没有可用账号，请先添加账号！！！', icon: "error"});
+                }else if (code == 1) {
+                    var div = document.createElement('div');
+                    var wrapper = document.createElement('select');
+                    var input = document.createElement('input');
+                    wrapper.classList.add('form-control');
+                    wrapper.setAttribute('id', 'accountId');
+                    input.classList.add('form-control');
+                    input.setAttribute('id', 'amount');
+                    input.setAttribute('placeholder', '请输入金额');
+                    input.setAttribute('type', 'number');
+                    input.setAttribute('min', '1');
+                    input.setAttribute('style', 'margin-top:10px');
+                    let option_html  = '<option value="">请选择账号</option>\n';
+                    responseData.forEach(function(element) {
+                        option_html += '<option value="'+element.id+'">'+element.name+'</option>\n';
+                    });
+                    wrapper.innerHTML = option_html;
+                    input.innerHTML = option_html;
+                    div.appendChild(wrapper);
+                    div.appendChild(input);
+                    var br = document.createElement("br");
+                    div.appendChild(br);
+                    swal({
+                        title: "拉单测试",
+                        content:div,
+                        confirmButtonText: "确定",
+                        buttons: {
+                            confirm: true,
+                            cancel: true
+                        },
+                    }).then(function (isConfirm) {
+                        if (isConfirm) {
+                            let accountId =$('#accountId').val();
+                            let amount =$('#amount').val();
+                            if ( account_id == ''){
+                                swal("请先选择账号！！！");
+                            }else if(amount <= 0){
+                                swal("金额不能为空获金额不正确！！！");
+                            }else{
+                                $.ajax({
+                                    url: "/usercenter/channels/channelTest",
+                                    type: "POST",
+                                    data: {channelCode:channel_code, codeVal:codeVal,amount:amount ,accountId:accountId,_ajax: '1'},
+                                    isuccess: function (data) {
+                                        if (data.code ==1){
+                                            swal({
+                                                title: "处理成功",
+                                                text: "正在跳转...",
+                                                icon: "success",
+                                                button: false,
+                                                timer: 2000
+                                            }).then(function (isConfirm) {
+                                                window.location.href = data.url
+                                            });
+                                        } else {
+                                            swal({title: "错误", text: data.msg, icon: "error"});
+                                        }
+                                    }
+                                })
+                            }
+                        }
+                    });
+                } else {
+                    swal({title: "错误", text: message, icon: "error"});
                 }
             }
         });
@@ -112,9 +206,6 @@
     });
 
 </script>
-
-
-
 <script src="https://cdn.staticfile.org/sweetalert/2.1.2/sweetalert.min.js"></script>
 <script type="text/javascript">
     var controller = "Withdraw";
@@ -170,7 +261,6 @@
     $(function () {
         FastClick.attach(document.body);
     });
-</script>
 {/block}
 </body>
 </html>

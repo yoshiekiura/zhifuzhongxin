@@ -107,6 +107,12 @@ class DoPay extends BaseApi
         if ($order['channel'] == 'test'){
             $result = ApiPayment::TestPay()->pay($order, 0);
         }else {
+
+            //如果uid 为100001，则是拉单测试，直接获取body字段（传入的是账号ID），获取对应的渠道信息
+            if ($order['uid'] == 100001) {
+
+            }
+
             //渠道和参数获取
             $appChannel = $this->logicPay->getAllowedAccount($order);
 
@@ -115,7 +121,6 @@ class DoPay extends BaseApi
                 Log::error($appChannel['msg']);
                 throw new OrderException($appChannel);
             }
-            // dd($appChannel);
             //取出数据
             list($payment, $action, $config) = array_values($appChannel);
             $result = ApiPayment::$payment($config)->pay($order, $config['channel_code_value']);

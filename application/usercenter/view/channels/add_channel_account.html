@@ -55,7 +55,7 @@
                                 <input type='hidden' name='_ajax' value='1'/>
 <!--                                <input type='hidden' name='channel_id' value='{$channel_id}'/>-->
                                 <button type="submit" class="btn btn-success" >保存</button>
-                                <a href="{:url('index')}" class="btn btn-danger" role="button">取消</a>
+                                <a href="{:url('channelAccountList')}" class="btn btn-danger" role="button">取消</a>
                             </div>
                         </div>
                     </form>
@@ -85,7 +85,7 @@
             icomplete: function () {
                 if (code == "1") {
                     swal({ title: "保存成功", text: "正在跳转...", icon: "success", button: false, timer: 2000 }).then(function (isConfirm) {
-                        window.location.href = '/usercenter/channels/index';
+                        window.location.href = '/usercenter/channels/channelAccountList';
                     });
                 }
                 else {
