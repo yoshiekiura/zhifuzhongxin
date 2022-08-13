@@ -277,12 +277,14 @@ class Channels extends Base
             'mchid' => $mchid,
             'out_trade_no' => date('ymdHis').rand(1000,9999),
             'amount' => $amount,
-            'channel' =>$channelCode,
+            'channel' =>$codeVal,
             'notify_url' => $host.'/test/notify.php',
             'return_url' => $host.'/test/return.php',
             'time_stamp' => date("Ymdhis"),
-            'body' => $accountId, //拉单测试传入account_id过去
+            'body' =>$accountId . ':' . $codeVal, //拉单测试传入account_id过去
         );
+
+
         ksort($data);
         $signData = "";
         foreach ($data as $key=>$value)
@@ -311,7 +313,7 @@ class Channels extends Base
 
         //执行命令
         $json = curl_exec($curl);
-
+halt($json);
         if(isset($_GET['debug']) && $_GET['debug']==1)
         {
             echo $json;die();
@@ -319,7 +321,7 @@ class Channels extends Base
         //关闭URL请求
         curl_close($curl);
         //显示获得的数据
-//halt($json);
+
         $data = json_decode($json, true);
         if(isset($data['code']) && $data['code'] == 0)
         {
