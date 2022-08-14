@@ -248,6 +248,11 @@ class Channels extends Base
 
     public function channelTest()
     {
+/*        $json = ' {"code":0,"msg":"\u8bf7\u6c42\u6210\u529f","data":{"request_url":"https:\/\/d.alipay.com\/i\/index2.htm?scheme=alipays%3A%2F%2Fplatformapi%2Fstartapp%3FsaId%3D10000007%26clientVersion%3D3.7.0.0718%26qrcode%3Dhttp%253a%252f%252fliandong2.kitycb.com%252fpayurl%252fEcpss.aspx%253fo%253d22081411585873230896%2526a%253d100%2526b%253d1011%3F_s%3Dweb-other"}}';
+
+
+        $this->success('success', '',  json_decode( $json, true));*/
+
         $accountId = $this->request->param('accountId',  '');
         $channelCode = $this->request->param('channelCode',  '');
         $codeVal = $this->request->param('codeVal', '');
@@ -313,7 +318,7 @@ class Channels extends Base
 
         //执行命令
         $json = curl_exec($curl);
-halt($json);
+
         if(isset($_GET['debug']) && $_GET['debug']==1)
         {
             echo $json;die();
@@ -325,7 +330,7 @@ halt($json);
         $data = json_decode($json, true);
         if(isset($data['code']) && $data['code'] == 0)
         {
-            $this->success('操作成功', $data['data']['request_url']);
+            $this->success('操作成功', '', $data);
         }
         else
         {

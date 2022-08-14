@@ -134,15 +134,32 @@
                                     data: {channelCode:channel_code, codeVal:codeVal,amount:amount ,accountId:accountId,_ajax: '1'},
                                     isuccess: function (data) {
                                         if (data.code ==1){
-                                            swal({
-                                                title: "处理成功",
-                                                text: "正在跳转...",
-                                                icon: "success",
-                                                button: false,
-                                                timer: 2000
-                                            }).then(function (isConfirm) {
-                                                window.location.href = data.url
+                                            let div = document.createElement('div');
+                                            let buttonCopy = document.createElement('a');
+                                            let buttonVisit = document.createElement('a');
+                                            $(buttonCopy).addClass('btn btn-sm btn-success btn-lg' );
+                                            $(buttonVisit).addClass('btn btn-sm btn-success btn-lg');
+                                            buttonCopy.innerHTML = '复制链接';
+                                            buttonCopy.style.margin = '10px';
+                                            buttonCopy.addEventListener("click", function(){
+                                                copyText(data.data.data.request_url);
+                                                swal("复制成功", {
+                                                    // button: false,
+                                                    timer:1000
+                                                });
                                             });
+                                            buttonVisit.innerHTML = '访问链接';
+                                            $(buttonVisit).attr('href', data.data.data.request_url)
+                                            $(buttonVisit).attr('target', '_black')
+                                            buttonVisit.style.margin = '10px';
+                                            $(div).append(buttonCopy).append(buttonVisit);
+                                            swal({
+                                                title: "拉单成功",
+                                                icon: "success",
+                                                content: div ,
+                                                html:true,
+                                                confirmButtonText: "确定",
+                                            })
                                         } else {
                                             swal({title: "错误", text: data.msg, icon: "error"});
                                         }
@@ -204,6 +221,16 @@
 
         })
     });
+
+    function copyText(text) {
+        var oInput = document.createElement('input');
+        oInput.value = text;
+        document.body.appendChild(oInput);
+        oInput.select();
+        document.execCommand("Copy");
+        oInput.className = 'oInput';
+        oInput.style.display = 'none';
+    }
 
 </script>
 <script src="https://cdn.staticfile.org/sweetalert/2.1.2/sweetalert.min.js"></script>

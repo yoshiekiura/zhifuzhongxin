@@ -38,6 +38,9 @@ Route::post('pay/orderquery','api/Pay/orderquery');//查询订单
 Route::rule('api/createOrder','api/PayV2/unifiedorder');//统一下单V2
 Route::rule('api/queryOrder','api/PayV2/query');//查询订单V2
 
+Route::rule('apis/order','api/Pay/unifiedorder');//下单地址
+
+
 /**
  * Notify  http://www.zf.com/callback/wxpay
  */

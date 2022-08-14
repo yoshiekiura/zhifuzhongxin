@@ -128,7 +128,7 @@ class DoPay extends BaseApi
                 $channelAccount['notify_url']  = Request::instance()->domain() . "/api/notify/notify/channel/". $channelAccount['notify_url'];
                 $channelAccount['return_url']  = Request::instance()->domain() . "/api/notify/notify/channel/". $channelAccount['return_url'];
                 $config=  $channelAccount->toArray();
-                halt($channelAccount);
+//                halt($channelAccount);
             }else{
                 //渠道和参数获取
                 $appChannel = $this->logicPay->getAllowedAccount($order);
