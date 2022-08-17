@@ -102,6 +102,7 @@
             min-height: 40px;
             line-height: 40px;
             padding: 0;
+
         }
 
         .list-sidebar{
@@ -112,8 +113,11 @@
             height: 32px;
             width: 32px;
             cursor: pointer;
-            display: inline-block;
+            display: block;
+            line-height: 40px;
+            float: left;
             position: relative;
+            text-align: center;
         }
 
         .list-sidebar .home-icon{
@@ -162,7 +166,7 @@
 <div class="col-left text-center" style="background-color: #FBFAFF;">
     <ul class="nav list-inline list-sidebar" >
         <li>
-            <a class="home-icon" href="{:url('/usercenter/index/index')}" style="line-height:20px"></a>
+            <a class="home-icon" href="{:url('/usercenter/index/index')}"></a>
         </li>
         <li>
             <a class="list-icon" href="#"></a>
