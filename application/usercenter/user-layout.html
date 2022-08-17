@@ -1,29 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width"/>
     <meta name="description" content='{$site.seo_title|default="聚合支付"}'>
     <meta name="keywords" content='{$site.seo_title|default="聚合支付"}'>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <meta name="render" content="webkit">
-    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content='{$site.seo_title|default="聚合支付"}' />
+    <meta name="apple-mobile-web-app-title" content='{$site.seo_title|default="聚合支付"}'/>
     <meta name="msapplication-TileColor" content="#0e90d2">
     <title>{block name="site_title"}商户平台{/block} - {$site.seo_title|default="聚合支付"} - 支付技术服务商，让支付简单、专业、快捷 </title>
-    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
 
     <link rel="stylesheet" href="__CLOUD__/vendors/iconfonts/simple-line-icon/css/simple-line-icons.css">
     <link rel="stylesheet" href="__CLOUD__/vendors/iconfonts/flag-icon-css/css/flag-icon.min.css">
     <link rel="stylesheet" href="__CLOUD__/vendors/css/vendor.bundle.base.css">
     <link rel="stylesheet" href="__CLOUD__/vendors/css/vendor.bundle.addons.css">
 
-    <link href="__STATIC__/index/baisha/css/dashboard.css" rel="stylesheet" />
+    <link href="__STATIC__/index/baisha/css/dashboard.css" rel="stylesheet"/>
     <script src="https://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="__STATIC__/index/baisha/js/fastclick.js"></script>
@@ -32,27 +32,157 @@
     <!--[if lt IE 9]>
     <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+
     <![endif]-->
     <style>
         .table-hover > tbody > tr:hover {
             background-color: #cfcfcf;
         }
+
         .table td {
-            vertical-align: middle!important;
+            vertical-align: middle !important;
         }
+
+        body{
+            background-color: #E4E7F0;
+        }
+
+        .col-left{
+            height: 1000px;
+            width: 55px;
+            background-color: #ffffff !important;
+            position: absolute;
+            flex: auto;
+            z-index: 99;
+        }
+
+        .list-sidebar li{
+            margin: 15px 0;
+        }
+
+        .list-sidebar li>a{
+            line-height: 47px;
+        }
+
+        .list-sidebar > li:hover{
+            width: 210px;
+            background: #4286F7;
+        }
+
+        .list-sidebar > li:hover ul {
+            display: block;
+            position: absolute;
+            left: 50px;
+            top: 40px;
+            background: #ffffff;
+            width: 160px;
+            padding: 0;
+            z-index: 10;
+            border: 2px solid #4286F7;
+            border-top: 0;
+        }
+
+        .list-sidebar > li:hover ul li {
+            width: 100%;
+            margin: 0;
+            min-height: 30px;
+            line-height: 30px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            -webkit-transition: background-color 0.3s ease-in-out;
+            -moz-transition: background-color 0.3s ease-in-out;
+            -ms-transition: background-color 0.3s ease-in-out;
+            -o-transition: background-color 0.3s ease-in-out;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .list-sidebar li {
+            position: relative;
+            min-height: 40px;
+            line-height: 40px;
+            padding: 0;
+        }
+
+        .list-sidebar{
+            margin-top: 50px;
+        }
+
+        .list-sidebar li a {
+            height: 32px;
+            width: 32px;
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+        }
+
+        .list-sidebar .home-icon{
+            background: url(/public/static/usercenter/images/home-icon.png) no-repeat center center;
+        }
+
+        .list-sidebar >li:hover .home-icon{
+            background: url(/public/static/usercenter/images/home-icon-hover.png) no-repeat center center;
+        }
+
+        .list-sidebar .list-icon{
+            background: url(/public/static/usercenter/images/list-icon.png) no-repeat center center;
+        }
+
+        .list-sidebar .list-icon:hover{
+            background: url(/public/static/usercenter/images/list-icon-hover.png) no-repeat center center;
+        }
+
+        .list-sidebar .bill-icon{
+            background: url(/public/static/usercenter/images/bill-icon.png) no-repeat center center;
+        }
+
+        .list-sidebar .bill-icon:hover{
+            background: url(/public/static/usercenter/images/bill-icon-hover.png) no-repeat center center;
+        }
+
+        .icon-home{
+            width: 32px;
+            height: 32px;
+            background: url(/public/static/usercenter/images/home-icon.png);
+        }
+
+        .collapse{
+            display: none;
+        }
+
     </style>
 </head>
 <body>
-<div id="loading" style="position: fixed;top: 0;left: 0;width: 100%;height: 100%;background: #f8f8f8;opacity: 0.2;z-index: 15000;display: none;">
-<!--    <img alt="" src="__STATIC__/index/baisha/images/loading.gif" style="position: absolute;top: 10%;left: 50%;width: 100px;margin-top: -10px;margin-left: -50px;"><br>-->
+<div id="loading"
+     style="position: fixed;top: 0;left: 0;width: 100%;height: 100%;background: #f8f8f8;opacity: 0.2;z-index: 15000;display: none;">
+    <!--    <img alt="" src="__STATIC__/index/baisha/images/loading.gif" style="position: absolute;top: 10%;left: 50%;width: 100px;margin-top: -10px;margin-left: -50px;"><br>-->
 </div>
 
 
+<div class="col-left text-center" style="background-color: #FBFAFF;">
+    <ul class="nav list-inline list-sidebar" >
+        <li>
+            <a class="home-icon" href="{:url('/usercenter/index/index')}" style="line-height:20px"></a>
+        </li>
+        <li>
+            <a class="list-icon" href="#"></a>
+            <ul class="collapse">
+                <li><a href="{:url('usercenter/Merchants/list_merchant')}">商户列表</a></li>
+                <li><a href="{:url('usercenter/MerchantsBinding/bindingUserList')}">绑定用户列表</a></li>
+                <li><a href="{:url('usercenter/Order/index')}">订单列表</a></li>
+            </ul>
+        </li>
+        <li >
+            <a class="bill-icon" href="{:url('usercenter/')}"></a>
+        </li>
+    </ul>
+</div> <!-- there was a div here -->
 
-<nav class="navbar navbar-inverse navbar-static-top">
+<nav class="navbar navbar-inverse navbar-static-top navbar-fixed-top" style="background-color: #ffffff">
     <div class="container-fluid">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">切换导航</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -64,52 +194,53 @@
             </a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
-<!--            <ul class="nav navbar-nav navbar-">-->
-<!--                <li><a href="{:url('index/user/index')}">首页</a></li>-->
-<!--                <li><a href="{:url('index/Order/index')}">订单查询</a></li>-->
-<!--                <li><a href="{:url('index/balance/paid')}">提现</a></li>-->
-<!--                <li><a href="{:url('index/balance/account')}">提现账户</a></li>-->
-<!--                <li><a href="{:url('index/api/channel')}">渠道信息</a></li>-->
-<!--                &lt;!&ndash;<li><a href="/Withdraw/MerAdjust">调账查询</a></li>&ndash;&gt;-->
-<!--            </ul>-->
-            <ul class="nav navbar-nav navbar-">
+
+            <!--            <ul class="nav navbar-nav navbar-">-->
+            <!--                <li><a href="{:url('index/user/index')}">首页</a></li>-->
+            <!--                <li><a href="{:url('index/Order/index')}">订单查询</a></li>-->
+            <!--                <li><a href="{:url('index/balance/paid')}">提现</a></li>-->
+            <!--                <li><a href="{:url('index/balance/account')}">提现账户</a></li>-->
+            <!--                <li><a href="{:url('index/api/channel')}">渠道信息</a></li>-->
+            <!--                &lt;!&ndash;<li><a href="/Withdraw/MerAdjust">调账查询</a></li>&ndash;&gt;-->
+            <!--            </ul>-->
+            <ul class="nav navbar-nav navbar-" >
                 <li><a href="/usercenter/index/index">首页</a></li>
 
                 {switch name="$user_info.user_type"}
-                  {case value="1"}
-                    <li>
-                        <a href="#" data-toggle="dropdown" >渠道管理</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{:url('usercenter/channels/index')}">渠道列表</a></li>
-                            <li><a href="{:url('usercenter/channels/channelAccountList')}">账户列表</a></li>
-                            <li><a href="{:url('usercenter/MerchantsBinding/channelBindingUserList')}">渠道绑定用户列表</a></li>
-                        </ul>
-                    </li>
-                  {/case}
-                  {case value="2"}
-                    <li>
-                        <a href="#" data-toggle="dropdown" >商户管理</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{:url('usercenter/Merchants/list_merchant')}">商户列表</a></li>
-                            <li><a href="{:url('usercenter/MerchantsBinding/bindingUserList')}">绑定用户列表</a></li>
-                            <li><a href="{:url('usercenter/Order/index')}">订单列表</a></li>
-                        </ul>
-                    </li>
-                  {/case}
-                  {case value="3"}
-                  {/case}
-                  {case value="4"}
-                    <li>
-                        <a href="#" data-toggle="dropdown" >代理管理</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{:url('usercenter/Paycenteruser/index')}">用户列表</a></li>
-                        </ul>
-                    </li>
-                  {/case}
+                {case value="1"}
+                <li>
+                    <a href="#" data-toggle="dropdown">渠道管理</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{:url('usercenter/channels/index')}">渠道列表</a></li>
+                        <li><a href="{:url('usercenter/channels/channelAccountList')}">账户列表</a></li>
+                        <li><a href="{:url('usercenter/MerchantsBinding/channelBindingUserList')}">渠道绑定用户列表</a></li>
+                    </ul>
+                </li>
+                {/case}
+                {case value="2"}
+                <li>
+                    <a href="#" data-toggle="dropdown">商户管理</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{:url('usercenter/Merchants/list_merchant')}">商户列表</a></li>
+                        <li><a href="{:url('usercenter/MerchantsBinding/bindingUserList')}">绑定用户列表</a></li>
+                        <li><a href="{:url('usercenter/Order/index')}">订单列表</a></li>
+                    </ul>
+                </li>
+                {/case}
+                {case value="3"}
+                {/case}
+                {case value="4"}
+                <li>
+                    <a href="#" data-toggle="dropdown">代理管理</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{:url('usercenter/Paycenteruser/index')}">用户列表</a></li>
+                    </ul>
+                </li>
+                {/case}
                 {/switch}
 
                 <li>
-                    <a href="#" data-toggle="dropdown" >账单管理</a>
+                    <a href="#" data-toggle="dropdown">账单管理</a>
                     <ul class="dropdown-menu">
                         <li><a href="{:url('usercenter/Paycenterbill/index')}">账单列表</a></li>
                     </ul>
@@ -118,17 +249,19 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false">
                         {if condition="$user_info.avatar"}
-                        <img style="width: 25px;height: 25px;" src="{$user_info.avatar}" class="img-rounded image-responsive" alt="">
+                        <img style="width: 25px;height: 25px;" src="{$user_info.avatar}"
+                             class="img-rounded image-responsive" alt="">
                         {else/}
                         <i class="glyphicon glyphicon-user"></i>
                         {/if}
                         &nbsp;欢迎您，{$user_info.username}</a>
                     <ul class="dropdown-menu">
-<!--                        <li><a href="{:url('index/User/blndGoogle')}">Google密钥</a></li>-->
+                        <!--                        <li><a href="{:url('index/User/blndGoogle')}">Google密钥</a></li>-->
                         <!--<li role="separator" class="divider"></li>-->
-<!--                        <li><a href="{:url('index/User/password')}">修改密码</a></li>-->
+                        <!--                        <li><a href="{:url('index/User/password')}">修改密码</a></li>-->
                         <!--<li><a href="/home/ChangePayPass">修改支付密码</a></li>-->
                         <li><a href="{:url('usercenter/Paycenteruser/info')}">个人中心</a></li>
                         <li><a href="{:url('usercenter/Login/logout')}">退出</a></li>
@@ -139,15 +272,44 @@
     </div>
 </nav>
 
-{block name="content"}
 
-{/block}
+<!--<div class="container">-->
+<!--    <div class="row" id="collapseExample">-->
+
+<!--        <div class="col-sm-6">-->
+<!--            Main content here-->
+<!--        </div>-->
+<!--        <div class="col-sm-3">-->
+<!--        </div> &lt;!&ndash; and now it's here &ndash;&gt;-->
+<!--    </div>-->
+<!--</div>&lt;!&ndash; /.container &ndash;&gt;-->
 
 
-{block name="pagejs"}
+        <div class="container-fluid">
+            <div class="row" style="margin-left: 40px">
 
-{/block}
 
+
+            {block name="content"}
+
+            {/block}
+
+
+            {block name="pagejs"}
+
+            {/block}
+
+            </div>
+        </div>
+</script>
+<script>
+    var onResize = function() {
+        $("body").css("padding-top", $(".navbar").height());
+    };
+    $(window).resize(onResize);
+    $(function() {
+        onResize();
+    });
 </script>
 </body>
 </html>
