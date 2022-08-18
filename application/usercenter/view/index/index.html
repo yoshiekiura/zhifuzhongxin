@@ -338,91 +338,144 @@
 
 </style>
 
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="lin-searchnav">
+
+
+            <div class="panel">
+                <div class="panel-body">
+
+
+                </div>
+            </div>
+
+
+        <div class="panel">
+            <div class="panel-body">
+                <div class="center-box">
+                    <div class="search-find">
+                        <div id="users">
+                            <div class="search search_public">
+                                <div class="inp_wrap">
+                                    <input maxlength="50" class="input-info" name="username" placeholder="输入商户名称">
+                                    <div style="display: inline-block; vertical-align: top;">
+                                        <button class="search-btn">搜索</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <ul class="condition" style="display: inline">
+                                <li class="listSpan"><span class="list-key">创建时间</span><i class="icon-jiantou"></i>
+                                    <div class="more-search time">
+                                        <span class="spanActive createTime" data-field="createTime" data-value="">全部</span>
+                                        <span class="createTime" data-field="createTime" data-value="w">一周</span>
+                                        <span class="createTime" data-field="createTime" data-value="m">一个月</span>
+                                        <span class="createTime" data-field="createTime" data-value="3m">三个月</span>
+                                        <span class="createTime" data-field="createTime" data-value="d">一年</span>
+                                    </div>
+                                    <div style="clear: both;"></div>
+                                </li>
+                                <li class="listSpan"><span
+                                        class="list-key">用户类型</span><i
+                                        class="icon-jiantou"></i>
+                                    <div class="more-search">
+                                        <span class="spanActive" data-field="userType" data-value="">全部</span>
+                                        <span class="" data-field="userType" data-value="1">渠道用户</span>
+                                        <span class="" data-field="userType" data-value="2">商户用户</span>
+                                        <span class="" data-field="userType" data-value="3">三方用户</span>
+                                        <span class="" data-field="userType" data-value="4">代理用户</span>
+                                    </div>
+                                    <div style="clear: both;"></div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="channels" style="display: none">
+                            <div class="search search_public">
+                                <div class="inp_wrap">
+                                    <input maxlength="50" class="input-info" name="name" placeholder="输入渠道名称">
+                                    <div style="display: inline-block; vertical-align: top;">
+                                        <button class="search-btn">搜索</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <ul class="condition">
+                                <li class="listSpan"><span class="list-key">创建时间</span><i class="icon-jiantou"></i>
+                                    <div class="more-search time">
+                                        <span class="spanActive createTime" data-field="createTime" data-value="">全部</span>
+                                        <span class="createTime" data-field="createTime" data-value="w">一周</span>
+                                        <span class="createTime" data-field="createTime" data-value="m">一个月</span>
+                                        <span class="createTime" data-field="createTime" data-value="3m">三个月</span>
+                                        <span class="createTime" data-field="createTime" data-value="d">一年</span>
+                                    </div>
+                                    <div style="clear: both;"></div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+<!--                <div class="search-table01-l text-center" >-->
+                <div >
+<!--                    <table id="myTable" class="public_tbl">-->
+                    <table id="" class="">
+                        <tbody>
+
+                        </tbody>
+                    </table>
+
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+
+                            <ul class="list-group">
+                                <li class="list-group-item">Cras justo odio</li>
+                                <li class="list-group-item">Dapibus ac facilisis in</li>
+                                <li class="list-group-item">Morbi leo risus</li>
+                                <li class="list-group-item">Porta ac consectetur ac</li>
+                                <li class="list-group-item">Vestibulum at eros</li>
+                            </ul>
+
+                            <div class="panel">
+                                <div class="panel-body">
+                                    <div class="styled-input-wrapper">
+                                        <div class="input-icon">
+                                            <i class="icon-lock3"></i>
+                                        </div>
+                                        <div class="styled-input">
+                                            <div class="form-group">
+                                                <label for="enterPassword" class="control-label">Enter Password</label>
+                                                <input type="password" class="form-control" id="enterPassword" placeholder="Enter Password">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div id="no-data" style="display: none">
+                        <img src="/public/static/usercenter/images/noData.png" alt="">
+                    </div>
+                </div>
+                <div class="fypages">
+
+                </div>
+            </div>
+        </div>
+
+
+     <!--   <div class="lin-searchnav">
             <div class="lin-searchnav-box">
                 <div class="bd-bottom">
                     <ul class="lin-ul">
                         <li class="lin-senav-active" data-field="users">商户</li>
-<!--                        <li class="" data-field="channels">渠道</li>-->
+&lt;!&ndash;                        <li class="" data-field="channels">渠道</li>&ndash;&gt;
                     </ul>
                 </div>
             </div>
-            <div class="center-box">
-                <div class="search-find">
-                    <div id="users">
-                        <div class="search search_public">
-                            <div class="inp_wrap">
-                                <input maxlength="50" class="input-info" name="username" placeholder="输入商户名称">
-                                <div style="display: inline-block; vertical-align: top;">
-                                    <button class="search-btn">搜索</button>
-                                </div>
-                            </div>
-                        </div>
-                        <ul class="condition" style="display: inline">
-                            <li class="listSpan"><span class="list-key">创建时间</span><i class="icon-jiantou"></i>
-                                <div class="more-search time">
-                                    <span class="spanActive createTime" data-field="createTime" data-value="">全部</span>
-                                    <span class="createTime" data-field="createTime" data-value="w">一周</span>
-                                    <span class="createTime" data-field="createTime" data-value="m">一个月</span>
-                                    <span class="createTime" data-field="createTime" data-value="3m">三个月</span>
-                                    <span class="createTime" data-field="createTime" data-value="d">一年</span>
-                                </div>
-                                <div style="clear: both;"></div>
-                            </li>
-                            <li class="listSpan"><span
-                                    class="list-key">用户类型</span><i
-                                    class="icon-jiantou"></i>
-                                <div class="more-search">
-                                    <span class="spanActive" data-field="userType" data-value="">全部</span>
-                                    <span class="" data-field="userType" data-value="1">渠道用户</span>
-                                    <span class="" data-field="userType" data-value="2">商户用户</span>
-                                    <span class="" data-field="userType" data-value="3">三方用户</span>
-                                    <span class="" data-field="userType" data-value="4">代理用户</span>
-                                </div>
-                                <div style="clear: both;"></div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div id="channels" style="display: none">
-                        <div class="search search_public">
-                            <div class="inp_wrap">
-                                <input maxlength="50" class="input-info" name="name" placeholder="输入渠道名称">
-                                <div style="display: inline-block; vertical-align: top;">
-                                    <button class="search-btn">搜索</button>
-                                </div>
-                            </div>
-                        </div>
-                        <ul class="condition">
-                            <li class="listSpan"><span class="list-key">创建时间</span><i class="icon-jiantou"></i>
-                                <div class="more-search time">
-                                    <span class="spanActive createTime" data-field="createTime" data-value="">全部</span>
-                                    <span class="createTime" data-field="createTime" data-value="w">一周</span>
-                                    <span class="createTime" data-field="createTime" data-value="m">一个月</span>
-                                    <span class="createTime" data-field="createTime" data-value="3m">三个月</span>
-                                    <span class="createTime" data-field="createTime" data-value="d">一年</span>
-                                </div>
-                                <div style="clear: both;"></div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="search-table01-l text-center" >
-            <table id="myTable" class="public_tbl">
-                <tbody></tbody>
-            </table>
-            <div id="no-data" style="display: none">
-                <img src="/public/static/usercenter/images/noData.png" alt="">
-            </div>
-        </div>
-        <div class="fypages">
 
         </div>
-        <div style="height: 250px"></div>
+
+
+        <div style="height: 250px"></div>-->
     </div>
 </div>
 

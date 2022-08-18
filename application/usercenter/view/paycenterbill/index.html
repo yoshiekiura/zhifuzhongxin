@@ -1,7 +1,7 @@
 {extend name="../user-layout" /}
 {block name="content"}
 
-<div class="container-fluid">
+<div class="container-fluid panel">
     <div class="row">
         <div class="col-xs-12 main">
             <h3>
@@ -9,7 +9,7 @@
             </h3>
             <div class="table-responsive">
 
-                <table class="table table-striped table-bordered table-hover">
+                <table class="table table-bordered">
                     <thead>
                     <tr>
                         <td colspan="5">
@@ -29,9 +29,9 @@
                                         <span class="input-group-btn">
                                             <button id="btnSearch" class="btn btn-success" type="submit"
                                                     onclick="$('#p').val('');$('#form1').attr('action','');"><i
-                                                    class="glyphicon glyphicon-search"></i></button>
+                                                    class="icon-search3"></i></button>
                                             <a href="{:url('usercenter/paycenterbill/index')}" class="btn btn-warning"><i
-                                                    class="glyphicon glyphicon-remove"></i></a>
+                                                    class="icon-circle-with-cross"></i></a>
                                         </span>
                                         <!--                                        <div class="input-group" style="">-->
                                         <!--                                            <span style="font-weight: bold">账户余额：￥{$money}</span>-->

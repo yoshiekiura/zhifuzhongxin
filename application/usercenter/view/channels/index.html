@@ -2,21 +2,21 @@
 {extend name="../user-layout" /}
 {block name="content"}
 
-<div class="container-fluid">
+<div class="container-fluid panel">
   <div class="row">
     <div class="col-xs-12 main">
       <h3>
         渠道列表
       </h3>
       <div class="table-responsive">
-        <table class="table table-striped table-bordered table-hover">
+        <table class="table table-bordered">
           <thead>
           <tr>
             <td colspan="10">
               <form id="form1" action="index.html" class="form-inline">
                 {if condition="$list->isEmpty()"}
                 <div class="input-group">
-                  <a href="add" class="btn btn-primary" role="button">添加</a>
+                  <a href="add" class="btn btn-info" role="button"><i class="icon-circle-with-plus"></i>添加</a>
                 </div>
                 {/if}
                 <div class="form-group">

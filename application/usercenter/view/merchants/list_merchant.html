@@ -1,20 +1,20 @@
 {extend name="../user-layout" /}
 {block name="content"}
 
-<div class="container-fluid">
+<div class="container-fluid panel">
     <div class="row">
         <div class="col-xs-12 main">
             <h3>
                 商户列表
             </h3>
-            <div class="table-responsive panel">
+            <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
                     <tr>
                         <td colspan="10">
                             <form id="form1" action="index.html" class="form-inline">
                                 <div class="input-group">
-                                    <a href="/usercenter/Merchants/add_merchant" class="btn btn-primary" role="button">添加</a>
+                                    <a href="/usercenter/Merchants/add_merchant" class="btn btn-info" role="button"><i class="icon-circle-with-plus"></i>添加</a>
                                 </div>
                                 <div class="form-group">
 
@@ -26,10 +26,10 @@
                                         <span class="input-group-btn">
                                     <button id="btnSearch" class="btn btn-success" type="submit"
                                             onclick="$('#p').val('');$('#form1').attr('action','');"><i
-                                            class="glyphicon glyphicon-search"></i></button>
+                                            class="icon-search3"></i></button>
                                             <!--                                    <button id="btnExport" class="btn btn-primary" type="submit" onclick="$('#form1').attr('action','exportOrder');"><i class="glyphicon glyphicon-download-alt"></i></button>-->
                                     <a href="{:url('usercenter/merchants/list_merchant')}" class="btn btn-warning"><i
-                                            class="glyphicon glyphicon-remove"></i></a>
+                                            class="icon-circle-with-cross"></i></a>
                                 </span>
                                     </div>
                                 </div>
@@ -50,10 +50,10 @@
                         <td>{$vo['username']}</td>
 <!--                        <td>{$vo['key']}</td>-->
                         <td>
-                            <a href="{:url('bind_list',['uid' => $vo.uid ])}" class="btn btn-sm btn-primary">绑定列表</a>
+                            <a href="{:url('bind_list',['uid' => $vo.uid ])}" class="btn btn-sm btn-info">绑定列表</a>
                             <a href="{:url('/usercenter/merchants_binding/applyBindingUser', ['uid' => $vo.uid])}" class="btn btn-sm btn-success">绑定上游</a>
                             <a href="{:url('enter_into',['uid' => $vo.uid ])}" class="btn btn-sm btn-warning">对接信息</a>
-                            <a href="{:url('edit_merchant',['uid' => $vo.uid ])}" class="btn btn-sm btn-primary">编辑</a>
+                            <a href="{:url('edit_merchant',['uid' => $vo.uid ])}" class="btn btn-sm btn-info">编辑</a>
                             <a href="#" onclick="PostCancel('{$vo.uid}')" class="btn btn-sm btn-danger">删除</a>
                         </td>
                         </td>
