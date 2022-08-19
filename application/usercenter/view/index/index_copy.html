@@ -1,0 +1,719 @@
+{extend name="../user-layout" /}
+{block name="content"}
+
+<!--<style>
+
+    *, blockquote, body, button, dd, dl, dt, fieldset, form, h1, h2, h3, h4, h5, h6, hr, input, legend, li, ol, p, pre, td, textarea, th, ul {
+        margin: 0;
+        padding: 0;
+        vertical-align: baseline;
+    }
+
+    .search {
+        width: 840px;
+        padding-bottom: 15px;
+    }
+
+    .search-table01-l table {
+        text-align: center;
+        width: 100%;
+        color: #55595f;
+        font-size: 16px;
+        border-collapse: collapse;
+    }
+
+
+    .search-table01-l table tr td {
+        padding: 22px 0;
+        border: none;
+        vertical-align: middle;
+    }
+
+    .search-table01-l table tr .name-des {
+        text-align: left;
+    }
+
+    .public_tbl .name-des {
+        position: relative !important;
+    }
+
+    .search-table01-l table tr td {
+        padding: 22px 0;
+        border: none;
+        vertical-align: middle;
+    }
+
+    .search-table01-l table tr .name-des {
+        text-align: left;
+    }
+
+    .public_tbl .name-des {
+        position: relative !important;
+    }
+
+    .search-table01-l table tr td {
+        padding: 10px 0;
+        border: none;
+        vertical-align: middle;
+    }
+
+    .search-table01-l table tr .user-icon {
+        width: 80px;
+        text-align: left;
+    }
+
+    .search-table01-l table tr .user-icon img {
+        width: 60px;
+        height: 60px;
+        border-radius: 30px;
+    }
+
+    .search-table01-l table tr {
+        border-bottom: 1px solid #eee;
+        border-top: 1px solid #eee;
+    }
+
+    .search-table01-l table tr .name-des {
+        text-align: left;
+    }
+
+    .public_tbl .name-des {
+        position: relative !important;
+    }
+
+    .search-table01-l table tr td {
+        padding: 10px 0;
+        border: none;
+        vertical-align: middle;
+    }
+
+    .search-table01-l table tr .name-des {
+        text-align: left;
+    }
+
+    .public_tbl .name-des {
+        position: relative !important;
+    }
+
+    .lin-searchnav {
+        width: 100%;
+        margin-top: 25px;
+    }
+
+    .bd-bottom .lin-ul {
+        width: 100%;
+        margin: 0px auto;
+        background: rgb(255, 255, 255);
+        height: 62px;
+        padding: 20px 0px 0px;
+        line-height: 62px;
+    }
+
+
+    .lin-searchnav .center-box .search-find {
+        border: 1px solid #eee;
+        width: 100%;
+        margin-bottom: 20px;
+        padding: 15px 20px 15px;
+    }
+
+    .input-info {
+        font-size: 14px;
+        line-height: 39px;
+        height: 39px;
+        border: 1px solid #eee;
+        width: 330px;
+        color: #7c7c7c;
+        outline: none;
+        box-shadow: none;
+        border-radius: 0;
+        margin-right: 10px;
+        padding-left: 10px;
+        border: 1px solid #eee !important;
+        outline: 0 !important;
+        border-radius: 6px !important;
+        height: 39px !important;
+    }
+
+    .search .search-btn {
+        width: 80px;
+        height: 39px;
+        text-align: center;
+        background-color: #337AB7;
+        color: #fff;
+        cursor: pointer;
+        border-radius: 6px !important;
+        vertical-align: top;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        border: none;
+    }
+
+    .lin-ul li {
+        display: block;
+        float: left;
+        font-size: 20px;
+        height: 42px;
+        line-height: 42px;
+        line-height: 42px \9;
+        line-height: 42px;
+        _line-height: 42px;
+        color: #333;
+        position: relative;
+        cursor: pointer;
+        padding: 0 20px;
+        border-top: 1px solid transparent;
+        border-right: 1px solid transparent;
+        border-left: 1px solid transparent;
+    }
+
+    .lin-ul li.lin-senav-active {
+        color: #FF6602;
+        border-top: 1px solid #eee;
+        border-right: 1px solid #eee;
+        border-left: 1px solid #eee;
+    }
+
+    .lin-ul li.lin-senav-active:after {
+        display: block;
+        content: "";
+        width: 100%;
+        height: 4px;
+        background: #fff;
+        position: absolute;
+        left: 0;
+        bottom: -3px;
+        z-index: 100;
+    }
+
+    .condition {
+        width: 100%;
+        margin-bottom: 0;
+        overflow: hidden;
+        position: relative;
+        padding-bottom: 8px;
+    }
+
+    .condition li {
+        cursor: pointer;
+    }
+
+    .condition .listSpan .more-search span {
+        transition: all .1s;
+    }
+
+    .condition .listSpan .more-search .spanActive {
+        color: #ff6602;
+    }
+
+    .listSpan .list-key {
+        float: left;
+        color: #000;
+        height: 24px;
+        line-height: 24px;
+        width: 58px;
+    }
+
+
+    .listSpan .more-search {
+        float: left;
+        /*width: 100%;*/
+        margin-left: 30px;
+    }
+
+    dl, ol, ul {
+        margin-top: 0;
+        margin-bottom: 1em;
+    }
+
+    ol, ul {
+        list-style: none;
+    }
+
+    .listSpan .list-key {
+        float: left;
+        color: #000;
+        height: 24px;
+        line-height: 24px;
+        width: 58px;
+    }
+
+    *, :after, :before {
+        box-sizing: border-box;
+    }
+
+    .listSpan {
+        width: 100%;
+        /*white-space:nowrap;*/
+    }
+
+    .listSpan .iconfont {
+        float: left;
+        font-size: 14px;
+        padding: 5px 5px 0 0;
+        color: #999;
+    }
+
+
+    .listSpan .more-search span {
+        padding: 0 20px 12px 0;
+        color: #000;
+        display: inline-block;
+        line-height: 24px;
+        font-size: 14px;
+    }
+
+    .listSpan .iconfont {
+        float: left;
+        font-size: 14px;
+        padding: 5px 5px 0 0;
+        color: #999;
+    }
+
+
+    .icon-jiantou:before {
+        float: left;
+        content: '';
+        color: #757575;
+        height: 24px;
+        line-height: 24px;
+    }
+
+    .fypages, .fypages ul {
+        overflow: hidden;
+        text-align: center;
+    }
+
+
+    .fypages {
+        margin: 30px 0 10px;
+    }
+
+    .fypages, .fypages ul {
+        overflow: hidden;
+        text-align: center;
+    }
+
+    .fypages ul {
+        background: #fff;
+        margin-bottom: 0;
+        display: inline-block;
+    }
+
+    .fypages ul li {
+        cursor: pointer;
+        display: inline-block;
+        font-size: 12px;
+        color: #000;
+        line-height: 26px \9;
+        line-height: 26px;
+        padding: 0 10px;
+        margin-right: 5px;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        border-radius: 100%;
+        height: 26px;
+        float: left;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    .fypages ul li.active {
+        background: #676667;
+        width: 26px;
+        padding: 0;
+        color: #fff;
+    }
+
+    .fypages ul li:hover {
+        color: #ff6602;
+    }
+
+</style>-->
+
+
+<style>
+    .merchant-body {
+        padding: 12px;
+        border: 1px solid #BABABA;
+        border-radius: 5px;
+    }
+
+    .users-avatar {
+        float: left;
+        width: 100px;
+        height: 100px;
+    }
+
+    .users-info .users-detail {
+        margin-left: 115px;
+        letter-spacing: 1px;
+        color: #ACAFB3;
+    }
+
+    .users-info .users-detail .users-detail-1,.users-info .users-detail .users-detail-1{
+
+    }
+</style>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="panel">
+            <div class="panel-body">
+                <div class="center-box">
+                    <div class="search-find">
+                        <div id="users">
+                            <div class="search search_public">
+                                <div class="inp_wrap">
+                                    <input maxlength="50" class="input-info" name="username" placeholder="输入商户名称">
+                                    <div style="display: inline-block; vertical-align: top;">
+                                        <button class="btn btn-info">搜索</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <ul class="condition" style="display: inline">
+                                <li class="listSpan"><span class="list-key">创建时间</span><i class="icon-jiantou"></i>
+                                    <div class="more-search time">
+                                        <span class="spanActive createTime" data-field="createTime"
+                                              data-value="">全部</span>
+                                        <span class="createTime" data-field="createTime" data-value="w">一周</span>
+                                        <span class="createTime" data-field="createTime" data-value="m">一个月</span>
+                                        <span class="createTime" data-field="createTime" data-value="3m">三个月</span>
+                                        <span class="createTime" data-field="createTime" data-value="d">一年</span>
+                                    </div>
+                                    <div style="clear: both;"></div>
+                                </li>
+                                <li class="listSpan"><span
+                                        class="list-key">用户类型</span><i
+                                        class="icon-jiantou"></i>
+                                    <div class="more-search">
+                                        <span class="spanActive" data-field="userType" data-value="">全部</span>
+                                        <span class="" data-field="userType" data-value="1">渠道用户</span>
+                                        <span class="" data-field="userType" data-value="2">商户用户</span>
+                                        <span class="" data-field="userType" data-value="3">三方用户</span>
+                                        <span class="" data-field="userType" data-value="4">代理用户</span>
+                                    </div>
+                                    <div style="clear: both;"></div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div id="channels" style="display: none">
+                            <div class="search search_public">
+                                <div class="inp_wrap">
+                                    <input maxlength="50" class="input-info" name="name" placeholder="输入渠道名称">
+                                    <div style="display: inline-block; vertical-align: top;">
+                                        <button class="search-btn">搜索</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <ul class="condition">
+                                <li class="listSpan"><span class="list-key">创建时间</span><i class="icon-jiantou"></i>
+                                    <div class="more-search time">
+                                        <span class="spanActive createTime" data-field="createTime"
+                                              data-value="">全部</span>
+                                        <span class="createTime" data-field="createTime" data-value="w">一周</span>
+                                        <span class="createTime" data-field="createTime" data-value="m">一个月</span>
+                                        <span class="createTime" data-field="createTime" data-value="3m">三个月</span>
+                                        <span class="createTime" data-field="createTime" data-value="d">一年</span>
+                                    </div>
+                                    <div style="clear: both;"></div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--                <div class="search-table01-l text-center" >-->
+                <div>
+                    <!--                    <table id="myTable" class="public_tbl">-->
+                    <table id="" class="">
+                        <tbody>
+
+                        </tbody>
+                    </table>
+
+                    <div class="row">
+
+                        {volist name="users" id="vo"}
+                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" style="margin-bottom: 15px">
+                                <div class="merchant-body">
+                                    <div class="users-info">
+                                        <div class="users-avatar">
+                                            <img class="img-circle img-responsive" src="{$vo.avatar}" alt="">
+                                        </div>
+                                        <div class="users-detail">
+
+                                            <div class="users-detail-title">
+                                                <p style="display: inline-block;margin-bottom: 4px;font-weight: bold;font-size: 3rem">{$vo.username}</p>
+                                                <p style="float: right;white-space: nowrap;;display: inline-block;  text-overflow: ellipsis; font-size: 1.5rem;
+                                                line-height: 48px;margin-right: 15px">{$vo.create_time}</p>
+                                            </div>
+                                            <div class="detail-content" style="display: inline-block;margin-right: 3rem;">
+                                                <p>成交单数: <?php echo rand(1000,9999) ?></p>
+                                                <p>客户类型: {$vo.user_type_text}</p>
+                                            </div>
+                                            <div class="detail-content" style="display: inline-block;">
+                                                <p>供应类型: 微信扫码</p>
+                                                <p>联系方式: 136xxxx<?php echo rand(1000,9999) ?></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {/volist}
+
+                    </div>
+
+
+
+
+
+                    <div id="no-data" style="display: none">
+                        <img src="/public/static/usercenter/images/noData.png" alt="">
+                    </div>
+                </div>
+          <!--      <div class="fypages">
+
+                </div>-->
+            </div>
+        </div>
+
+
+        <!--   <div class="lin-searchnav">
+               <div class="lin-searchnav-box">
+                   <div class="bd-bottom">
+                       <ul class="lin-ul">
+                           <li class="lin-senav-active" data-field="users">商户</li>
+   &lt;!&ndash;                        <li class="" data-field="channels">渠道</li>&ndash;&gt;
+                       </ul>
+                   </div>
+               </div>
+
+           </div>
+
+
+           <div style="height: 250px"></div>-->
+    </div>
+</div>
+
+<script type="text/javascript">
+    var currentPage = 0;
+    var totalPage = 0;
+    var totalNum = 0;
+    var page = 1;
+    var pagesize = 5;
+    var noData = document.getElementById("no-data");
+    var userCreateTime = '';
+    var userUsername = '';
+    var userUserType = '';
+    var channelName = '';
+    var channelCreateTime = '';
+    var show = function (elem) {
+        elem.style.display = 'inline'
+    }
+    var hide = function (elem) {
+        elem.style.display = 'none';
+    }
+    var user = {
+        getSearchField: function () {
+            return {
+                page: page,
+                limit: pagesize,
+                createTime: userCreateTime,
+                username: userUsername,
+                userType: userUserType
+            }
+        },
+        getUserLists: function (d) {
+            $.ajax({
+                url: "getUsersLists",
+                type: 'POST',
+                data: this.getSearchField(),
+                dataType: 'json',
+                success: function (result) {
+                    if (result.code == 1) {
+                        $('#myTable > tbody').children().remove();
+                        if (result.data.total === 0) {
+                            show(noData)
+                            $('.fypages').children().remove();
+                        } else {
+                            hide(noData)
+                            var totalNum = result.data.total;
+                            currentPage = result.data.current_page;
+                            $.each(result.data.data, function (index, user) {
+                                let r = $('<tr className="line"></tr>'),
+                                    d1 = $('<td class="user-icon"><a class="imga" data-publish=""><img src="' + user.avatar + '"></a></td>'),
+                                    d2 = $('<td class="name-des">' + user.username + '</td>'),
+                                    d3 = $('<td>' + user.user_type_text + '</td>'),
+                                    d4 = $('<td>' + user.create_time + '</td>');
+                                r.append(d1).append(d2).append(d3).append(d4);
+                                r.appendTo($('#myTable > tbody'))
+                            })
+                            totalPage = totalNum % pagesize == 0 ? totalNum / pagesize : Math.ceil(totalNum / pagesize);
+                            pageHtml();
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    var channel = {
+        getSearchField: function () {
+            return {
+                page: page,
+                limit: pagesize,
+                createTime: channelCreateTime,
+                name: channelName,
+            }
+        },
+        getChannelLists: function (d) {
+            $.ajax({
+                url: "getChannelLists",
+                type: 'POST',
+                data: this.getSearchField(),
+                dataType: 'json',
+                success: function (result) {
+                    if (result.code == 1) {
+                        $('#myTable > tbody').children().remove();
+                        if (result.data.total === 0) {
+                            show(noData)
+                            $('.fypages').children().remove();
+                        } else {
+                            hide(noData)
+                            var totalNum = result.data.total;
+                            currentPage = result.data.current_page;
+                            $.each(result.data.data, function (index, channel) {
+                                let r = $('<tr className="line"></tr>'),
+                                    d1 = $('<td class="user-icon"><a class="imga" data-publish=""><img src="' + user.avatar + '"></a></td>'),
+                                    d2 = $('<td class="name-des">' + channel.name + '</td>'),
+                                    d3 = $('<td>' + channel.create_time + '</td>');
+                                r.append(d1).append(d2).append(d3);
+                                r.appendTo($('#myTable > tbody'))
+                            })
+                            totalPage = totalNum % pagesize == 0 ? totalNum / pagesize : Math.ceil(totalNum / pagesize);
+                            pageHtml();
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    var pageHtml = function () {
+        $('.fypages').children().remove();
+        if (totalPage > 1) {
+            let u = $('<ul></ul>');
+            $('<li class="pages">首页</li>').appendTo(u);
+            $('<li class="pages">上一页</li>').appendTo(u);
+            if (totalPage > 7 && currentPage > 3) {
+                if ((currentPage + 3) >= totalPage) {
+                    i = currentPage - (7 - (totalPage - currentPage));
+                    pageNumberSection = totalPage
+                } else {
+                    pageNumberSection = currentPage + 3;
+                    i = currentPage - 3;
+                }
+            } else if (totalPage > 7 && currentPage < 4) {
+                i = 1;
+                pageNumberSection = 7;
+            } else {
+                i = 1;
+                pageNumberSection = totalPage;
+            }
+            for (i; i <= pageNumberSection; i++) {
+                if (i === currentPage) {
+                    $(' <li class="pages active">' + i + '</li>').appendTo(u);
+                } else {
+                    $(' <li class="pages none">' + i + '</li>').appendTo(u);
+                }
+            }
+            $('<li class="pages">下一页</li>').appendTo(u);
+            $('<li class="pages">末页</li>').appendTo(u);
+            $('.fypages').append(u)
+        }
+    }
+
+    var pageInit = function () {
+        currentPage = 0
+        totalPage = 0;
+        totalNum = 0;
+        page = 1;
+        pagesize = 5;
+    }
+
+    $('.fypages').on('click', '.pages', function () {
+        if (this.innerHTML == '首页') {
+            if (currentPage == 1) return false;
+            page = 1;
+        } else if (this.innerHTML == '上一页') {
+            if (currentPage == 1) return false;
+            page = currentPage - 1;
+        } else if (this.innerHTML == '末页') {
+            if (currentPage == totalPage) return false;
+            page = totalPage;
+        } else if (this.innerHTML == '下一页') {
+            if (currentPage == totalPage) return false;
+            page = currentPage + 1;
+        } else {
+            if (currentPage == this.innerHTML) return false;
+            page = this.innerHTML;
+        }
+        user.getUserLists();
+
+    })
+
+
+    $('.search-btn').on('click', function () {
+        userUsername = $('[name="username"]').val();
+        pageInit();
+        user.getUserLists();
+    })
+
+    $('.more-search span').on('click', function () {
+        $.each($(this).siblings(), function (index, elem) {
+            $(elem).removeClass('spanActive')
+        })
+        $(this).addClass('spanActive');
+        let dataField = $(this).attr('data-field'),
+            dataValue = $(this).attr('data-value');
+        switch (dataField) {
+            case 'createTime':
+                userCreateTime = dataValue;
+                break;
+            case 'userType':
+                userUserType = dataValue;
+                break;
+        }
+        pageInit();
+        user.getUserLists();
+    })
+
+    $('.lin-ul li').on('click', function () {
+        $.each($(this).siblings(), function (index, elem) {
+            $(elem).removeClass('lin-senav-active')
+        })
+        let optionVal = $(this).attr('data-field');
+        if (optionVal == 'channels') {
+            $('#users').hide();
+            $('#channels').show();
+        } else {
+            $('#users').show();
+            $('#channels').hide();
+        }
+        pageInit();
+        channel.getChannelLists();
+        $(this).addClass('lin-senav-active');
+    })
+
+    user.getUserLists();
+
+
+</script>
+
+{/block}
+
+

@@ -393,22 +393,33 @@
     }
 
     $(document).ready(function () {
+        var menuActiveIndex = false;
         var url = GetUrlRelativePath();
         var patt1 = new RegExp(url);
-        // console.log(url)
-        // console.log(patt1)
-        //$(".layui-this").removeClass();
         var menu = document.getElementsByClassName('menu')
         $(menu).find('a').each(function (i, obj) {
             var str = $(obj).attr('href');
             if (patt1.test(str)) {
                 if ($(obj).attr('class') == 'level-1-menu') {
-                    $(obj).parent().addClass("active selected");
+                    var menuActive =  $(obj).parent();
                 } else {
-                    $(obj).parent().parent().parent().addClass("active selected");
+                    var menuActive = $(obj).parent().parent().parent();
                 }
+                menuActive.addClass("active selected");
+                localStorage.setItem("menu-active-index", menuActive.index());
+                menuActiveIndex = true;
             }
         });
+
+        if (!menuActiveIndex && localStorage.getItem("menu-active-index")){
+
+            console.log( $('menu li:nth-child('+ localStorage.getItem("menu-active-index")  +')'))
+
+           // .addClass('active selected');
+        }
+
+
+
     });
 </script>
 <script src="__STATIC__/usercenter/js/custom.js"></script>

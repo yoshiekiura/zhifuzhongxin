@@ -1,4 +1,4 @@
-/*@font-face {
+@font-face {
     font-family: 'Open Sans';
     src: url("../fonts/open-sans/OpenSans-Light.ttf") format("ttf");
     font-weight: 300;
@@ -12,10 +12,8 @@
     font-family: 'Open Sans';
     src: url("../fonts/open-sans/OpenSans-Bold.ttf") format("ttf");
     font-weight: 700;
-    font-style: normal; }*/
-@font-face{
-    font-family: "宋体";
-}
+    font-style: normal; }
+
 html {
     height: 100%; }
 
