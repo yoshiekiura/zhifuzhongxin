@@ -13,7 +13,7 @@ class YinqianPay extends ApiPayment
 
     public function pay($order, $type)
     {
-
+//        return ['request_url' => 'http://www.baidu.com'];
         $mchid = $this->config['pay_merchant'];
         $Md5key = $this->config['pay_secret'];
         $requestUrl = $this->config['pay_address'];

@@ -277,12 +277,13 @@ class Channels extends Base
         $Md5key = '772ae1d32322f49508307b2f31a0107f';
         $host = $_SERVER["HTTP_HOST"];
 
-        $requestUrl = 'http://'.$host.'/api/pay/unifiedorder';
+        $requestUrl = 'http://'.$host.'/apis/order';
+
         $data = array(
             'mchid' => $mchid,
             'out_trade_no' => date('ymdHis').rand(1000,9999),
             'amount' => $amount,
-            'channel' =>$codeVal,
+            'channel' => $channelCode,
             'notify_url' => $host.'/test/notify.php',
             'return_url' => $host.'/test/return.php',
             'time_stamp' => date("Ymdhis"),
@@ -326,7 +327,7 @@ class Channels extends Base
         //关闭URL请求
         curl_close($curl);
         //显示获得的数据
-
+//halt($json);
         $data = json_decode($json, true);
         if(isset($data['code']) && $data['code'] == 0)
         {

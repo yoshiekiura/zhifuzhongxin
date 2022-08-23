@@ -128,6 +128,8 @@ class DoPay extends BaseApi
                 $channelAccount['notify_url']  = Request::instance()->domain() . "/api/notify/notify/channel/". $channelAccount['notify_url'];
                 $channelAccount['return_url']  = Request::instance()->domain() . "/api/notify/notify/channel/". $channelAccount['return_url'];
                 $config=  $channelAccount->toArray();
+                //添加订单支付通道ID
+                $this->logicOrders->setOrderValue(['trade_no' => $order['trade_no']], 'cnl_id', $channelAccount['id']);
 //                halt($channelAccount);
             }else{
                 //渠道和参数获取

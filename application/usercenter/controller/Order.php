@@ -6,6 +6,7 @@ namespace app\usercenter\controller;
 
 use app\common\library\enum\CodeEnum;
 use app\common\logic\OrdersNotify;
+use think\Collection;
 use think\Db;
 
 class Order extends Base
@@ -16,7 +17,23 @@ class Order extends Base
      * @return mixed
      */
     public function index(){
-        $where['a.pay_center_uid'] = $this->user['id'];
+
+        $userType = $this->user['user_type'];
+
+        switch ($userType) {
+            case '1':
+                    $channels =  $this->logicPay->getChannelList(['pay_center_uid' => $this->user['id'] ], 'id');
+                    $cnl_ids = array_column(collection($channels)->toArray(), 'id');
+                    $where['a.cnl_id'] = ['in', $cnl_ids];
+                break;
+            case '2':
+                $where['a.pay_center_uid'] = $this->user['id'];
+                break;
+            default:
+                $where['a.pay_center_uid'] = $this->user['id'];
+                break;
+        }
+
         //组合搜索
         !empty($this->request->get('trade_no')) && $where['a.out_trade_no']
             = ['like', '%'.$this->request->get('trade_no').'%'];
