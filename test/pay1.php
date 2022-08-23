@@ -1,4 +1,7 @@
 <?php
+
+//获取10001
+
 if(!empty($_GET['amount']))
 {
 	$mchid = '100239';
