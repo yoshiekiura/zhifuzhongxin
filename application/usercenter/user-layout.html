@@ -407,21 +407,20 @@
                     var menuActive =  $(obj).parent();
                 } else {
                     var menuActive = $(obj).parent().parent().parent();
+                    $(obj).addClass("current");
+                    localStorage.setItem("menu-child-active-index", Number($(obj).index()) + Number(1));
                 }
                 menuActive.addClass("active selected");
-                localStorage.setItem("menu-active-index", menuActive.index());
+                localStorage.setItem("menu-active-index", Number(menuActive.index()) + Number(1));
                 menuActiveIndex = true;
             }
         });
 
         if (!menuActiveIndex && localStorage.getItem("menu-active-index")){
-
-            console.log( $('menu li:nth-child('+ localStorage.getItem("menu-active-index")  +')'))
-
-           // .addClass('active selected');
+            let leveObj1 =  $('.menu > li:nth-child('+ localStorage.getItem("menu-active-index")  +')');
+            leveObj1.addClass('active selected');
+            leveObj1.find('ul li:nth-child('+ localStorage.getItem("menu-child-active-index") +')').addClass("current");
         }
-
-
 
     });
 </script>

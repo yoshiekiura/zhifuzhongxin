@@ -8,7 +8,7 @@
                 绑定用户列表 <a href='{:url("/usercenter/Merchants/list_merchant")}' class="btn btn-primary">返回</a>
                             </h3>
                             <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover">
+                                <table class="table table-bordered">
                                     <thead>
                                     <tr>
                                         <td colspan="10">
@@ -46,9 +46,9 @@
                         <td>{$vo['pay_center_username']}</td>
                         <td>
                             {switch $vo.status}
-                            {case 0}<a href="javascript:void(0);" class="btn btn-xs btn-warning disabled">待审核</a>{/case}
-                            {case 1}<a href="javascript:void(0);" class="btn btn-xs btn-success disabled">审核通过</a>{/case}
-                            {case 2}<a href="javascript:void(0);" class="btn btn-xs btn-danger disabled">审核失败</a>{/case}
+                            {case 0}<a href="javascript:void(0);" class="btn btn-xs btn-warning btn-rounded">待审核</a>{/case}
+                            {case 1}<a href="javascript:void(0);" class="btn btn-xs btn-success btn-rounded">审核通过</a>{/case}
+                            {case 2}<a href="javascript:void(0);" class="btn btn-xs btn-danger btn-rounded">审核失败</a>{/case}
                             {/switch}
                         </td>
                         <td>

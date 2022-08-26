@@ -122,6 +122,9 @@ class Index extends Base
      */
     public function apiDoc()
     {
+        //返回所有对接编码
+        $codes = $this->modelPayCode->where('status',1)->select();
+        $this->assign('codes',$codes);
         return $this->fetch();
     }
 }
