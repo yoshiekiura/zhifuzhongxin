@@ -147,10 +147,19 @@ class Merchants extends Base
      */
     public function getChannelCodesList()
     {
+         $lists = [];
+         $where = [];
          //是否绑定渠道，没有绑定只返回test编码
-         $ret =  $this->modelMerchantBinding->where(['id' => $this->request->param('id'), 'channel_user_id' => $this->user['id']])->find();
-         halt($this->user['id']);
-         $ret =  $this->logicPay->getCodeList(['status' => 1], true, 'create_time desc', false);
+         $binding =  $this->modelMerchantBinding->where(['id' => $this->request->param('id'), 'merchant_user_id' => $this->user['id']])->find();
+
+         if (!$binding) return $lists;
+
+        $where['status'] = 1;
+         if ($binding->status != 1){
+             $where['name'] = 'test';
+         }
+
+         $ret =  $this->logicPay->getCodeList($where, true, 'create_time desc', false);
          $this->success('操作成功','', $ret);
     }
 

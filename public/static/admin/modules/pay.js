@@ -760,6 +760,181 @@ layui.define(["table", "form"],
                             }
                         })
                     }
-                });
+                }),
+            //渠道模板
+             i.render({
+            elem: "#app-pay-channel-template-list",
+            url: 'channelTemplate',
+            //自定义响应字段
+            response: {
+                statusName: 'code' //数据状态的字段名称
+                , statusCode: 1 //数据状态一切正常的状态码
+                , msgName: 'msg' //状态信息的字段名称
+                , dataName: 'data' //数据详情的字段名称
+            },
+            cols: [[{
+                type: "checkbox",
+                fixed: "left"
+            },
+                {
+                    field: "id",
+                    width: 100,
+                    title: "ID",
+                    sort: !0
+                },
+                {
+                    field: "name",
+                    width: 150,
+                    title: "模板名称"
+                },
+                {
+                    field: "params",
+                    width: 100,
+                    title: "参数展示"
+                },
+                {
+                    field: "port_address",
+                    width: 250,
+                    title: "接口地址"
+                },
+                {
+                    field: "class_name",
+                    width: 120,
+                    title: "基础类名"
+                },
+                {
+                    field: "create_time",
+                    title: "创建时间",
+                    width: 200,
+                },
+                {
+                    field: "status",
+                    title: "状态",
+                    width: 100,
+                    templet: "#buttonTpl",
+                    align: "center"
+                },
+                {
+                    title: "操作",
+                    align: "center",
+                    fixed: "right",
+                    toolbar: "#table-pay-channel"
+                }]],
+            page: !0,
+            limit: 10,
+            limits: [10, 15, 20, 25, 30],
+            text: "对不起，加载出现异常！"
+        })
+            i.on("tool(app-pay-channel-template-list)",
+                function (e) {
+                var s = e;
+                if ("del" === e.event) {
+                    layer.confirm("确定删除此支付渠道？",
+                        function (d) {
+                            t.ajax({
+                                url: 'delChannel?id=' + e.data.id,
+                                method: 'POST',
+                                success: function (res) {
+                                    if (res.code == 1) {
+                                        e.del()
+                                    }
+                                    layer.msg(res.msg, {icon: res.code == 1 ? 1 : 2, time: 1500}, function () {
+                                        layer.close(d); //关闭弹层
+
+                                        window.location.reload();
+                                    });
+                                }
+                            });
+                        });
+                }else if ("account" === e.event) {
+                    t(e.tr);
+                    layer.open({
+                        type: 2,
+                        title: "渠道账户列表",
+                        content: "account?cnl_id=" + e.data.id,
+                        maxmin: !0,
+                        area: ['80%', '60%'],
+                        btn: ["确定", "取消"],
+                        yes: function (e, f) {
+                        },
+                        success: function (e, t) {
+                        }
+                    })
+                } else if ("blind_tg_group_id" === e.event) {
+                    var channel_secret = e.data.channel_secret;
+                    layer.alert("请发送文本:【channel:" + channel_secret + "】到渠道群")
+                } else if ("unblind_tg_group_id" === e.event) {
+                    layer.confirm("真的要解绑此渠道的TG群吗？",
+                        function (d) {
+                            t.ajax({
+                                url: 'unblindTgGroup?id=' + e.data.id,
+                                method: 'POST',
+                                success: function (res) {
+                                    layer.msg(res.msg, {icon: res.code == 1 ? 1 : 2, time: 1500}, function () {
+                                        layer.close(d); //关闭弹层
+                                        window.location.reload();
+                                    });
+                                }
+                            });
+                        })
+                } else if ("edit" === e.event) {
+                    t(e.tr);
+                    layer.open({
+                        type: 2,
+                        title: "编辑渠道",
+                        content: "editChannel?id=" + e.data.id,
+                        maxmin: !0,
+                        area: ['80%', '60%'],
+                        btn: ["确定", "取消"],
+                        yes: function (e, f) {
+                            var r = window["layui-layer-iframe" + e],
+                                l = "app-pay-channel-submit",
+                                o = f.find("iframe").contents().find("#" + l);
+                            r.layui.form.on("submit(" + l + ")",
+                                function (r) {
+                                    var l = r.field;
+                                    //提交修改
+                                    t.post("editChannel", l, function (res) {
+                                        if (res.code == 1) {
+                                            //更新数据表
+                                            s.update({
+                                                name: l.name,
+                                                daily: l.daily,
+                                                param: l.param,
+                                                rate: l.rate,
+                                                remarks: l.remarks,
+                                                status: l.status
+                                            }),
+                                                //渲染
+                                                n.render(),
+                                                layer.close(e);
+                                        }
+                                        layer.msg(res.msg, {icon: res.code == 1 ? 1 : 2, time: 1500});
+                                    });
+                                }),
+                                o.trigger("click")
+                        },
+                        success: function (e, t) {
+                        }
+                    })
+                }else if ("delete" === e.event) layer.confirm("确定删除此支付渠道？删除不可恢复",
+                    function (d) {
+                        t.ajax({
+                            url: 'deleteChannel?id=' + e.data.id,
+                            method: 'POST',
+                            success: function (res) {
+                                if (res.code == 1) {
+                                    e.del()
+                                }
+                                layer.msg(res.msg, {icon: res.code == 1 ? 1 : 2, time: 1500}, function () {
+                                    layer.close(d); //关闭弹层
+
+                                    window.location.reload();
+                                });
+                            }
+                        });
+                    });
+            })
+        ;
         e("pay", {})
     });

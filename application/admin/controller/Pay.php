@@ -15,6 +15,7 @@ namespace app\admin\controller;
 
 
 use app\common\library\enum\CodeEnum;
+use think\Request;
 
 class Pay extends BaseAdmin
 {
@@ -634,4 +635,50 @@ class Pay extends BaseAdmin
         $this->error('错误请重试');
 
     }
+
+    /**
+     * 渠道模板列表
+     */
+    public function channelTemplate(Request $request)
+    {
+        if ($request->isAjax()){
+            $where = [];
+            $name =  $request->param('name');  //模板名称
+            $port_address = $request->param('port_address');  //下单地址
+            $class_name = $request->param('class_name');  //基础类名
+            $name && $where['name'] = array('LIKE', '%' . $name .'%');
+            $port_address && $where['port_address'] = array('LIKE', '%' . $port_address .'%');
+            $class_name && $where['class_name'] = $class_name ;
+            $data =  $this->modelChannelTemplate->where($where)->paginate($request->input('limit', 15));
+            $this->result(!$data->isEmpty() ?
+                [
+                    'code' => CodeEnum::SUCCESS,
+                    'msg'=> '',
+                    'count'=>$data->count(),
+                    'data'=>$data->items()
+                ] : [
+                    'code' => CodeEnum::ERROR,
+                    'msg'=> '暂无数据',
+                    'count'=> 0,
+                    'data'=>$data->items()
+                ]);
+        }
+
+        return $this->fetch();
+    }
+
+    /**
+     * 添加渠道模板
+     */
+    public function addChannelTemplate(Request $request)
+    {
+        if ($request->isAjax())
+        {
+            $this->result($this->logicPayChannelTemplate->saveChannelTemplateInfo($request->post()));
+        }
+
+        return $this->fetch();
+
+    }
+
 }
