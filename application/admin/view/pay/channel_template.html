@@ -51,8 +51,8 @@
                 {{#  } }}
             </script>
             <script type="text/html" id="table-pay-channel">
-                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
-                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+<!--                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>-->
+<!--                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>-->
             </script>
         </div>
     </div>
@@ -106,20 +106,57 @@
                     ,title: '添加模板'
                     ,content: 'addChannelTemplate'
                     ,maxmin: true
-                    ,area: ['80%','60%']
+                    ,area: ['80%','70%']
                     ,btn: ['确定', '取消']
                     ,yes: function(index, layero){
 
                         var iframeWindow = window['layui-layer-iframe'+ index]
                             ,submitID = 'app-pay-channel-template-submit'
                             ,submit = layero.find('iframe').contents().find('#'+ submitID);
-
+                    console.log(iframeWindow.layui.form)
                         //监听提交
                         iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
                             var l = data.field; //获取提交的字段
                             //提交 Ajax 成功后，静态更新表格中的数据
                             $.ajax({
                                 url:'addChannelTemplate',
+                                type:'post',
+                                data: l,
+                                success:function (res) {
+                                    if (res.code == 1) {
+                                        //更新数据表
+                                        table.reload('app-pay-channel-template-list'); //数据刷新
+                                        layer.close(index); //关闭弹层
+                                    }
+                                    layer.msg(res.msg, {icon: res.code == 1 ? 1: 2,time: 1500});
+                                }
+                            });
+                        });
+
+                        submit.trigger('click');
+                    }
+                });
+            },
+            edit: function(){
+                layer.open({
+                    type: 2
+                    ,title: '编辑模板'
+                    ,content: 'editChannelTemplate'
+                    ,maxmin: true
+                    ,area: ['80%','70%']
+                    ,btn: ['确定', '取消']
+                    ,yes: function(index, layero){
+
+                        var iframeWindow = window['layui-layer-iframe'+ index]
+                            ,submitID = 'app-pay-channel-template-submit'
+                            ,submit = layero.find('iframe').contents().find('#'+ submitID);
+                        console.log(iframeWindow.layui.form)
+                        //监听提交
+                        iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
+                            var l = data.field; //获取提交的字段
+                            //提交 Ajax 成功后，静态更新表格中的数据
+                            $.ajax({
+                                url:'editChannelTemplate?id=' + e.data.id,
                                 type:'post',
                                 data: l,
                                 success:function (res) {

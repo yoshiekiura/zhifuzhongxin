@@ -649,7 +649,7 @@ class Pay extends BaseAdmin
             $name && $where['name'] = array('LIKE', '%' . $name .'%');
             $port_address && $where['port_address'] = array('LIKE', '%' . $port_address .'%');
             $class_name && $where['class_name'] = $class_name ;
-            $data =  $this->modelChannelTemplate->where($where)->paginate($request->input('limit', 15));
+            $data =  $this->modelChannelTemplate->where($where)->order('create_time desc'  )->paginate($request->input('limit', 15));
             $this->result(!$data->isEmpty() ?
                 [
                     'code' => CodeEnum::SUCCESS,
@@ -674,8 +674,27 @@ class Pay extends BaseAdmin
     {
         if ($request->isAjax())
         {
-            $this->result($this->logicPayChannelTemplate->saveChannelTemplateInfo($request->post()));
+            $this->result($this->logicChannelTemplate->saveChannelTemplateInfo($request->post()));
         }
+
+        return $this->fetch();
+
+    }
+
+    /**
+     * 编辑渠道模板
+     */
+    public function editChannelTemplate(Request $request)
+    {
+        $id = $request->param('id');
+        if ($request->isAjax())
+        {
+            $this->result($this->logicChannelTemplate->saveChannelTemplateInfo($request->post()));
+        }
+
+        $template =  $this->modelChannelTemplate->get($id);
+        halt($template);
+        $this->assign('template', $template);
 
         return $this->fetch();
 
