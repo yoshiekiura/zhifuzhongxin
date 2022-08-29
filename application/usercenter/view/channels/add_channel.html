@@ -11,12 +11,18 @@
                     <form id="form1" class="form-horizontal">
                         <input type="text" name="scene" hidden value="add">
                         <div class="form-group">
+                            <label for="order_address" class="col-sm-2 col-md-2 control-label">下单地址</label>
+                            <div class="col-sm-10 col-md-5">
+                                <input type="text" class="form-control" oninput="matchChannel(this.value)"  id="order_address" name="pay_address" value="" placeholder="下单地址">
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label for="template_id" class="col-sm-2 col-md-2 control-label">渠道模板</label>
                             <div class="col-sm-10 col-md-5">
                                 <select name="template_id" id="template_id" class="form-control">
-                                    <option value="">选择收渠道模板</option>
+                                    <option value="" data-url = ''>选择收渠道模板</option>
                                     {volist name="channelTemplate" id="vo"}
-                                    <option  value="{$vo.id}">{$vo.name}</option>
+                                    <option  value="{$vo.id}" data-address = '{$vo.port_address}'>{$vo.name}</option>
                                     {/volist}
                                 </select>
                             </div>
@@ -26,13 +32,6 @@
                             <label for="name" class="col-sm-2 col-md-2 control-label">渠道名称</label>
                             <div class="col-sm-10 col-md-5">
                                     <input type="text" class="form-control" required id="name" name="name" value="" placeholder="渠道名称">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="order_address" class="col-sm-2 col-md-2 control-label">下单地址</label>
-                            <div class="col-sm-10 col-md-5">
-                                    <input type="text" class="form-control"  id="order_address" name="pay_address" value="" placeholder="下单地址">
                             </div>
                         </div>
 
@@ -153,6 +152,40 @@
 
         })
     });
+
+    var matchChannel = function (url){
+        let template = document.getElementById('template_id');
+        let index =  getCharIndex(url, 3);
+        let sub_str = '';
+        if (index > 0){
+             sub_str =  url.slice(index);
+        }
+        if (sub_str){
+            for (var i = 0; i < template.length; i++) {
+                let address =  template[i].getAttribute('data-address');
+                if (address == sub_str){
+                    template[i].selected = true;
+                }else{
+                    template[i].selected = false;
+                }
+            }
+        }
+    }
+
+    function getCharIndex(url, offset){
+        var str_index = 0;
+        var index = 0;
+        for(var i=0; i<url.length; i++){
+            if(url[i] == '/')
+                index ++;
+            if(index == offset){
+                str_index = i;
+                break;
+            }
+        }
+        return str_index
+    }
+
 
 </script>
 
