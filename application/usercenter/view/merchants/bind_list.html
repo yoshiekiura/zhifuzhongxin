@@ -53,7 +53,7 @@
                         </td>
                         <td>
                             {if condition="$vo.channel_account_id"}
-                            <a href="javascript:void(0);" onclick="PostTestChannel('{$vo.id}')" class="btn btn-xs btn-primary">测试渠道</a>
+                            <a href="javascript:void(0);" onclick="PostTestChannel('{$vo.id}')" class="btn btn-xs btn-info">测试渠道</a>
                             {/if}
                         </td>
                     </tr>
@@ -89,7 +89,7 @@
     var code, message, responseData;
     PostTestChannel = function (id) {
         $.ajax({
-            url: "/usercenter/Merchants/getChannelCodesList",
+            url: "/usercenter/Merchants/getChannelCodesList&id="+id,
             type: "POST",
             data: {id: id, _ajax: '1'},
             isuccess: function (data) {
