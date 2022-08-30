@@ -124,6 +124,7 @@ class Index extends Base
     {
         //返回所有对接编码
         $codes = $this->modelPayCode->where('status',1)->select();
+        $codes = collection($codes)->isEmpty() ? $codes: collection($codes)->toArray();
         $this->assign('codes',$codes);
         return $this->fetch();
     }

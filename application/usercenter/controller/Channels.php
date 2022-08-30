@@ -200,6 +200,7 @@ class Channels extends Base
      */
     public function channelAccountList()
     {
+        $channel_id = $this->request->param('id');
         !empty($this->request->get('name')) && $map['a.name']
             = ['like', '%' . $this->request->get('name') . '%'];
         $logicChannel = new Channel();
@@ -209,7 +210,7 @@ class Channels extends Base
         $accountLists = $logicChannel->channelAccountList($map, 'a', $field, 'id desc', 10);
 
         $this->assign('list', $accountLists);
-
+        $this->assign('channel_id', $accountLists);
         return $this->fetch();
     }
 

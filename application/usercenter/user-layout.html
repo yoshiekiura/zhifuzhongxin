@@ -312,11 +312,11 @@
                 <li>
                     <a href="{:url('usercenter/channels/index')}">渠道列表</a>
                 </li>
-                <li>
+                <!--<li>
                     <a href="{:url('usercenter/channels/channelAccountList')}">账户列表</a>
-                </li>
+                </li>-->
                 <li>
-                    <a href="{:url('usercenter/MerchantsBinding/channelBindingUserList')}">渠道绑定用户列表</a>
+                    <a href="{:url('usercenter/MerchantsBinding/channelBindingUserList')}">绑定商户列表</a>
                 </li>
                 <li>
                     <a href="{:url('usercenter/Order/index')}">订单列表</a>
@@ -361,12 +361,20 @@
             </ul>
         </li>
         {/case}
+
+
         {/switch}
 
         <li>
             <a href="{:url('usercenter/Paycenterbill/index')}" class="level-1-menu">
                 <i class="icon-map4"></i>
                 <span class="menu-item">账单管理</span>
+            </a>
+        </li>
+        <li>
+            <a href="{:url('usercenter/Help/index')}" class="level-1-menu">
+                <i class="icon-pencil2"></i>
+                <span class="menu-item">帮助中心</span>
             </a>
         </li>
     </ul>

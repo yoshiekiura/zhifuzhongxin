@@ -24,6 +24,7 @@ class Order extends Base
             case '1':
                     $channels =  $this->logicPay->getChannelList(['pay_center_uid' => $this->user['id'] ], 'id');
                     $cnl_ids = array_column(collection($channels)->toArray(), 'id');
+//                    halt($this->user['id']);
                     $where['a.cnl_id'] = ['in', $cnl_ids];
                 break;
             case '2':
@@ -52,9 +53,10 @@ class Order extends Base
         {
             $where['status'] = $this->request->get('status');
         }
-        $field = 'a.*, c.name as channel_name';
-        $orderLists = $this->logicOrders->getUsercenterOrderList($where,$field, 'create_time desc', 10);
+        $field = 'a.*, ca.name as account_name, c.name as channel_name';
 
+        $orderLists = $this->logicOrders->getUsercenterOrderList($where,$field, 'create_time desc', 10);
+//halt($orderLists);
         //查询当前符合条件的订单的的总金额  编辑封闭 新增放开 原则
         $cals =  $this->logicOrders->calUsercenterOrdersData($where);
 

@@ -527,12 +527,12 @@
                     </div>
                     <div class="layui-tab-item">
                         <div class="layui-row layui-col-space15">
-                            <div class="layui-col-lg3">
+                            <div class="layui-col-lg12">
                                 <div class="layui-card">
                                     <div class="layui-card-header" style="background-color:#f2f2f2">通道编码列表</div>
                                     <div class="layui-card-body">
 
-                                        <table class="layui-table">
+                                        <table class="layui-table" style="display: inline">
                                             <colgroup>
                                                 <col width="120">
                                                 <col>
@@ -541,13 +541,24 @@
                                             <tr>
                                                 <td style="font-weight:bold">通道编码</td>
                                                 <td style="font-weight:bold">说明</td>
+                                                <td style="font-weight:bold">通道编码</td>
+                                                <td style="font-weight:bold">说明</td>
                                             </tr>
-                                            {volist name="codes" id="vo"}
+
+                                            {volist name="codes" id="vo" key="key"}
+                                                {if condition="$key%2 == 0"}
                                                 <tr>
                                                     <td>{$vo.code}</td>
                                                     <td>{$vo.name}</td>
+                                                    {if condition="isset($codes[$key+1])"}
+                                                        <td>{$codes[$key]['code']}</td>
+                                                        <td>{$codes[$key]['name']}</td>
+                                                    {/if}
                                                 </tr>
+                                                {/if}
                                             {/volist}
+
+                                            </tbody>
 
                                             </tbody>
                                         </table>

@@ -109,9 +109,9 @@ class Merchants extends Base
             ->find();
 
         //下面几个写死
-        $userinfo['pay_address']= '/apis/order';
-        $userinfo['query_address'] = '/apis/query';
-        $userinfo['callback_ip'] = '97.74.83.73';
+        $userinfo['pay_address']= 'http://68.178.164.187:85/apis/order';
+        $userinfo['query_address'] = 'http://68.178.164.187:85/apis/query';
+        $userinfo['callback_ip'] = '68.178.164.187';
 
         if (!$userinfo){
             $this->error('数据错误');

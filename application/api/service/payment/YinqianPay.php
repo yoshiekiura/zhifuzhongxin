@@ -42,7 +42,7 @@ class YinqianPay extends ApiPayment
 
         $result = json_decode(self::curlPost($requestUrl, $data), true);
 
-        if ($result['code'] != 0) {
+        if ($result['code'] != '0') {
             Log::error('Create YinqianPay API Error:' . $result['msg']);
             throw new OrderException([
                 'msg' => 'Create YinqianPay API Error:' . $result['msg'],
