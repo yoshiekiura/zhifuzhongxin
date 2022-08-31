@@ -112,8 +112,8 @@ class Channels extends Base
             $this->success($ret['msg']);
         }
 
-        $channelMap['pay_center_uid'] = $this->user['id'];
-        $channelMap['status'] = 1;
+        $channelMap['a.pay_center_uid'] = $this->user['id'];
+        $channelMap['a.status'] = 1;
         $logicChannel = new Channel();
         $channelLists = $logicChannel->getChannelsList($channelMap, 'a', 'a.*', 'id desc');
         $this->assign('channel', $channelLists);
