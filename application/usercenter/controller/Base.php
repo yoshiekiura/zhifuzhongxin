@@ -31,6 +31,7 @@ class Base extends Common
                 exit;
             }
             $this->assign('user_info', $this->user);
+            $this->assign('seo_title', $this->modelConfig->where(['name' => 'seo_title'])->value('value'));
         }
     }
     /**

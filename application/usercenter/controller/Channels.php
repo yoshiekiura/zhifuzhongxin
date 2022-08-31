@@ -15,9 +15,9 @@ class Channels extends Base
      */
     public function index()
     {
-        $map['pay_center_uid'] = $this->user['id'];
-        $map['status'] = 1;
-        !empty($this->request->get('name')) && $map['name']
+        $map['a.pay_center_uid'] = $this->user['id'];
+        $map['a.status'] = 1;
+        !empty($this->request->get('name')) && $map['a.name']
             = ['like', '%' . $this->request->get('name') . '%'];
         $logicChannel = new Channel();
 
