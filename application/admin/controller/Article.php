@@ -30,6 +30,7 @@ class Article extends BaseAdmin
      */
     public function index()
     {
+        $this->assign('categoryMap', $this->modelArticle->categoryMap);
         return $this->fetch();
     }
 
@@ -62,6 +63,9 @@ class Article extends BaseAdmin
 
         !empty($this->request->param('title')) && $where['title']
             = ['like', '%'.$this->request->param('title').'%'];
+
+        !empty($this->request->param('category_id')) && $where['category_id']
+            = ['eq', $this->request->param('category_id')];
 
         //时间搜索  时间戳搜素
         $where['create_time'] = $this->parseRequestDate();
@@ -134,9 +138,8 @@ class Article extends BaseAdmin
      */
     public function add()
     {
-        
         $this->articleCommon();
-        
+        $this->assign('categoryMap', $this->modelArticle->categoryMap);
         return $this->fetch();
     }
 
@@ -165,7 +168,7 @@ class Article extends BaseAdmin
     public function edit()
     {
         $this->articleCommon();
-        
+        $this->assign('categoryMap', $this->modelArticle->categoryMap);
         return $this->fetch();
     }
 

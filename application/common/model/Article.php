@@ -16,5 +16,19 @@ namespace app\common\model;
 
 class Article extends BaseModel
 {
+    public $categoryMap = array(
+        1 => ['id' => 1, 'name' => 'category1'],
+        2 => ['id' => 2, 'name' => 'category2'],
+        3 => ['id' => 3, 'name' => 'category3'],
+    );
 
+
+    protected $append = [
+        'categoryText'
+    ];
+
+    public function getcategoryTextAttr($value,$data)
+    {
+            return $this->categoryMap[$data['category_id']]['name'];
+    }
 }

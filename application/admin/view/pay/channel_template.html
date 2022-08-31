@@ -51,7 +51,7 @@
                 {{#  } }}
             </script>
             <script type="text/html" id="table-pay-channel">
-<!--                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>-->
+                <a class="layui-btn layuiadmin-btn-useradmin layui-btn-normal layui-btn-xs " lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
 <!--                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>-->
             </script>
         </div>
@@ -138,6 +138,7 @@
                 });
             },
             edit: function(){
+                alert(1212)
                 layer.open({
                     type: 2
                     ,title: '编辑模板'
@@ -173,10 +174,6 @@
                         submit.trigger('click');
                     }
                 });
-            }
-            ,huishou: function(){
-                window.location.href = '/admin/pay/channelHs';
-                //table.reload('app-pay-channel-list');
             }
         };
 

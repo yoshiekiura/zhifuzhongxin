@@ -13,38 +13,39 @@
 <body>
 
 <div class="layui-form" style="padding: 20px 30px 0 0;">
+    <input type="text" name="id" hidden disabled value="{$template.id}">
     <div class="layui-form-item">
         <label class="layui-form-label">模板名称：</label>
         <div class="layui-input-block">
-            <input type="text" name="name" required lay-verify="required" placeholder="请输入渠道名称" autocomplete="off" class="layui-input" value="">
+            <input type="text" name="name" required lay-verify="required" placeholder="请输入渠道名称" autocomplete="off" class="layui-input" value="{$template.name}">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">接口地址：</label>
         <div class="layui-input-block">
-            <input type="text" name="port_address" id="port_address" required lay-verify="required" placeholder="请输入接口地址" autocomplete="off" class="layui-input" value="">
+            <input type="text" name="port_address" id="port_address" required lay-verify="required" placeholder="请输入接口地址" autocomplete="off" class="layui-input" value="{$template.port_address}">
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">模板类名：</label>
         <div class="layui-input-block">
-            <input type="text" name="class_name" id="class_name" required lay-verify="required" placeholder="请输入模板类名" autocomplete="off" class="layui-input" value="">
+            <input type="text" name="class_name" id="class_name" required lay-verify="required" placeholder="请输入模板类名" autocomplete="off" class="layui-input" value="{$template.class_name}">
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">状态：</label>
         <div class="layui-input-block">
-            <input type="radio" name="status" checked value="1" title="启用">
-            <input type="radio" name="status" value="0" title="禁用">
+            <input type="radio" name="status" checked value="1" title="启用" {$template.status == 1?'checked':''}>
+            <input type="radio" name="status" value="0" title="禁用" {$template.status == 0?'checked':''}>
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">展示参数：</label>
         <div class="layui-input-block">
-            <textarea  class="layui-textarea" name="params" id="text" cols="30" rows="5" placeholder="请输入展示参数"></textarea>
+            <textarea  class="layui-textarea" name="params" id="text" cols="30" rows="5" placeholder="请输入展示参数">{$template.params}</textarea>
 <!--            <input type="text" name="params" id="params" placeholder="请输入展示参数" autocomplete="off" class="layui-input" value="">-->
         </div>
     </div>

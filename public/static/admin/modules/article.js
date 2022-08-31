@@ -40,6 +40,10 @@ layui.define(["table", "form"],
                     title: "文章标题"
                 },
                 {
+                    field: "categoryText",
+                    title: "文章分类"
+                },
+                {
                     field: "author",
                     title: "作者"
                 },
@@ -118,7 +122,8 @@ layui.define(["table", "form"],
                                             label: l.label,
                                             title: l.title,
                                             author: l.author,
-                                            status: l.status
+                                            status: l.status,
+                                            categoryText: l.categoryText
                                         }),
                                             n.render(),
                                                 layer.close(e)

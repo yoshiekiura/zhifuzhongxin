@@ -95,4 +95,5 @@ values (29, 100, '模板列表','admin', 'Pay/channelTemplate', 0, '' , 1, unix_
 
 alter table cm_channel_template add column `status` int(10) NOT NULL DEFAULT 1 COMMENT '-1删除 0禁用 1启用';
 alter table cm_channel_template add column `update_time` int(10) NOT NULL DEFAULT '' COMMENT '修改时间';
+alter table cm_article add column `category_id` int(5) NOT NULL  COMMENT '文章分类';
 

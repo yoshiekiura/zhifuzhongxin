@@ -693,7 +693,6 @@ class Pay extends BaseAdmin
         }
 
         $template =  $this->modelChannelTemplate->get($id);
-        halt($template);
         $this->assign('template', $template);
 
         return $this->fetch();

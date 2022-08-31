@@ -1,0 +1,85 @@
+
+{extend name="../user-layout" /}
+{block name="content"}
+
+<div class="container-fluid panel">
+  <div class="container-fluid">
+    <a href="/usercenter/help/index" class="btn btn-primary">返回</a>
+
+    <!-- Row starts -->
+    <div class="row gutter">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="blog-detail">
+          <div class="blog-wrapper">
+
+            <div style="margin: 30px 50px 0 50px">
+              <h2>{$article.title}</h2>
+              {$article.content|htmlspecialchars_decode}
+            </div>
+        </div>
+      </div>
+    </div>
+    <!-- Row ends -->
+
+  </div>
+</div>
+
+
+
+
+
+<script src="https://cdn.staticfile.org/sweetalert/2.1.2/sweetalert.min.js"></script>
+<script type="text/javascript">
+  var controller = "Order";
+  $.ajaxSetup({
+    //async: false,
+    cache: false,
+    timeout: 15000,
+    dataType: "json",
+    //contentType: "application/json; charset=utf-8",
+    crossDomain: true,
+    success: function (data) {
+      if (data.code == "anonymous") {
+        window.location.href = '/';
+      } else if (this.isuccess) {
+        this.isuccess(data);
+      }
+    },
+    error: function (xhr, status, e) {
+      if (xhr.readyState == 4) {
+        if (xhr.status == 200) {
+          var domObj = xhr.responseXML;
+          if (domObj) {
+            var messageNodes = domObj.getElementsByTagName("message");
+            if (messageNodes.length > 0) {
+              var textNode = messageNodes[0].firstChild;
+              var responseMessage = textNode.nodeValue;
+              swal({title: "操作错误", text: responseMessage, icon: "error"});
+            } else {
+              swal({title: "提交错误:" + xhr.status, text: xhr.responseText, icon: "error"});
+            }
+          } else {
+            swal({title: "提交错误:" + xhr.status, text: xhr.responseText, icon: "error"});
+          }
+        } else {
+          swal({title: "提交错误:" + xhr.status, text: "参考信息：无", icon: "error"});
+        }
+      }
+    },
+    beforeSend: function (xhr) {
+      $("#loading").show();
+    },
+    complete: function (xhr, status) {
+      $("#loading").hide();
+      if (this.icomplete) {
+        this.icomplete();
+      }
+    }
+  });
+  $(function () {
+    FastClick.attach(document.body);
+  });
+</script>
+{/block}
+</body>
+</html>
