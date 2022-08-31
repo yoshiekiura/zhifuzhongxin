@@ -108,10 +108,12 @@ class Merchants extends Base
             ->field('a.*, ap.key')
             ->find();
 
-        //下面几个写死
-        $userinfo['pay_address']= 'http://68.178.164.187:85/apis/order';
-        $userinfo['query_address'] = 'http://68.178.164.187:85/apis/query';
-        $userinfo['callback_ip'] = '68.178.164.187';
+
+
+
+        $userinfo['pay_address']= $this->modelConfig->where(['name' => 'pay_address'])->value('value');
+        $userinfo['query_address'] = $this->modelConfig->where(['name' => 'query_address'])->value('value');
+        $userinfo['callback_ip'] = $this->modelConfig->where(['name' => 'notify_ip'])->value('value');
 
         if (!$userinfo){
             $this->error('数据错误');

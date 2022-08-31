@@ -97,3 +97,9 @@ alter table cm_channel_template add column `status` int(10) NOT NULL DEFAULT 1 C
 alter table cm_channel_template add column `update_time` int(10) NOT NULL DEFAULT '' COMMENT '修改时间';
 alter table cm_article add column `category_id` int(5) NOT NULL  COMMENT '文章分类';
 
+insert into cm_config(`name`, `title`, `type`, `sort`, `group`, `value`, `extra`, `describe`, `status`, `create_time`, `update_time`)
+values ('pay_address', '下单地址', 1, 0, 0, 'http://68.178.164.187:85/apis/order', '', '', 1, unix_timestamp(now()),unix_timestamp(now()));
+
+insert into cm_config(`name`, `title`, `type`, `sort`, `group`, `value`, `extra`, `describe`, `status`, `create_time`, `update_time`)
+values ('query_address', '查询地址', 1, 0, 0, 'http://68.178.164.187:85/apis/query', '', '', 1, unix_timestamp(now()),unix_timestamp(now()));
+
