@@ -103,6 +103,7 @@ class DoPay extends BaseApi
      * @throws OrderException
      */
     private function prePayOrder($order){
+
         //如果是test编码强制匹配test 渠道
         if ($order['channel'] == 'test'){
             $result = ApiPayment::TestPay()->pay($order, 0);

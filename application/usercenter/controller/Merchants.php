@@ -154,14 +154,11 @@ class Merchants extends Base
          $where = [];
          //是否绑定渠道，没有绑定只返回test编码
          $binding =  $this->modelMerchantBinding->where(['id' => $this->request->param('id'), 'merchant_user_id' => $this->user['id']])->find();
-
          if (!$binding) return $lists;
-
         $where['status'] = 1;
          if ($binding->status != 1){
              $where['name'] = 'test';
          }
-
          $ret =  $this->logicPay->getCodeList($where, true, 'create_time desc', false);
          $this->success('操作成功','', $ret);
     }
@@ -244,7 +241,7 @@ class Merchants extends Base
         //显示获得的数据
 //halt($json);
         $data = json_decode($json, true);
-        if(isset($data['code']) && $data['code'] == 0)
+        if(isset($data['status']) && $data['status'] == 1)
         {
             $this->success('操作成功', $data['data']['request_url']);
         }

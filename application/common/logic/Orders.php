@@ -508,6 +508,63 @@ class Orders extends BaseLogic
 
 
     /**
+     * 支付中心构建返回数据对象
+     * @param $data
+     * @return array
+     *
+     */
+    public function usercenteBuildSignData($data, $md5Key)
+    {
+        //除去不需要字段
+        unset($data['id']);
+        unset($data['uid']);
+        unset($data['cnl_id']);
+        unset($data['puid']);
+        unset($data['status']);
+        unset($data['create_time']);
+        unset($data['update_time']);
+        unset($data['update_time']);
+        unset($data['income']);
+        unset($data['user_in']);
+        unset($data['agent_in']);
+        unset($data['platform_in']);
+        unset($data['currency']);
+        unset($data['client_ip']);
+        unset($data['return_url']);
+        unset($data['notify_url']);
+        unset($data['extra']);
+        unset($data['subject']);
+        unset($data['bd_remarks']);
+
+        unset($data['visite_show_time']);
+        unset($data['real_need_amount']);
+        unset($data['image_url']);
+        unset($data['request_log']);
+        unset($data['visite_time']);
+        unset($data['request_elapsed_time']);
+
+        $data['amount']       = sprintf("%.2f", $data['amount']);
+        $data['o_trade_no'] = $data['out_trade_no'];
+        $data['order_status'] = 1;
+        unset($data['o_trade_no']);
+        halt($data);
+        ksort($data);
+
+        $signData = "";
+        foreach ($data as $key => $value) {
+            $signData = $signData . $key . "=" . $value;
+            $signData = $signData . "&";
+        }
+        $str = $signData . "key=" . $md5Key;
+
+//        print("<info>md5 str:".$str."</info>\n");
+        $sgin         = md5($str);
+        $data['sign'] = $sgin;
+        //返回
+        return $data;
+    }
+
+    /**
      * 创建支付订单
      *
      * @param $orderData

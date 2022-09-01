@@ -8,6 +8,7 @@ use app\common\library\enum\CodeEnum;
 use app\common\logic\OrdersNotify;
 use think\Collection;
 use think\Db;
+use think\Log;
 
 class Order extends Base
 {
@@ -78,6 +79,15 @@ class Order extends Base
         if (!$orderinfo){
             $this->error('数据错误');
         }
+
+        $where        = array();
+        $where['uid'] = $orderinfo['uid'];
+        $LogicApi     = new \app\common\logic\Api();
+        $appKey       = $LogicApi->getApiInfo($where, "key");
+        $to_sign_data = $this->logicOrders->usercenteBuildSignData($orderinfo->toArray(), $appKey["key"]);
+        halt($to_sign_data);
+        Log::notice("posturl: " . $orderinfo['notify_url']);
+        Log::notice("sign data: " . json_encode($to_sign_data));
 
         Db::startTrans();
         try {
