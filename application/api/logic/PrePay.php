@@ -133,12 +133,12 @@ $orderData["remark"] = empty($orderData["remark"]) ? "no": $orderData["remark"];
 
         try{
             $order = $this->logicOrders->getOrderInfo([
-                'uid' => $queryData['mchid'],
-                'out_trade_no' => $queryData['out_trade_no'],
+                'uid' => $queryData['mid'],
+                'out_trade_no' => $queryData['o_trade_no'],
                 'channel' => $queryData['channel']
             ],[
             //    'trade_no','out_trade_no','subject','body','extra','amount','channel','currency','client_ip','status'
-                'trade_no','out_trade_no','amount','status'
+                'trade_no','out_trade_no as o_trade_no','amount','status'
             ]);
             //状态修改  -  可以用模型处理
             switch ($order['status']){

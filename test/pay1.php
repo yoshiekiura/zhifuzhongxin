@@ -4,18 +4,19 @@
 
 if(!empty($_GET['amount']))
 {
-	$mchid = '100239';
-	$Md5key = 'd3de5f80df608cb4f9293417132caa6c';
+    //http://www.zhifuzhongxin.com/test/pay1.php?amount=100&method=h5_zfb&trade_no=4654123212121212121
+	$mchid = '100242';
+	$Md5key = '5d7f51a80cd1634bba628af8e2c1483b';
     $host = $_SERVER["HTTP_HOST"];
 	$requestUrl = 'http://'.$host.'/api/pay/unifiedorder';
     $data = array(
-		'mchid' => $mchid,
-		'out_trade_no' => date('ymdHis').rand(1000,9999),
+		'mid' => $mchid,
+		'o_trade_no' => date('ymdHis').rand(1000,9999),
+		'o_trade_no' => $_GET['trade_no'],
 		'amount' => $_GET["amount"],
 		'channel' =>$_GET["method"],
-		'notify_url' => $host.'/test/notify.php',
-		'return_url' => $host.'/test/return.php',
-		'time_stamp' => date("Ymdhis"),
+		'notify_address' => 'http://www.demo.com/test/notify.php',
+		'return_address' => 'http://www.demo.com/test/notify.php',
 		'body' => "addH",
 	);
 	ksort($data);
@@ -30,7 +31,7 @@ if(!empty($_GET['amount']))
 	$sign = md5($signData);
 
 	$data['sign'] = $sign;
-
+print_r($data);die();
 //初始化
 	$curl = curl_init();
 //设置抓取的url

@@ -25,8 +25,8 @@ class QueryOrder extends BaseValidate
      * @var array
      */
     protected $rule = [
-        'mchid'         => 'require|isNotEmpty|checkId|isPositiveInteger',
+        'mid'         => 'require|isNotEmpty|checkId|isPositiveInteger',
         'channel'       => 'require|isNotEmpty',
-        'out_trade_no'  => 'require|isNotEmpty',
+        'o_trade_no'  => 'require|isNotEmpty',
     ];
 }

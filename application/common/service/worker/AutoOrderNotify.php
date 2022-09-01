@@ -217,7 +217,9 @@ if(!$need_remark){
         unset($data['request_elapsed_time']);
 
         $data['amount'] = sprintf("%.2f", $data['amount']);
+        $data['o_trade_no'] = $data['out_trade_no'];
         $data['order_status'] = self::SUSSCE;
+        unset($data['out_trade_no']);
         ksort($data);
 
         $signData = "";

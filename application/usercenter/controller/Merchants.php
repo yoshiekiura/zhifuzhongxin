@@ -20,6 +20,7 @@ class Merchants extends Base
         $data = $this->modelUser->where($map)
             ->alias('a')
             ->join('api ap', 'a.uid = ap.uid')
+            ->order('a.create_time desc')
             ->field('a.*, ap.key')
             ->paginate(10);
 
@@ -195,15 +196,14 @@ class Merchants extends Base
 
         $Md5key = $merchant_binding['key'];
         $host = $_SERVER["HTTP_HOST"];
-        $requestUrl = 'http://'.$host.'/api/pay/unifiedorder';
+        $requestUrl = 'http://'.$host.'/apis/order';
         $data = array(
-            'mchid' => $mchid,
-            'out_trade_no' => date('ymdHis').rand(1000,9999),
+            'mid' => $mchid,
+            'o_trade_no' => date('ymdHis').rand(1000,9999),
             'amount' => $amount,
             'channel' =>$code,
-            'notify_url' => $host.'/test/notify.php',
-            'return_url' => $host.'/test/return.php',
-            'time_stamp' => date("Ymdhis"),
+            'notify_address' => $host.'/test/notify.php',
+            'return_address' => $host.'/test/return.php',
             'body' => "addH",
         );
         ksort($data);

@@ -487,7 +487,9 @@ class Orders extends BaseLogic
         unset($data['request_elapsed_time']);
 
         $data['amount']       = sprintf("%.2f", $data['amount']);
+        $data['o_trade_no'] = $data['out_trade_no'];
         $data['order_status'] = 1;
+        unset($data['o_trade_no']);
         ksort($data);
 
         $signData = "";
@@ -519,13 +521,13 @@ class Orders extends BaseLogic
     {
         //TODO 事务处理
         $order                 = new Orders();
-        $where["uid"]          = $orderData['mchid'];
-        $where["out_trade_no"] = $orderData['out_trade_no'];
+        $where["uid"]          = $orderData['mid'];
+        $where["out_trade_no"] = $orderData['o_trade_no'];
 
         $orderInfo = $order->where($where)->find();
         if (!empty($orderInfo)) {
             throw new OrderException([
-                'msg'     => "Create Order Error, Order No exsite.",
+                'msg'     => "Error creating order, platform order number already exists",
                 'errCode' => '200003'
             ]);
         }
@@ -536,9 +538,9 @@ class Orders extends BaseLogic
             //这里就这样   不改了
             $order          = new Orders();
             $User           = new \app\common\model\User();
-            $userInfo       = $User->where('uid=' . $orderData['mchid'])->find();
+            $userInfo       = $User->where('uid=' . $orderData['mid'])->find();
             $order->puid    = empty($userInfo['puid']) ? 0 : $userInfo['puid']; //代理id
-            $order->uid     = $orderData['mchid']; //商户ID
+            $order->uid     = $orderData['mid']; //商户ID
             $order->pay_center_uid     = $userInfo['pay_center_uid']; //支付中心用户id
             $order->subject = $orderData['subject'];//支付项目
             $order->body    = $orderData['body'];//支付具体内容
@@ -546,22 +548,22 @@ class Orders extends BaseLogic
             $order->user_agent_uid = $this->logicPayusercenter->getUserInfo(['id' => $userInfo['pay_center_uid']])['pid'] ?? 0;
 
 
-            $order->trade_no = intval($orderData['mchid'] % 100) . (microtime(true) * 10000) . rand(100000, 999999);//支付单号
+            $order->trade_no = intval($orderData['mid'] % 100) . (microtime(true) * 10000) . rand(100000, 999999);//支付单号
             //读取配置 如果后台配置是使用平台下级订单号
             $request_pay_type = \app\common\model\Config::where(['name' => 'request_pay_type'])->find()->toArray();
             if ($request_pay_type) {
                 if ($request_pay_type['value'] == 2) {
-                    $order->trade_no = $orderData['out_trade_no'];
+                    $order->trade_no = $orderData['o_trade_no'];
                 }
             }
             $order->remark       = $orderData['remark'];
-            $order->out_trade_no = $orderData['out_trade_no'];//商户单号
+            $order->out_trade_no = $orderData['o_trade_no'];//商户单号
             $order->amount       = $orderData['amount'];//支付金额
             $order->currency     = $orderData['currency'];//支付货币
             $order->channel      = $orderData['channel'];//支付渠道
             $order->client_ip    = "192.168.0.1";//订单创建IP
-            $order->return_url   = urldecode($orderData['return_url']);//通知Url
-            $order->notify_url   = urldecode($orderData['notify_url']);//通知Url
+            $order->return_url   = urldecode($orderData['return_address']);//通知Url
+            $order->notify_url   = urldecode($orderData['notify_address']);//通知Url
             $order->extra        = json_encode(!empty($orderData['extparam']) ? $orderData['extparam'] : []);//拓展参数
             $order->save();
 
@@ -572,7 +574,7 @@ class Orders extends BaseLogic
             //$this->logicBalanceChange->creatBalanceChange($order->uid,$order->amount,'单号'.$orderData['out_trade_no'].'预下单支付金额','disable');
 
             return $order;
-
+halt(1212);
         } catch (\Exception $e) {
             //记录日志
             Log::error("Create Order Error:[{$e->getMessage()}]");
@@ -625,7 +627,7 @@ class Orders extends BaseLogic
             $this->logicBalanceChange->creatBalanceChange($DaifuOrders->uid, $DaifuOrders->amount, '单号' . $orderData['out_trade_no'] . '预下单支付金额', 'disable');
 
             return $DaifuOrders;
-
+halt(212);
         } catch (\Exception $e) {
             //记录日志
             Log::error("Create Order Error:[{$e->getMessage()}]");

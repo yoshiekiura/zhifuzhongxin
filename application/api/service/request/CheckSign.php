@@ -40,7 +40,7 @@ class CheckSign extends ApiCheck
         unset($data['sign']);
         ksort($data);
         $where = array();
-        $where['uid'] = $data['mchid'];
+        $where['uid'] = $data['mid'];
         $appKey = $this->logicApi->getApiInfo($where, "*");
         if(!$appKey){
             throw new SignatureException([
@@ -60,10 +60,12 @@ class CheckSign extends ApiCheck
 
         Log::notice('得到请求的基础数据 http_build_query后:'.$signData);
         $signData = md5($signData);
+
         Log::notice('用户post里面的sign'.$sign.'　对比md5基础数据得到的sign:'.$signData);
+
         if($signData != $sign){
             //todo  后面解开  直接打到根目录后面好查看
-            $log =  "【商户id:{$data['mchid']}请求支付签名错误提交签名".$sign."系统计算签名".$signData."】";
+            $log =  "【商户id:{$data['mid']}请求支付签名错误提交签名".$sign."系统计算签名".$signData."】";
             file_put_contents('./error_sign.log',$log,FILE_APPEND);
             if($appKey->is_verify_sign) {
                 throw new SignatureException([

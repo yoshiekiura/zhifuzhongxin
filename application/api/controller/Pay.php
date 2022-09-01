@@ -72,8 +72,8 @@ class Pay extends BasePay
         }
 
         $data = [
-            'code' => 0,
-            'msg' => '请求成功',
+            'status' => 1,
+            'message' => 'success',
             'data' => $res,
         ];
         $useTime = time() - $startTime;
@@ -99,8 +99,8 @@ class Pay extends BasePay
 
         $res = $this->logicPrePay->orderQuery($this->request->post());
         $data = [
-            'code' => 0,
-            'msg' => '请求成功',
+            'status' => 1,
+            'message'  => 'success',
             'data' => $res,
         ];
         echo json_encode($data);
@@ -121,8 +121,8 @@ class Pay extends BasePay
         //本host处理
         $res = $this->logicPrePay->daifuOrderPay($this->request->post());
         $data = [
-            'code' => 0,
-            'msg' => '请求成功',
+            'status' => 1,
+            'message' => '请求成功',
             'data' => $res,
         ];
         $useTime = time() - $startTime;

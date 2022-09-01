@@ -103,7 +103,6 @@ class DoPay extends BaseApi
      * @throws OrderException
      */
     private function prePayOrder($order){
-
         //如果是test编码强制匹配test 渠道
         if ($order['channel'] == 'test'){
             $result = ApiPayment::TestPay()->pay($order, 0);
@@ -118,9 +117,11 @@ class DoPay extends BaseApi
                     ->where(['a.id' => $accountChannel[0]])
                     ->field('a.secret_key as pay_secret, a.appid as pay_merchant, c.id, c.name, c.timeslot, c.remarks, c.notify_url, c.return_url,  c.template_id, c.pay_center_uid, c.pay_address,t.class_name')
                     ->find();
-
                 if (!$channelAccount){
-                    throw new OrderException('渠道错误！');
+                    throw new OrderException([
+                        'msg' => 'Create AcePay API Error: no channel available',
+                        'errCode' => 200009
+                    ]);
                 }
 
                 $payment = $channelAccount['class_name'];

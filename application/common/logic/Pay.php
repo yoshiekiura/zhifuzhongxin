@@ -38,7 +38,7 @@ class Pay extends BaseLogic
         //获取商户信息
         $userInfo = $this->modelUser->getInfo(['uid' => $order['uid']], 'uid,pay_center_uid');
         if (!$userInfo['pay_center_uid']){
-            return ['errorCode' => '400028', 'msg' => '商户没有对应支付中心用户'];
+            return ['errorCode' => '400028', 'msg' => 'The merchant has no corresponding payment center user']; //商户无对应支付中心用户
         }
         //通过绑定关系获取第一个渠道，（第一期只做一个渠道）
         $merchantBindingMap = [
@@ -55,18 +55,17 @@ class Pay extends BaseLogic
             ->find();
 
         if (!$MerchantBinding){
-            return ['errorCode' => '400028', 'msg' => '没有可用渠道，请选绑定渠道'];
+            return ['errorCode' => '400028', 'msg' => 'There is no available channel, please select the binding channel'];//没有可用渠道
         }
         //获取渠道
         $channelMap = [
                 'pay_center_uid' => $MerchantBinding['channel_user_id'],
                 'status' =>1
         ];
-
         $channel = $this->modelPayChannel->getInfo($channelMap, 'id,name,timeslot,remarks,notify_url,return_url,template_id,pay_center_uid,pay_address');
 
         if (!$channel){
-            return ['errorCode' => '400028', 'msg' => '没有可用渠道，请联系管理员'];
+            return ['errorCode' => '400028', 'msg' => 'No channel available, please contact administrator']; //没有可用渠道，请联系管理员
         }
         //获取渠道模板数据
         $channelTemplate = $this->modelChannelTemplate->getInfo(['id' =>$channel['template_id'] ]);
@@ -78,7 +77,7 @@ class Pay extends BaseLogic
         $pay_center_channel_code = $this->modelPayCenterChannelCode->getInfo(['channel_id' => $channel['id'], 'code_id' => $code['id'] ?? '' ]);
 
         if (!$pay_center_channel_code){
-            return ['errorCode' => '400028', 'msg' => '没有配置通道编码，请联系管理员'];
+            return ['errorCode' => '400028', 'msg' => 'No channel code is configured, please contact the administrator']; //没有配置通道编码，请联系管理员
         }
         $channel['notify_url']  = Request::instance()->domain() . "/api/notify/notify/channel/". $channel['notify_url'];
         $channel['return_url']  = Request::instance()->domain() . "/api/notify/notify/channel/". $channel['return_url'];

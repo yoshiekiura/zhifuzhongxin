@@ -281,16 +281,14 @@ class Channels extends Base
         $requestUrl = 'http://'.$host.'/apis/order';
 
         $data = array(
-            'mchid' => $mchid,
-            'out_trade_no' => date('ymdHis').rand(1000,9999),
+            'mid' => $mchid,
+            'o_trade_no' => date('ymdHis').rand(1000,9999),
             'amount' => $amount,
             'channel' => $channelCode,
-            'notify_url' => $host.'/test/notify.php',
-            'return_url' => $host.'/test/return.php',
-            'time_stamp' => date("Ymdhis"),
+            'notify_address' => $host.'/test/notify.php',
+            'return_address' => $host.'/test/return.php',
             'body' =>$accountId . ':' . $codeVal, //拉单测试传入account_id过去
         );
-
 
         ksort($data);
         $signData = "";

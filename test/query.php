@@ -1,12 +1,12 @@
 <?php
-$mchid = '100001';
-$Md5key = '772ae1d32322f49508307b2f31a0107f';
+$mchid = '100242';
+$Md5key = '5d7f51a80cd1634bba628af8e2c1483b';
 $requestUrl = 'http://www.zhongtongpay.com/api/pay/query';
 
 $data = array(
-    'out_trade_no' => '1908241338157652',
-    'channel' => "taobao_pc",
-    'mchid' => $mchid
+    'o_trade_no' => '2205242132363432',
+    'channel' => "h5_zfb",
+    'mid' => $mchid
 );
 
 ksort($data);
@@ -17,6 +17,8 @@ $signData = $signData."&key=".$Md5key;
 $sign = md5($signData);
 $data['sign'] = $sign;
 
+print_r($data);die();
+print_r($data);
 //初始化
 $curl = curl_init();
 //设置抓取的url

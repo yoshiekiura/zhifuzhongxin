@@ -40,7 +40,7 @@ class CheckArguments extends ApiCheck
      */
     private $commonArgus = [
         // 授权API KEY
-        'mchid',
+        'mid',
         // 数据签名
         'sign',
     ];

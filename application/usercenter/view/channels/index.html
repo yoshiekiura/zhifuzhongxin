@@ -53,7 +53,7 @@
 <!--              <a href="{:url('addChannelAccount',['channel_id' => $vo.id ])}" class="btn btn-sm  btn-info">添加账号</a>-->
               <a href="{:url('channelaccountlist',['id' => $vo.id ])}" class="btn btn-sm  btn-info">账号列表</a>
               <a href="{:url('edit',['id' => $vo.id ])}" class="btn btn-sm btn-primary">编辑</a>
-              <a href="{:url('del',['id' => $vo.id ])}" class="btn btn-sm btn-danger">删除</a>
+              <a href="javascript:void(0)" onclick='delChannel("{$vo.id}")'  class="btn btn-sm btn-danger">删除</a>
             </td>
             </td>
           </tr>
@@ -116,7 +116,26 @@
   }();
 
   $(function () {
+
   });
+
+  function delChannel(id)
+  {
+    swal({
+      title: "确定要该渠道?",
+      buttons: {
+        confirm: true,
+        cancel: true
+      },
+    }).then(function (isConfirm) {
+      if (isConfirm) {
+        if (isConfirm){
+          window.location.href = 'del?id=' + id;
+        }
+      }
+    });
+  }
+
 
 </script>
 

@@ -34,7 +34,7 @@
                     </tr>
                     <tr>
                         <th>商户名称</th>
-                        <th>渠道所属用户</th>
+                        <th>支付中心用户</th>
                         <th>状态</th>
                         <th>操作</th>
                     </tr>
@@ -46,9 +46,9 @@
                         <td>{$vo['pay_center_username']}</td>
                         <td>
                             {switch $vo.status}
-                            {case 0}<a href="javascript:void(0);" class="btn btn-xs btn-warning disabled">待审核</a>{/case}
-                            {case 1}<a href="javascript:void(0);" class="btn btn-xs btn-success disabled">审核通过</a>{/case}
-                            {case 2}<a href="javascript:void(0);" class="btn btn-xs btn-danger disabled">审核失败</a>{/case}
+                            {case 0}<a href="javascript:void(0);" class="btn btn-xs btn-warning btn-rounded">待审核</a>{/case}
+                            {case 1}<a href="javascript:void(0);" class="btn btn-xs btn-success btn-rounded">审核通过</a>{/case}
+                            {case 2}<a href="javascript:void(0);" class="btn btn-xs btn-danger btn-rounded">审核失败</a>{/case}
                             {/switch}
                         </td>
                         <td>
@@ -59,7 +59,7 @@
                                onclick="PostReject('{$vo.id}')"><span class="glyphicon glyphicon-remove-sign"></span>驳回</a>
                             {elseif condition = "$vo.status == 1 && $vo.is_cancle == 1" }
                             <a href="javascript:void(0);" class="btn btn-sm btn-danger"
-                               onclick="PostCancelBindingUser('{$vo.id}')"><span class="glyphicon glyphicon-remove-sign"></span>取消绑定</a>
+                               onclick="PostCancelBindingUser('{$vo.id}')">取消绑定</a>
                             {/if}
                         </td>
                     </tr>
