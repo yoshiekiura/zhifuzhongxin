@@ -55,7 +55,7 @@ class Pay extends BaseLogic
             ->find();
 
         if (!$MerchantBinding){
-            return ['errorCode' => '400028', 'msg' => 'There is no available channel, please select the binding channel'];//没有可用渠道
+            return ['errorCode' => '400028', 'msg' => 'Please bind the channel first'];//没有可用渠道
         }
         //获取渠道
         $channelMap = [

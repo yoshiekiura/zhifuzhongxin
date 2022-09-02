@@ -10,15 +10,23 @@ class Index extends Base
 {
     public function Index(Request $request)
     {
-
         $where = [];
-
         $username = $request->param('username');
-        $createTime = $this->request->param('createTime', '');
 
-        $userType = $this->request->param('userType', '');
+        switch ($this->user['user_type']){
+            case '1':
+                $where['user_type'] = 2;
+                break;
+            case '2':
+                $where['user_type'] = 1;
+                break;
+            default:
+                $where['user_type'] = 10000000;
+                break;
+        }
+
+        $createTime = $this->request->param('createTime', '');
         $username && $where['username'] = ['like', '%'.$username.'%'];
-        $userType && $where['user_type'] = $userType;
         if ($createTime){
             switch ($createTime){
                 case 'w':
@@ -35,7 +43,6 @@ class Index extends Base
                     break;
             }
         }
-
         $users = $this->modelPayCenterUser->where(['status' => 1])->where($where)->order('create_time desc')->paginate($this->request->param('limit', 12));;
         foreach ($users as $user){
             $user->avatar = letter_avatar($user->username);
@@ -44,7 +51,6 @@ class Index extends Base
         $this->assign('users', $users);
         $this->assign('username', $username);
         $this->assign('createTime', $createTime);
-        $this->assign('userType', $userType);
         return $this->fetch('index');
     }
 
