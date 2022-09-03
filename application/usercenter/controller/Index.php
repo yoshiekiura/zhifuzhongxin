@@ -134,4 +134,41 @@ class Index extends Base
         $this->assign('codes',$codes);
         return $this->fetch();
     }
+
+    /**
+     * 用户绑定google验证器
+     * @return mixed
+     */
+    public function bindGoogle()
+    {
+        if ($this->request->isPost()) {
+            $data = $this->request->post('i/a');
+            if (empty($data['google_secret_key'])) {
+                $this->result(0, '参数错误');
+            }
+            if (empty($data['google_code'])) {
+                $this->result(0, '请输入GOOGLE验证码');
+            }
+            $ret = $this->logicGoogleAuth->checkGoogleCode($data['google_secret_key'], $data['google_code']);
+            if ($ret == false) {
+                $this->result(0, '绑定GOOGLE失败,请扫码重试');
+            }
+            unset($data['google_code']);
+            $data['is_need_google_verify'] = 1;
+            $ret = $this->modelPayCenterUser->where(['id' => $this->user['id']])->update($data);
+            if ($ret !== false) {
+                $this->result(1, '绑定成功');
+            }
+            $this->result(0, '绑定失败');
+        }
+        //获取商户详细信息
+        $userInfo = $this->modelPayCenterUser->get(['id' =>  $this->user['id']]);
+        $this->assign('user', $userInfo);
+        if ($userInfo['is_need_google_verify'] == 0) {
+            $google['google_secret'] = $this->logicGoogleAuth->createSecretkey();
+            $google['google_qr'] = $this->logicGoogleAuth->getQRCodeGoogleUrl($google['google_secret']);
+            $this->assign('google', $google);
+        }
+        return $this->fetch();
+    }
 }

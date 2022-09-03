@@ -38,7 +38,7 @@ class GoogleAuth extends BaseLogic
      * 获取二维码
      */
     public function getQRCodeGoogleUrl($secret){
-        return  $this->googleObj->getQRCodeGoogleUrl('pay', $secret);
+        return  $this->googleObj->getQRCodeGoogleUrl('pay center', $secret);
     }
 
 

@@ -103,3 +103,7 @@ values ('pay_address', '下单地址', 1, 0, 0, 'http://68.178.164.187:85/apis/o
 insert into cm_config(`name`, `title`, `type`, `sort`, `group`, `value`, `extra`, `describe`, `status`, `create_time`, `update_time`)
 values ('query_address', '查询地址', 1, 0, 0, 'http://68.178.164.187:85/apis/query', '', '', 1, unix_timestamp(now()),unix_timestamp(now()));
 
+
+alter table cm_pay_center_user add column `is_need_google_verify` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否google验证';
+alter table cm_pay_center_user add column `google_secret_key` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'google密钥';
+
