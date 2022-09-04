@@ -34,6 +34,7 @@
                     <tr>
                         <th>商户名称</th>
                         <th>渠道所属用户</th>
+                        <th>渠道名称</th>
                         <th>状态</th>
                         <th>操作</th>
                     </tr>
@@ -43,6 +44,7 @@
                     <tr>
                         <td>{$vo['user_username']}</td>
                         <td>{$vo['pay_center_username']}</td>
+                        <td>{$vo['channel_name']}</td>
                         <td>
                             {switch $vo.status}
                             {case 0}<a href="javascript:void(0);" class="btn btn-xs btn-info btn-rounded">待审核</a>{/case}
@@ -51,6 +53,7 @@
                             {/switch}
                         </td>
                         <td>
+                            <a href="{:url('/usercenter/merchants_binding/addAccount', ['bind_id' => $vo.id])}" class="btn btn-sm btn-info" >添加账号</a>
                             {if condition='$vo.status == 1 && $vo.en_able==0'}
                             <a href="javascript:void(0);" class="btn btn-sm btn-success" onclick="PostEnableHandel('{$vo.id}', 1)">启用</a>
                             {elseif condition='$vo.status == 1 && $vo.en_able==1'}

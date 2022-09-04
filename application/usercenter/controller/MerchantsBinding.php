@@ -57,7 +57,10 @@ class MerchantsBinding extends Base
         $logicMerchantsBinding = new \app\usercenter\logic\MerchantsBinding();
         $field = 'a.*, pu.username as pay_center_username, u.username as user_username';
         $list = $logicMerchantsBinding->bindingUserList($map, 'a', $field, 'a.channel_user_id', 'a.addtime desc');
-
+        /*暂时获取一个渠道*/
+        foreach ($list as $key=>$item){
+            $item['channel_name'] = $this->modelPayChannel->where(['pay_center_uid' => $item['channel_user_id']])->value('name');
+        }
         $this->assign('list', $list);
         return $this->fetch();
     }
@@ -163,5 +166,32 @@ class MerchantsBinding extends Base
         */
     public function enableBindingUser()
     {
+    }
+
+    /**
+     * 添加渠道账号
+     */
+    public function addAccount(){
+        $bind_id = $this->request->param('bind_id');
+        $row = $this->modelMerchantBinding->get($bind_id);
+        if (!$row or $row['merchant_user_id'] != $this->user['id'] ){
+             $this->error('数据错误');
+        }
+
+        $channel = $this->modelPayChannel->where('pay_center_uid', $row['channel_user_id'])->find();
+
+        if (!$channel) {
+            $this->error('渠道用户暂未添加渠道');
+        }
+
+         $row['channel_id'] = $channel['id'];
+
+         $row['channel_name'] = $channel['name'];
+
+         halt($this->logicMerchantsBinding);
+        $this->request->isPost() && $this->result($this->logicMerchantsBinding->saveAccount($this->request->post()));
+
+        $this->assign('row', $row);
+        return $this->fetch();
     }
 }

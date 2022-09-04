@@ -50,8 +50,8 @@
                         <td>{$vo['username']}</td>
 <!--                        <td>{$vo['key']}</td>-->
                         <td>
-                            <a href="{:url('bind_list',['uid' => $vo.uid ])}" class="btn btn-sm btn-info">绑定列表</a>
-                            <a href="{:url('/usercenter/merchants_binding/applyBindingUser', ['uid' => $vo.uid])}" class="btn btn-sm btn-success">绑定上游</a>
+                            <a href="{:url('bind_list',['uid' => $vo.uid ])}" class="btn btn-sm btn-info">渠道列表</a>
+                            <a href="{:url('/usercenter/merchants_binding/applyBindingUser', ['uid' => $vo.uid])}" class="btn btn-sm btn-success">申请渠道</a>
                             <a href="{:url('enter_into',['uid' => $vo.uid ])}" class="btn btn-sm btn-warning">对接信息</a>
                             <a href="{:url('edit_merchant',['uid' => $vo.uid ])}" class="btn btn-sm btn-info">编辑</a>
                             <a href="#" onclick="PostCancel('{$vo.uid}')" class="btn btn-sm btn-danger">删除</a>
