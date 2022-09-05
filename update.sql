@@ -107,3 +107,32 @@ values ('query_address', '查询地址', 1, 0, 0, 'http://68.178.164.187:85/apis
 alter table cm_pay_center_user add column `is_need_google_verify` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否google验证';
 alter table cm_pay_center_user add column `google_secret_key` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'google密钥';
 
+
+CREATE TABLE `cm_bind_channel` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `merchant_user_id` int(11) NOT NULL COMMENT '商户所属用户中心ID',
+  `channel_user_id` int(11) NOT NULL COMMENT '渠道所属用户中心ID',
+  `user_id` int(11) NOT NULL COMMENT '商户ID',
+  `channel_id` int(11) NOT NULL COMMENT '渠道ID',
+  `status` tinyint(3) NOT NULL DEFAULT '0' COMMENT '状态 0表示申请中，1表示绑定成功，2表示驳回',
+  `create_time` int(10) NOT NULL COMMENT '创建时间',
+  `update_time` int(10) NOT NULL COMMENT '修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='绑定渠道表';
+
+
+CREATE TABLE `cm_pay_center_user_account` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `pay_center_uid` int(11) NOT NULL COMMENT '所属支付中心用户',
+  `user_id` int(11) NOT NULL COMMENT '商户标识',
+  `channel_id` int(11) NOT NULL COMMENT '渠道标识',
+  `bind_id` int(11) NOT NULL COMMENT '商户绑定渠道用户标识',
+  `name` varchar(100) NOT NULL COMMENT '账号名称',
+  `pay_merchant` varchar(100) NOT NULL COMMENT '商户号',
+  `pay_secret` varchar(255) NOT NULL COMMENT '支付密钥',
+  `extra_param` varchar(255) DEFAULT NULL COMMENT '额外参数',
+  `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态 -1删除 0禁用 1启用',
+  `create_time` int(11) NOT NULL COMMENT '创建时间',
+  `update_time` int(11) NOT NULL COMMENT '修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='用户账号表';

@@ -251,4 +251,46 @@ class Merchants extends Base
         }
 
     }
+
+    /**
+     *商户申请渠道
+     */
+    public function applyChannel()
+    {
+        $uid = $this->request->param('uid');
+        $map = array(
+            'uid' => $uid,
+            'pay_center_uid' => $this->user['id']
+        );
+        $row = $this->modelUser->where($map)->find();
+        if (!$row) {
+            $this->error('数据错误');
+        }
+        if ($this->request->isPost()) {
+            halt($this->request->param());
+            $channel_user_id = $this->request->param('userid', '');
+            if (empty($channel_user_id)) {
+                $this->error('绑定用户不能为空');
+            }
+            $logicChannel = new \app\usercenter\logic\MerchantsBinding();
+            $ret = $logicChannel->bind($channel_user_id, $this->user['id'], $uid);
+            if ($ret['code'] == 0) {
+                $this->error($ret['msg']);
+            }
+            $this->success($ret['msg']);
+        }
+        $binds = $this->modelMerchantBinding->where(['merchant_user_id' => $this->user['id'], 'merchant_id' =>$uid])->column('');
+
+        $where = [
+            'a.status' => 1,
+        ];
+        $channels = $this->modelPayChannel
+            ->alias('a')
+            ->join('cm_pay_center_user pu', 'pu.id = a.pay_center_uid')
+            ->field('a.*, pu.username')
+            ->where($where)->select();
+        $this->assign('uid', $uid);
+        $this->assign('channels', $channels);
+        return $this->fetch();
+    }
 }

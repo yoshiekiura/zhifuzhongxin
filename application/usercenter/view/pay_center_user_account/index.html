@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-xs-12 main">
             <h3>
-                用户列表
+                账号列表
             </h3>
             <div class="table-responsive">
                 <table class="table table-bordered">
@@ -14,21 +14,32 @@
                         <td colspan="10">
                             <form id="form1" action="index.html" class="form-inline">
                                 <div class="input-group">
-                                    <a href="addUser" class="btn btn-info" role="button"><i
-                                            class="icon-circle-with-plus"></i>添加</a>
+                                    <!--<a href="addUser" class="btn btn-info" role="button"><i
+                                            class="icon-circle-with-plus"></i>添加</a>-->
                                 </div>
                                 <div class="form-group">
                                     <div class="input-group">
-                                        <input type="text" name="username" value="{$Request.get.username}"
-                                               class="form-control" placeholder="用户名称">
-                                        <span class="input-group-btn">
-                      <button id="btnSearch" class="btn btn-success" type="submit"
-                              onclick="$('#p').val('');$('#form1').attr('action','');"><i
-                              class="icon-search3"></i></button>
-                                    <a href="{:url('usercenter/paycenteruser/index')}" class="btn btn-warning"><i
-                                            class="icon-circle-with-cross"></i></a>
-                    </span>
+                                        <input type="text" name="id" value="{$Request.get.id}" class="form-control" placeholder="ID">
                                     </div>
+                                    <div class="input-group">
+                                        <input type="text" name="channel_name" value="{$Request.get.channel_name}" class="form-control" placeholder="渠道名称">
+                                    </div>
+                                    <div class="input-group">
+                                        <input type="text" name="user_name" value="{$Request.get.user_name}" class="form-control" placeholder="商户名称">
+                                    </div>
+                                    <div class="input-group">
+                                        <input type="text" name="name" value="{$Request.get.name}" class="form-control" placeholder="账号名称">
+                                        <span class="input-group-btn">
+                                            <button id="btnSearch" class="btn btn-success" type="submit" onclick="$('#p').val('');$('#form1').attr('action','');">
+                                                <i class="icon-search3"></i>
+                                            </button>
+                                            <a href="{:url('usercenter/pay_center_user_account/index')}" class="btn btn-warning">
+                                                <i class="icon-circle-with-cross"></i>
+                                            </a>
+                                        </span>
+                                    </div>
+
+
                                 </div>
                             </form>
                         </td>
@@ -36,31 +47,38 @@
                     <tr>
                         <th>ID</th>
                         <th>商户</th>
-                        <th>渠道</th>
                         <th>账号名称</th>
+                        <th>渠道</th>
                         <th>状态</th>
                         <th>创建时间</th>
+                        <th>操作</th>
                     </tr>
                     </thead>
                     <tbody id="listBody">
                     {volist name="lists" id="vo"}
                     <tr>
-                        <td>{$vo.username}</td>
+                        <td>{$vo.id}</td>
+                        <td>{$vo.user_name}</td>
+                        <td>{$vo.name}</td>
+                        <td>{$vo.channel_name}</td>
                         <td>
-                            {switch name="$vo.user_type"}
-                            {case value="1"} <a href="#" class="btn btn-sm btn-default">渠道用户</a>{/case}
-                            {case value="2"} <a href="#" class="btn btn-sm btn-default">商户用户</a>{/case}
-                            {case value="3"} <a href="#" class="btn btn-sm btn-default">四方用户</a>{/case}
-                            {case value="4"} <a href="#" class="btn btn-sm btn-default">代理用户</a>{/case}
-                            {/switch}
+                            {if condition="$vo.status == '0'"}
+                            <a href="javascript:void(0)" class="btn btn-xs btn-danger btn-round">禁用</a>
+                            {else/}
+                            <a href="javascript:void(0)" class="btn btn-xs btn-success btn-rounded">启用</a>
+                            {/if}
                         </td>
-                        <td>{$vo.alias_name}</td>
                         <td>{$vo.create_time}</td>
+                        <td>
+                            <a href="{:url('/usercenter/merchants_binding/editAccount', ['id' => $vo.id])}" class="btn btn-sm btn-info ">编辑</a>
+                            <a href="{:url('/usercenter/pay_center_user_account/catchInfo', ['id' => $vo.id])}" class="btn btn-sm btn-warning ">对接信息</a>
+                        </td>
+
                     </tr>
 
                     {/volist}
 
-                    {empty name="list"}
+                    {empty name="lists"}
                     <tr>
                         <td colspan="12" class="text-center">
                             未查到数据
@@ -71,7 +89,7 @@
                     <tfoot>
                     <td colspan="10" class="text-right">
                         <nav aria-label="Page navigation">
-                            {$list->render()}
+                            {$lists->render()}
                         </nav>
                     </td>
                     </tfoot>

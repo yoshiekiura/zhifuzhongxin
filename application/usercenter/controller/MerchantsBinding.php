@@ -191,4 +191,27 @@ class MerchantsBinding extends Base
         $this->assign('row', $row);
         return $this->fetch();
     }
+
+    /**
+     * 添加渠道账号
+     */
+    public function editAccount(){
+        $id = $this->request->param('id');
+        $where = array(
+            'a.pay_center_uid' => $this->user['id'],
+            'a.id' => $id
+        );
+        $row = $this->modelPayCenterUserAccount
+            ->alias('a')
+            ->join('cm_pay_channel c', 'c.id = a.channel_id')
+            ->field('a.*, c.name as channel_name')
+            ->where($where)->find();
+        if (!$row){
+            $this->error('数据错误');
+        }
+        $this->request->isPost() && $this->result($this->logicMerchantsBinding->saveAccount($this->request->post()));
+        $this->assign('row', $row);
+        return $this->fetch();
+    }
+
 }

@@ -8,6 +8,7 @@ class PayCenterUserAccount extends BaseValidate
 {
 
     protected $rule = [
+        'id' => 'require',
         'pay_center_uid'                     =>'require',
         'user_id'         => 'require',
         'channel_id'         => 'require',
@@ -18,6 +19,7 @@ class PayCenterUserAccount extends BaseValidate
     ];
 
     protected $message = [
+        'id.require' =>'账号标识不能为空',
         'pay_center_uid.require'                      => '所属支付中心用户不能为空',
         'user_id.require'         => '商户标识不能为空',
         'channel_id.require'         => '渠道标识不能为空',
@@ -29,6 +31,7 @@ class PayCenterUserAccount extends BaseValidate
 
     protected  $scene = [
         'add' => ['pay_center_uid', 'user_id', 'channel_id', 'bind_id', 'name', 'pay_merchant', 'pay_secret'],
+        'edit' => ['id', 'name', 'pay_merchant', 'pay_secret'],
     ];
 
 }

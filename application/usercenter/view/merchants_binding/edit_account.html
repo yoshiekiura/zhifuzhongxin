@@ -8,11 +8,8 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     <form id="form1" class="form-horizontal">
-                        <input type="text" name="scene" hidden value="add">
-                        <input type="hidden" name="channel_id" value="{$row.channel_id}">
-                        <input type="hidden" name="bind_id" value="{$row.id}">
-                        <input type="hidden" name="pay_center_uid" value="{$row.merchant_user_id}">
-                        <input type="hidden" name="user_id" value="{$row.merchant_id}">
+                        <input type="text" name="scene" hidden value="edit">
+                        <input type="hidden" name="id" value="{$row.id}">
                         <div class="form-group">
                             <label  class="col-sm-2 col-md-2 control-label">渠道名称</label>
                             <div class="col-sm-10 col-md-5">
@@ -23,28 +20,28 @@
                         <div class="form-group">
                             <label for="name" class="col-sm-2 col-md-2 control-label">账号名称</label>
                             <div class="col-sm-10 col-md-5">
-                                <input type="text" class="form-control" required id="name" name="name" value="" placeholder="请输入账号名称">
+                                <input type="text" class="form-control" required id="name" name="name" value="{$row.name}" placeholder="请输入账号名称">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="pay_merchant" class="col-sm-2 col-md-2 control-label">商户号</label>
                             <div class="col-sm-10 col-md-5">
-                                <input type="text" class="form-control" required id="pay_merchant" name="pay_merchant" value="" placeholder="请输入商户号">
+                                <input type="text" class="form-control" required id="pay_merchant" name="pay_merchant" value="{$row.pay_merchant}" placeholder="请输入商户号">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="pay_secret" class="col-sm-2 col-md-2 control-label">密钥</label>
                             <div class="col-sm-10 col-md-5">
-                                <textarea name="pay_secret" class="form-control" id="pay_secret" cols="30" rows="3" placeholder="请输入密钥"></textarea>
+                                <textarea name="pay_secret" class="form-control" id="pay_secret" cols="30" rows="3" placeholder="请输入密钥">{$row.pay_secret}</textarea>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="extra_param" class="col-sm-2 col-md-2 control-label">扩展参数</label>
                             <div class="col-sm-10 col-md-5">
-                                <textarea name="extra_param" class="form-control" id="extra_param" cols="30" rows="3"></textarea>
+                                <textarea name="extra_param" class="form-control" id="extra_param" cols="30" rows="3">{$row.extra_param}</textarea>
                             </div>
                         </div>
 
@@ -52,7 +49,7 @@
                             <div class="col-sm-offset-2 col-sm-10">
                                 <input type='hidden' name='_ajax' value='1'/>
                                 <button type="submit" class="btn btn-success" >保存</button>
-                                <a href="{:url('bindinguserlist')}" class="btn btn-danger" role="button">取消</a>
+                                <a href="{:url('usercenter/pay_center_user_account/index')}" class="btn btn-danger" role="button">取消</a>
                             </div>
                         </div>
                     </form>
@@ -69,7 +66,7 @@
     DoPost = function () {
         var code = "", message = "";
         $.ajax({
-            url: "{:url('addAccount')}",
+            url: "{:url('editAccount')}",
             type: "POST",
             data: $("#form1").serialize(),
             isuccess: function (data) {

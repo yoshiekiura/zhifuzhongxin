@@ -114,7 +114,7 @@ class MerchantsBinding extends BaseLogic
         if (!$validate) {
             return [ 'code' => CodeEnum::ERROR, 'msg' => $this->validatePayCenterUserAccount->getError()];
         }
-        $ret = $this->modelPayCenterUserAccount->allowField(true)->save($data);
+        $ret = $this->modelPayCenterUserAccount->setInfo($data);
         if ($ret){
             return ['code' =>CodeEnum::SUCCESS, 'msg' => '添加成功'];
         }else{
