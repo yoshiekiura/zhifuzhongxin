@@ -54,9 +54,8 @@ class MerchantsBinding extends Base
         $map['a.merchant_user_id'] = $this->user['id'];
         !empty($this->request->get('user_username')) && $map['u.username']
             = ['like', '%' . $this->request->get('user_username') . '%'];
-        $logicMerchantsBinding = new \app\usercenter\logic\MerchantsBinding();
         $field = 'a.*, pu.username as pay_center_username, u.username as user_username';
-        $list = $logicMerchantsBinding->bindingUserList($map, 'a', $field, 'a.channel_user_id', 'a.addtime desc');
+        $list = $this->logicMerchantsBinding->bindingUserList($map, 'a', $field, 'a.channel_user_id', 'a.addtime desc');
         /*暂时获取一个渠道*/
         foreach ($list as $key=>$item){
             $item['channel_name'] = $this->modelPayChannel->where(['pay_center_uid' => $item['channel_user_id']])->value('name');
@@ -187,8 +186,6 @@ class MerchantsBinding extends Base
          $row['channel_id'] = $channel['id'];
 
          $row['channel_name'] = $channel['name'];
-
-         halt($this->logicMerchantsBinding);
         $this->request->isPost() && $this->result($this->logicMerchantsBinding->saveAccount($this->request->post()));
 
         $this->assign('row', $row);

@@ -9,7 +9,7 @@ use app\common\logic\BaseLogic;
 use app\common\logic\Log;
 use think\Db;
 
-class MerchantsBinding extends BaseLogic
+class MerchantsBinding1 extends BaseLogic
 {
     public function bind($channel_user_id, $merchant_user_id, $uid)
     {
