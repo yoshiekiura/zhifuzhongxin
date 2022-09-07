@@ -57,7 +57,6 @@ class PayCenterUserAccount extends Base
         $userinfo['pay_address']= $this->modelConfig->where(['name' => 'pay_address'])->value('value');
         $userinfo['query_address'] = $this->modelConfig->where(['name' => 'query_address'])->value('value');
         $userinfo['callback_ip'] = $this->modelConfig->where(['name' => 'notify_ip'])->value('value');
-
         if (!$userinfo){
             $this->error('数据错误');
         }

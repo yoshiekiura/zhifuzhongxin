@@ -75,105 +75,103 @@
             swal({title: "错误", text: '编码值内容为空！！！！', icon: "error"});
             return
         }
-        $.ajax({
-            url: "/usercenter/channels/getChannelAccountList",
-            type: "POST",
-            data: {channel_id:channel_id, _ajax: '1'},
-            isuccess: function (data) {
-                code = data.code;
-                message = data.msg;
-                responseData = data.data;
+
+        var div = document.createElement('div');
+        var payMerchantInput =  document.createElement('input');
+        var paySecretInput =  document.createElement('input');
+        var input = document.createElement('input');
+
+        input.classList.add('form-control');
+        input.setAttribute('id', 'amount');
+        input.setAttribute('placeholder', '请输入金额');
+        input.setAttribute('type', 'number');
+        input.setAttribute('min', '1');
+        input.setAttribute('style', 'margin-top:10px');
+
+        payMerchantInput.classList.add('form-control');
+        payMerchantInput.setAttribute('id', 'pay_merchant');
+        payMerchantInput.setAttribute('placeholder', '请输入商户号');
+        payMerchantInput.setAttribute('type', 'text');
+        payMerchantInput.setAttribute('style', 'margin-top:10px');
+
+        paySecretInput.classList.add('form-control');
+        paySecretInput.setAttribute('id', 'pay_secret');
+        paySecretInput.setAttribute('placeholder', '请输入密钥');
+        paySecretInput.setAttribute('type', 'text');
+        paySecretInput.setAttribute('style', 'margin-top:10px');
+
+        div.appendChild(payMerchantInput);
+        div.appendChild(paySecretInput);
+        div.appendChild(input);
+
+        var br = document.createElement("br");
+        div.appendChild(br);
+        swal({
+            title: "渠道拉单测试",
+            content:div,
+            confirmButtonText: "确定",
+            buttons: {
+                confirm: true,
+                cancel: true
             },
-            error: function () {
-                message = "提交失败";
-            },
-            icomplete: function () {
-                if (responseData.length < 1){
-                    swal({title: "错误", text: '该渠道没有可用账号，请先添加账号！！！', icon: "error"});
-                }else if (code == 1) {
-                    var div = document.createElement('div');
-                    var wrapper = document.createElement('select');
-                    var input = document.createElement('input');
-                    wrapper.classList.add('form-control');
-                    wrapper.setAttribute('id', 'accountId');
-                    input.classList.add('form-control');
-                    input.setAttribute('id', 'amount');
-                    input.setAttribute('placeholder', '请输入金额');
-                    input.setAttribute('type', 'number');
-                    input.setAttribute('min', '1');
-                    input.setAttribute('style', 'margin-top:10px');
-                    let option_html  = '<option value="">请选择账号</option>\n';
-                    responseData.forEach(function(element) {
-                        option_html += '<option value="'+element.id+'">'+element.name+'</option>\n';
-                    });
-                    wrapper.innerHTML = option_html;
-                    input.innerHTML = option_html;
-                    div.appendChild(wrapper);
-                    div.appendChild(input);
-                    var br = document.createElement("br");
-                    div.appendChild(br);
-                    swal({
-                        title: "拉单测试",
-                        content:div,
-                        confirmButtonText: "确定",
-                        buttons: {
-                            confirm: true,
-                            cancel: true
-                        },
-                    }).then(function (isConfirm) {
-                        if (isConfirm) {
-                            let accountId =$('#accountId').val();
-                            let amount =$('#amount').val();
-                            if ( accountId == ''){
-                                swal("请先选择账号！！！");
-                            }else if(amount <= 0){
-                                swal("金额不能为空获金额不正确！！！");
-                            }else{
-                                $.ajax({
-                                    url: "/usercenter/channels/channelTest",
-                                    type: "POST",
-                                    data: {channelCode:channel_code, codeVal:codeVal,amount:amount ,accountId:accountId,_ajax: '1'},
-                                    isuccess: function (data) {
-                                        if (data.code ==1){
-                                            let div = document.createElement('div');
-                                            let buttonCopy = document.createElement('a');
-                                            let buttonVisit = document.createElement('a');
-                                            $(buttonCopy).addClass('btn btn-sm btn-success btn-lg' );
-                                            $(buttonVisit).addClass('btn btn-sm btn-success btn-lg');
-                                            buttonCopy.innerHTML = '复制链接';
-                                            buttonCopy.style.margin = '10px';
-                                            buttonCopy.addEventListener("click", function(){
-                                                copyText(data.data.data.request_url);
-                                                swal("复制成功", {
-                                                    // button: false,
-                                                    timer:1000
-                                                });
-                                            });
-                                            buttonVisit.innerHTML = '访问链接';
-                                            $(buttonVisit).attr('href', data.data.data.request_url)
-                                            $(buttonVisit).attr('target', '_black')
-                                            buttonVisit.style.margin = '10px';
-                                            $(div).append(buttonCopy).append(buttonVisit);
-                                            swal({
-                                                title: "拉单成功",
-                                                icon: "success",
-                                                content: div ,
-                                                html:true,
-                                                confirmButtonText: "确定",
-                                            })
-                                        } else {
-                                            swal({title: "错误", text: data.msg, icon: "error"});
-                                        }
-                                    }
+        }).then(function (isConfirm) {
+            if (isConfirm) {
+                let amount =$('#amount').val();
+                let pay_merchant =$('#pay_merchant').val();
+                let pay_secret =$('#pay_secret').val();
+                if ( pay_merchant == ''){
+                    swal("请填写商户号测试！");
+                }else if(pay_secret == '') {
+                    swal("请填写密钥测试！");
+                }else if(amount <= 0){
+                    swal("金额不能为空获金额不正确！");
+                }else{
+                   /* console.log(amount)
+                    console.log(pay_merchant)
+                    console.log(pay_secret)
+                    return false;*/
+                    $.ajax({
+                        url: "/usercenter/channels/channelTest",
+                        type: "POST",
+                        data: {channelCode:channel_code, codeVal:codeVal,amount:amount , pay_merchant:pay_merchant, pay_secret:pay_secret,_ajax: '1'},
+                        isuccess: function (data) {
+                            if (data.code ==1){
+                                let div = document.createElement('div');
+                                let buttonCopy = document.createElement('a');
+                                let buttonVisit = document.createElement('a');
+                                $(buttonCopy).addClass('btn btn-sm btn-success btn-lg' );
+                                $(buttonVisit).addClass('btn btn-sm btn-success btn-lg');
+                                buttonCopy.innerHTML = '复制链接';
+                                buttonCopy.style.margin = '10px';
+                                buttonCopy.addEventListener("click", function(){
+                                    copyText(data.data.data.request_url);
+                                    swal("复制成功", {
+                                        // button: false,
+                                        timer:1000
+                                    });
+                                });
+                                buttonVisit.innerHTML = '访问链接';
+                                $(buttonVisit).attr('href', data.data.data.request_url)
+                                $(buttonVisit).attr('target', '_black')
+                                buttonVisit.style.margin = '10px';
+                                $(div).append(buttonCopy).append(buttonVisit);
+                                swal({
+                                    title: "拉单成功",
+                                    icon: "success",
+                                    content: div ,
+                                    html:true,
+                                    confirmButtonText: "确定",
                                 })
+                            } else {
+                                swal({title: "错误", text: data.msg, icon: "error"});
                             }
                         }
-                    });
-                } else {
-                    swal({title: "错误", text: message, icon: "error"});
+                    })
                 }
             }
         });
+
+
     };
 
     $(function () {

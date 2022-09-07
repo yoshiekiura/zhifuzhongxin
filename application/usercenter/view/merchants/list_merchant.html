@@ -52,10 +52,11 @@
                         <td>
 <!--                            <a href="{:url('bind_list',['uid' => $vo.uid ])}" class="btn btn-sm btn-info">渠道列表</a>-->
 <!--                            <a href="{:url('/usercenter/merchants_binding/applyBindingUser', ['uid' => $vo.uid])}" class="btn btn-sm btn-warning">申请渠道</a>-->
-                            <a href="{:url('/usercenter/merchants/applyChannel', ['uid' => $vo.uid])}" class="btn btn-sm btn-warning">申请渠道</a>
-<!--                            <a href="{:url('enter_into',['uid' => $vo.uid ])}" class="btn btn-sm btn-warning">对接信息</a>-->
+                            <a href="{:url('/usercenter/merchants/applyChannel', ['uid' => $vo.uid])}" class="btn btn-sm btn-info">申请渠道</a>
+                            <a href="{:url('enter_into',['uid' => $vo.uid ])}" class="btn btn-sm btn-warning">对接信息</a>
                             <a href="{:url('edit_merchant',['uid' => $vo.uid ])}" class="btn btn-sm btn-info">编辑</a>
-                            <a href="#" onclick="PostCancel('{$vo.uid}')" class="btn btn-sm btn-danger">删除</a>
+                            <a href="javascript:void(0);" onclick="PostTestChannel('{$vo.uid}')" class="btn btn-sm btn-primary">拉单测试</a>
+<!--                            <a href="#" onclick="PostCancel('{$vo.uid}')" class="btn btn-sm btn-danger">删除</a>-->
                         </td>
                         </td>
                     </tr>
@@ -124,6 +125,89 @@
                         }
                     }
                 });
+            }
+        });
+    };
+
+    PostTestChannel = function (uid) {
+        $.ajax({
+            url: "/usercenter/bind_channel/getBindChannelCodes",
+            type: "POST",
+            data: {uid: uid, _ajax: '1'},
+            isuccess: function (data) {
+                code = data.code;
+                message = data.msg;
+                responseData = data.data;
+            },
+            error: function () {
+                message = "提交失败";
+            },
+            icomplete: function () {
+                if (code == 1) {
+                    var div = document.createElement('div');
+                    var wrapper = document.createElement('select');
+                    var input = document.createElement('input');
+                    wrapper.classList.add('form-control');
+                    wrapper.setAttribute('id', 'code');
+                    input.classList.add('form-control');
+                    input.setAttribute('id', 'amount');
+                    input.setAttribute('placeholder', '请输入金额');
+                    input.setAttribute('type', 'number');
+                    input.setAttribute('min', '1');
+                    input.setAttribute('style', 'margin-top:10px');
+                    let option_html  = '<option value="">请选择</option>\n';
+                    responseData.forEach(function(element) {
+                        option_html += '<option value="'+element.code+'">'+element.code+'</option>\n';
+                    });
+                    wrapper.innerHTML = option_html;
+                    input.innerHTML = option_html;
+                    div.appendChild(wrapper);
+                    div.appendChild(input);
+                    var br = document.createElement("br");
+                    div.appendChild(br);
+                    swal({
+                        title: "选择通道测试",
+                        content:div,
+                        confirmButtonText: "确定",
+                        buttons: {
+                            confirm: true,
+                            cancel: true
+                        },
+                    }).then(function (isConfirm) {
+                        if (isConfirm) {
+                            let code =$('#code').val();
+                            let amount =$('#amount').val();
+                            if ( code == ''){
+                                swal("通道编码不能为空请重新输入！");
+                            }else if(amount <= 0){
+                                swal("金额不能为空获金额不正确！");
+                            }else{
+                                $.ajax({
+                                    url: "/usercenter/bind_channel/channelTest",
+                                    type: "POST",
+                                    data: {uid:uid, code:code,amount:amount,_ajax: '1'},
+                                    isuccess: function (data) {
+                                        if (data.code ==1){
+                                            swal({
+                                                title: "处理成功",
+                                                text: "正在跳转...",
+                                                icon: "success",
+                                                button: false,
+                                                timer: 2000
+                                            }).then(function (isConfirm) {
+                                                window.location.href = data.url
+                                            });
+                                        } else {
+                                            swal({title: "错误", text: data.msg, icon: "error"});
+                                        }
+                                    }
+                                })
+                            }
+                        }
+                    });
+                } else {
+                    swal({title: "错误", text: message, icon: "error"});
+                }
             }
         });
     };

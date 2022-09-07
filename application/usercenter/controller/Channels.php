@@ -250,14 +250,13 @@ class Channels extends Base
     public function channelTest()
     {
 /*        $json = ' {"code":0,"msg":"\u8bf7\u6c42\u6210\u529f","data":{"request_url":"https:\/\/d.alipay.com\/i\/index2.htm?scheme=alipays%3A%2F%2Fplatformapi%2Fstartapp%3FsaId%3D10000007%26clientVersion%3D3.7.0.0718%26qrcode%3Dhttp%253a%252f%252fliandong2.kitycb.com%252fpayurl%252fEcpss.aspx%253fo%253d22081411585873230896%2526a%253d100%2526b%253d1011%3F_s%3Dweb-other"}}';
-
-
         $this->success('success', '',  json_decode( $json, true));*/
 
-        $accountId = $this->request->param('accountId',  '');
         $channelCode = $this->request->param('channelCode',  '');
         $codeVal = $this->request->param('codeVal', '');
         $amount = $this->request->param('amount', 0);
+        $mchid = $this->request->param('pay_merchant');
+        $Md5key = $this->request->param('pay_secret');
 
 //        halt(json_encode(compact('codeVal', 'channelCode', 'amount')));
 
@@ -270,12 +269,12 @@ class Channels extends Base
         if ($amount  <= 0){
             $this->error('金额不正确！！！');
         }
-        if (empty($accountId)){
-            $this->error('账号不能为空！！！');
+        if (empty($mchid)){
+            $this->error('商户号不能为空');
         }
-
-        $mchid = '100001';  //写死100001 测试
-        $Md5key = '772ae1d32322f49508307b2f31a0107f';
+        if (empty($Md5key)){
+            $this->error('密钥不能为空');
+        }
         $host = $_SERVER["HTTP_HOST"];
 
         $requestUrl = 'http://'.$host.'/apis/order';
@@ -287,7 +286,7 @@ class Channels extends Base
             'channel' => $channelCode,
             'notify_address' => $host.'/test/notify.php',
             'return_address' => $host.'/test/return.php',
-            'body' =>$accountId . ':' . $codeVal, //拉单测试传入account_id过去
+            'body' => 'Channel Test',
         );
 
         ksort($data);
@@ -326,7 +325,7 @@ class Channels extends Base
         //关闭URL请求
         curl_close($curl);
         //显示获得的数据
-//halt($json);
+        //halt($json);
         $data = json_decode($json, true);
         if(isset($data['code']) && $data['code'] == 0)
         {

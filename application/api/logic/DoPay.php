@@ -108,44 +108,15 @@ class DoPay extends BaseApi
         if ($order['channel'] == 'test'){
             $result = ApiPayment::TestPay()->pay($order, 0);
         }else {
-            $accountChannel = explode(':', $order['body']);
-            //如果uid 为100001，则是拉单测试，直接获取body字段（传入的是账号ID），获取对应的渠道信息
-            if ($order['uid'] == 100001) {
-                $channelAccount = $this->modelPayCenterChannelAccount
-                    ->alias('a')
-                    ->join('pay_channel c', 'c.id = a.channel_id', 'left')
-                    ->join('channel_template t', 't.id = template_id')
-                    ->where(['a.id' => $accountChannel[0]])
-                    ->field('a.secret_key as pay_secret, a.appid as pay_merchant, c.id, c.name, c.timeslot, c.remarks, c.notify_url, c.return_url,  c.template_id, c.pay_center_uid, c.pay_address,t.class_name')
-                    ->find();
-                if (!$channelAccount){
-                    throw new OrderException([
-                        'msg' => 'Create AcePay API Error: no channel available',
-                        'errCode' => 200009
-                    ]);
-                }
+            //渠道和参数获取
+            $appChannel = $this->logicPay->getAllowedAccount($order);
 
-                $payment = $channelAccount['class_name'];
-                $channelAccount['channel_code_value'] = $accountChannel[1];
-                $channelAccount['notify_url']  = Request::instance()->domain() . "/api/notify/notify/channel/". $channelAccount['notify_url'];
-                $channelAccount['return_url']  = Request::instance()->domain() . "/api/notify/notify/channel/". $channelAccount['return_url'];
-                $config=  $channelAccount->toArray();
-                //添加订单支付通道ID
-                $this->logicOrders->setOrderValue(['trade_no' => $order['trade_no']], 'cnl_id', $channelAccount['id']);
-//                halt($channelAccount);
-            }else{
-                //渠道和参数获取
-                $appChannel = $this->logicPay->getAllowedAccount($order);
-
-                if (isset($appChannel['errorCode'])) {
-                    Log::error($appChannel['msg']);
-                    throw new OrderException($appChannel);
-                }
-                //取出数据
-                list($payment, $action, $config) = array_values($appChannel);
+            if (isset($appChannel['errorCode'])) {
+                Log::error($appChannel['msg']);
+                throw new OrderException($appChannel);
             }
-
-
+            //取出数据
+            list($payment, $action, $config) = array_values($appChannel);
 
             $result = ApiPayment::$payment($config)->pay($order, $config['channel_code_value']);
         }

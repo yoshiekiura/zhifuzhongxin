@@ -33,64 +33,81 @@ class Pay extends BaseLogic
      */
     public function getAllowedAccount($order)
     {
-      /*  第一期只会有一个渠道，不用考虑权重*/
+
+        $codeInfo = $this->modelPayCode->getInfo(['code' => $order['channel']], 'id as co_id,cnl_id,cnl_weight');
+
+        if (empty($codeInfo)){
+            return ['errorCode' => '400028', 'msg' => '通道code不存在'];
+        }
 
         //获取商户信息
         $userInfo = $this->modelUser->getInfo(['uid' => $order['uid']], 'uid,pay_center_uid');
         if (!$userInfo['pay_center_uid']){
-            return ['errorCode' => '400028', 'msg' => 'The merchant has no corresponding payment center user']; //商户无对应支付中心用户
+            return ['errorCode' => '400028', 'msg' => '该商户无对应支付中心用户！'];
         }
-        //通过绑定关系获取第一个渠道，（第一期只做一个渠道）
-        $merchantBindingMap = [
-            'a.merchant_id' => $order['uid'],
-            'a.is_cancle' => 1,
+
+        $bindChannelWh = [
+            'cc.code_id' => $codeInfo['co_id'],
+            'a.user_id' => $order['uid'],
+            'a.status' => 1,
+            'a.channel_status' => 1,
             'a.en_able' => 1,
-            'ca.status' =>1
         ];
-        $MerchantBinding = $this->modelMerchantBinding
-            ->alias('a')
-            ->where($merchantBindingMap)
-            ->join('pay_center_channel_account ca', 'ca.id  = a.channel_account_id', 'left')
-            ->field('a.*, ca.id as channel_account_id, ca.secret_key,ca.appid')
-            ->find();
 
-        if (!$MerchantBinding){
-            return ['errorCode' => '400028', 'msg' => 'Please bind the channel first'];//没有可用渠道
-        }
-        //获取渠道
-        $channelMap = [
-                'pay_center_uid' => $MerchantBinding['channel_user_id'],
-                'status' =>1
-        ];
-        $channel = $this->modelPayChannel->getInfo($channelMap, 'id,name,timeslot,remarks,notify_url,return_url,template_id,pay_center_uid,pay_address');
+        $channels = $this->modelBindChannel->alias('a')
+            ->join('cm_pay_channel c', 'c.id = a.channel_id')
+            ->join('cm_pay_center_channel_code cc', 'cc.channel_id = c.id')
+            ->field('c.*, cc.value as channel_code_value')->where($bindChannelWh)
+            ->select();
 
-        if (!$channel){
-            return ['errorCode' => '400028', 'msg' => 'No channel available, please contact administrator']; //没有可用渠道，请联系管理员
+        if (!$channels){
+            return ['errorCode' => '400028', 'msg' => '没有可用渠道!'];
         }
-        //获取渠道模板数据
+
+        $accountWh = array(
+            'user_id' => $order['uid'],
+            'channel_id' => ['in', array_column($channels, 'id')]
+        );
+
+        $userAccounts = $this->modelPayCenterUserAccount->where($accountWh)->select();
+
+        if (empty($userAccounts)) {
+            return ['errorCode' => '400028', 'msg' => '没有可用账号!'];
+        }
+
+        $newChannelsAndAccount = [];
+        foreach ( collection($userAccounts)->toArray() as $key => $account){
+              foreach ( collection($channels)->toArray() as $channel) {
+                if ($account['channel_id'] == $channel['id']) {
+                    $newChannelsAndAccount[] = [
+                       $channel, $account
+                    ] ;
+                }
+            }
+        }
+
+        /* 现在随机一个渠道 和一个账号*/
+        list($channel, $account) = $newChannelsAndAccount[array_rand($newChannelsAndAccount)];
+
+        /* 获取渠道模板数据 */
         $channelTemplate = $this->modelChannelTemplate->getInfo(['id' =>$channel['template_id'] ]);
+
         if (!$channelTemplate){
             return ['errorCode' => '400028', 'msg' => '模板不存在'];
         }
-        //渠道是否设置了该通道编码
-        $code = $this->modelPayCode->where('code', '=', $order['channel'])->find();
-        $pay_center_channel_code = $this->modelPayCenterChannelCode->getInfo(['channel_id' => $channel['id'], 'code_id' => $code['id'] ?? '' ]);
 
-        if (!$pay_center_channel_code){
-            return ['errorCode' => '400028', 'msg' => 'No channel code is configured, please contact the administrator']; //没有配置通道编码，请联系管理员
-        }
         $channel['notify_url']  = Request::instance()->domain() . "/api/notify/notify/channel/". $channel['notify_url'];
         $channel['return_url']  = Request::instance()->domain() . "/api/notify/notify/channel/". $channel['return_url'];
-        $channel['channel_code_value']  = $pay_center_channel_code['value'];
-        $channel['pay_secret'] = $MerchantBinding['secret_key'];
-        $channel['pay_merchant'] = $MerchantBinding['appid'];
+        $channel['pay_secret'] = $account['pay_secret'];
+        $channel['pay_merchant'] = $account['pay_merchant'];
+
 
         //添加订单支付通道ID
-        $this->logicOrders->setOrderValue(['trade_no' => $order['trade_no']], 'cnl_id', $MerchantBinding['channel_account_id']);
+        $this->logicOrders->setOrderValue(['trade_no' => $order['trade_no']], 'cnl_id', $account['id']);
         return [
             'channel' => $channelTemplate['class_name'],
             'action'  => $order['channel'],
-            'config'  => $channel->toArray()
+            'config'  => $channel
         ];
     }
 

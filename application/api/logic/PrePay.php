@@ -55,6 +55,7 @@ $orderData["remark"] = empty($orderData["remark"]) ? "no": $orderData["remark"];
             //todo
 
             $order = $this->logicOrders->createPayOrder($orderData);
+
             //写入订单超时队列
             //todo
             //$this->logicQueue->pushJobDataToQueue('AutoOrderClose' , $order , 'AutoOrderClose');

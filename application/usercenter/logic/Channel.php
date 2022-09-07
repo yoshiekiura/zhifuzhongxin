@@ -65,7 +65,7 @@ class Channel extends BaseLogic
     public function setChannelCode($data){
         $modelPayCenterChannelCode = $this->modelPayCenterChannelCode;
         try {
-            $modelPayCenterChannelCode->startTrans();
+                $modelPayCenterChannelCode->startTrans();
             //先删除配置的编码
             $modelPayCenterChannelCode->where([ 'channel_id' => $data['channel_id']])->delete();
             $insert_data = [];

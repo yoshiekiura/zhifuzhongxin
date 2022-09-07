@@ -1,0 +1,287 @@
+{extend name="../user-layout" /}
+{block name="content"}
+
+<div class="container-fluid panel">
+    <div class="row">
+        <div class="col-xs-12 main">
+            <h3>
+                商户申请列表
+            </h3>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <td colspan="10">
+                            <form id="form1" action="index.html" class="form-inline">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input type="text" name="user_id" value="{$Request.get.user_id}"
+                                               class="form-control" placeholder="商户编号">
+                                    </div>
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <button id="btnSearch" class="btn btn-success" type="submit"
+                                                    onclick="$('#p').val('');$('#form1').attr('action','');"><i
+                                                    class="icon-search3"></i></button>
+                                            <a href="{:url('/usercenter/bind_channel/userbindchannel')}"
+                                               class="btn btn-warning"><i
+                                                    class="icon-circle-with-cross"></i></a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>ID</th>
+                        <th>商户编号</th>
+                        <th>商户所属用户名</th>
+                        <th>绑定状态</th>
+                        <th>商户状态</th>
+                        <th>创建时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="listBody">
+                    {volist name="lists" id="vo"}
+                    <tr>
+                        <td>{$vo.id}</td>
+                        <td>{$vo['user_id']}</td>
+                        <td>{$vo['merchant_username']}</td>
+                        <td>
+                            {switch $vo.status}
+                            {case 0}<a href="javascript:void(0);" class="btn btn-xs btn-default btn-rounded">待审核</a>{/case}
+                            {case 1}<a href="javascript:void(0);" class="btn btn-xs btn-success btn-rounded">审核通过</a>{/case}
+                            {case 2}<a href="javascript:void(0);" class="btn btn-xs btn-danger">审核失败</a>{/case}
+                            {/switch}
+                        </td>
+                        <td>
+                            {switch $vo.channel_status}
+                            {case 0}<a href="javascript:void(0);" class="btn btn-xs btn-danger btn-rounded">禁用</a>{/case}
+                            {case 1}<a href="javascript:void(0);" class="btn btn-xs btn-success btn-rounded">启用</a>{/case}
+                            {/switch}
+                        </td>
+                        <td>{$vo.create_time}</td>
+                        <td>
+                            {if condition = "$vo.status == 0"}
+                            <a href="javascript:void(0);" class="btn btn-sm btn-info"
+                               onclick="BindChannelHandle('{$vo.id}', 1)">通过</a>
+                            <a href="javascript:void(0);" class="btn btn-sm btn-danger"
+                               onclick="BindChannelHandle('{$vo.id}', 2)">驳回</a>
+                            {elseif condition = "$vo.status == 1 && $vo.channel_status == 0" }
+                            <a href="javascript:void(0);" class="btn btn-sm btn-info"
+                               onclick="ChannelHandleUser('{$vo.id}', 1)">启用商户</a>
+                            {elseif condition = "$vo.status == 1 && $vo.channel_status == 1" }
+                            <a href="javascript:void(0);" class="btn btn-sm btn-danger"
+                               onclick="ChannelHandleUser('{$vo.id}', 0)">禁用商户</a>
+                            {/if}
+                        </td>
+                        </td>
+                    </tr>
+
+                    {/volist}
+
+                    {empty name="lists"}
+                    <tr>
+                        <td colspan="12" class="text-center">
+                            未查到数据
+                        </td>
+                    </tr>
+                    {/empty}
+                    </tbody>
+                    <tfoot>
+                    <td colspan="10" class="text-right">
+                        <nav aria-label="Page navigation">
+                            {$lists->render()}
+                        </nav>
+                    </td>
+                    </tfoot>
+                </table>
+            </div>
+            <script src="__STATIC__/index/baisha/js/WdatePicker.js"></script>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var code, message;
+
+    var BindChannelHandle = function (id, status) {
+        let msg_text = status == 1? '同意' : '驳回';
+        swal({
+            title: "确定要"+ msg_text +"商户的绑定申请？",
+            buttons: {
+                confirm: true,
+                cancel: true
+            },
+        }).then(function (isConfirm) {
+            if (isConfirm) {
+                $.ajax({
+                    url: "/usercenter/bind_channel/channelBindHandle",
+                    type: "POST",
+                    data: {id: id, status: status,_ajax: '1'},
+                    isuccess: function (data) {
+                        code = data.code;
+                        message = data.msg;
+                    },
+                    error: function () {
+                        message = "提交失败";
+                    },
+                    icomplete: function () {
+                        if (code == 1) {
+                            swal({
+                                title: "处理成功",
+                                text: '正在跳转...',
+                                icon: "success",
+                                button: false,
+                                timer: 2000
+                            }).then(function (isConfirm) {
+                                window.location.reload();
+                            });
+                        } else {
+                            swal({title: "错误", text: message, icon: "error"});
+                        }
+                    }
+                });
+            }
+        });
+    };
+
+    var ChannelHandleUser = function (id, channel_status){
+        let msg_text = channel_status == 1 ? '启用' : '禁用';
+        swal({
+            title: "确定要"+ msg_text +"该商户？",
+            buttons: {
+                confirm: true,
+                cancel: true
+            },
+        }).then(function (isConfirm) {
+            if (isConfirm) {
+                $.ajax({
+                    url: "/usercenter/bind_channel/ChannelHandleUser",
+                    type: "POST",
+                    data: {id: id, channel_status: channel_status,_ajax: '1'},
+                    isuccess: function (data) {
+                        code = data.code;
+                        message = data.msg;
+                    },
+                    error: function () {
+                        message = "提交失败";
+                    },
+                    icomplete: function () {
+                        if (code == 1) {
+                            swal({
+                                title: "处理成功",
+                                text: '正在跳转...',
+                                icon: "success",
+                                button: false,
+                                timer: 2000
+                            }).then(function (isConfirm) {
+                                window.location.reload();
+                            });
+                        } else {
+                            swal({title: "错误", text: message, icon: "error"});
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+</script>
+
+<script type="text/javascript">
+
+    InitPage = function () {
+
+        $('#divPage').bootstrapPaginator({
+            currentPage: 1,
+            totalPages: 1,
+            size: "normal",
+            bootstrapMajorVersion: 3,
+            alignment: "right",
+            pageUrl: "javascript:void(0);",
+            numberOfPages: 8,
+            itemTexts: function (type, page, current) {
+                switch (type) {
+                    case "first":
+                        return "<<";
+                    case "prev":
+                        return "<";
+                    case "next":
+                        return ">";
+                    case "last":
+                        return ">>";
+                    case "page":
+                        return page;
+                }
+            },
+            onPageClicked: function (event, originalEvent, type, page) {
+                $("#p").val(page);
+                $("#s").val(15);
+                $("#form1").submit();
+            }
+        });
+    }();
+
+    $(function () {
+    });
+
+</script>
+
+
+<script src="https://cdn.staticfile.org/sweetalert/2.1.2/sweetalert.min.js"></script>
+<script type="text/javascript">
+    var controller = "Order";
+    $.ajaxSetup({
+        //async: false,
+        cache: false,
+        timeout: 15000,
+        dataType: "json",
+        //contentType: "application/json; charset=utf-8",
+        crossDomain: true,
+        success: function (data) {
+            if (data.code == "anonymous") {
+                window.location.href = '/';
+            } else if (this.isuccess) {
+                this.isuccess(data);
+            }
+        },
+        error: function (xhr, status, e) {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    var domObj = xhr.responseXML;
+                    if (domObj) {
+                        var messageNodes = domObj.getElementsByTagName("message");
+                        if (messageNodes.length > 0) {
+                            var textNode = messageNodes[0].firstChild;
+                            var responseMessage = textNode.nodeValue;
+                            swal({title: "操作错误", text: responseMessage, icon: "error"});
+                        } else {
+                            swal({title: "提交错误:" + xhr.status, text: xhr.responseText, icon: "error"});
+                        }
+                    } else {
+                        swal({title: "提交错误:" + xhr.status, text: xhr.responseText, icon: "error"});
+                    }
+                } else {
+                    swal({title: "提交错误:" + xhr.status, text: "参考信息：无", icon: "error"});
+                }
+            }
+        },
+        beforeSend: function (xhr) {
+            $("#loading").show();
+        },
+        complete: function (xhr, status) {
+            $("#loading").hide();
+            if (this.icomplete) {
+                this.icomplete();
+            }
+        }
+    });
+    $(function () {
+        FastClick.attach(document.body);
+    });
+</script>
+{/block}
+</body>
+</html>
