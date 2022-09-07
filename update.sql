@@ -136,3 +136,21 @@ CREATE TABLE `cm_pay_center_user_account` (
   `update_time` int(11) NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='用户账号表';
+
+
+CREATE TABLE `cm_guarantee_orders` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `trade_no` varchar(32) NOT NULL COMMENT '订单号',
+  `merchant_user_id` int(11) NOT NULL COMMENT '商户用户支付中心标识',
+  `channel_user_id` int(11) NOT NULL COMMENT '渠道用户支付中心标识',
+  `amount` decimal(10,2) NOT NULL COMMENT '担保金额',
+  `usdt_sum` decimal(10,3) NOT NULL COMMENT '金额对应usdt数量',
+  `status` tinyint(3) NOT NULL COMMENT '状态 0 订单关闭 1待支付 2支付成功',
+  `pay_type` tinyint(3) DEFAULT '0' COMMENT '交易方式 0为交易 1余额转账 2usdt转账',
+  `pay_arrival_time` int(11) DEFAULT '0' COMMENT 'usdt转账到账时间',
+  `transaction_id` varchar(100) DEFAULT NULL COMMENT '转账交易ID',
+  `from_transaction_address` varchar(255) DEFAULT NULL COMMENT '转入的地址',
+  `create_time` int(11) NOT NULL COMMENT '创建时间',
+  `update_time` int(11) NOT NULL COMMENT '修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
