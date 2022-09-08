@@ -1,6 +1,6 @@
 /* Vertical Responsive Menu */
 'use strict';
-var tid = setInterval( function () {
+/*var tid = setInterval( function () {
 	if ( document.readyState !== 'complete' ) return;
 	clearInterval( tid );
 	var querySelector = document.querySelector.bind(document);
@@ -19,7 +19,7 @@ var tid = setInterval( function () {
 		nav.classList.toggle('vertical-nav-opened');
 	};
 
-}, 1000 );
+}, 1000 );*/
 
 
 // Sidebar Dropdown Menu
@@ -74,7 +74,7 @@ $(function () {
 
 
 // scrollUp full options
-$(function () {
+/*$(function () {
 	$.scrollUp({
 		scrollName: 'scrollUp', // Element ID
 		scrollDistance: 180, // Distance from top/bottom before showing element (px)
@@ -91,7 +91,7 @@ $(function () {
 		activeOverlay: false, // Set CSS color to display scrollUp active point, e.g '#00FFFF'
 		zIndex: 2147483647 // Z-Index for the overlay
 	});
-});
+});*/
 
 // Material Button
 var element, circle, d, x, y;

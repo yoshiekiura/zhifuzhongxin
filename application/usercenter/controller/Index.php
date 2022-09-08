@@ -13,40 +13,50 @@ class Index extends Base
         $where = [];
         $username = $request->param('username');
 
-        switch ($this->user['user_type']){
-            case '1':
-                $where['user_type'] = 2;
-                break;
-            case '2':
-                $where['user_type'] = 1;
-                break;
-            default:
-                $where['user_type'] = 10000000;
-                break;
-        }
+
 
         $createTime = $this->request->param('createTime', '');
         $username && $where['username'] = ['like', '%'.$username.'%'];
         if ($createTime){
             switch ($createTime){
                 case 'w':
-                    $where['create_time'] = ['>', strtotime('-1 week')];
+                    $where['a.create_time'] = ['>', strtotime('-1 week')];
                     break;
                 case 'm':
-                    $where['create_time'] = ['>', strtotime('-1 month')];
+                    $where['a.create_time'] = ['>', strtotime('-1 month')];
                     break;
                 case '3m':
-                    $where['create_time'] = ['>', strtotime('-3 month')];
+                    $where['a.create_time'] = ['>', strtotime('-3 month')];
                     break;
                 case 'd':
-                    $where['create_time'] = ['>', strtotime('-1 year')];
+                    $where['a.create_time'] = ['>', strtotime('-1 year')];
                     break;
             }
         }
-        $users = $this->modelPayCenterUser->where(['status' => 1])->where($where)->order('create_time desc')->paginate($this->request->param('limit', 12));;
+        $users = $this->modelPayCenterUser
+            ->alias('a')
+            ->where(['a.status' => 1])
+            ->order('a.create_time desc');
+
+        switch ($this->user['user_type']){
+            case '1':
+                $where['a.user_type'] = 2;
+                break;
+            case '2':
+                $where['a.user_type'] = 1;
+                $users = $users->join('guarantee_orders go', 'go.channel_user_id = a.id', 'left')
+                    ->field('a.*, go.id as guarantee_id');
+                break;
+            default:
+                $where['a.user_type'] = 10000000;
+                break;
+        }
+
+        $users = $users->where($where)->paginate($this->request->param('limit', 12));
         foreach ($users as $user){
             $user->avatar = letter_avatar($user->username);
         }
+
         $this->assign('user_info', $this->user);
         $this->assign('users', $users);
         $this->assign('username', $username);

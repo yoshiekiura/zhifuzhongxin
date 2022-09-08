@@ -85,7 +85,7 @@
                     {/empty}
                     </tbody>
                     <tfoot>
-                    <td colspan="10" class="text-right">
+                    <td colspan="10">
                         <nav aria-label="Page navigation">
                             {$lists->render()}
                         </nav>
@@ -148,45 +148,6 @@
         $('#divPage').bootstrapPaginator({
             currentPage: 1,
             totalPages: 0,
-            size: "normal",
-            bootstrapMajorVersion: 3,
-            alignment: "right",
-            pageUrl: "javascript:void(0);",
-            numberOfPages: 8,
-            itemTexts: function (type, page, current) {
-                switch (type) {
-                    case "first":
-                        return "<<";
-                    case "prev":
-                        return "<";
-                    case "next":
-                        return ">";
-                    case "last":
-                        return ">>";
-                    case "page":
-                        return page;
-                }
-            },
-            onPageClicked: function (event, originalEvent, type, page) {
-                $("#p").val(page);
-                $("#s").val(15);
-                $("#form1").submit();
-            }
-        });
-    }();
-
-    $(function () {
-    });
-
-</script>
-
-<script type="text/javascript">
-
-    InitPage = function () {
-
-        $('#divPage').bootstrapPaginator({
-            currentPage: 1,
-            totalPages: 1,
             size: "normal",
             bootstrapMajorVersion: 3,
             alignment: "right",

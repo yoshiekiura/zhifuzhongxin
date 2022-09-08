@@ -1,0 +1,282 @@
+{extend name="../user-layout" /}
+{block name="content"}
+
+<div class="container-fluid panel">
+    <div class="row">
+        <div class="col-xs-12 main">
+            <h3>
+                担保列表
+            </h3>
+            <div class="table-responsive">
+                {if condition="$user_info['user_type'] == 2"}
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <td colspan="10">
+                            <form id="form1" action="index.html" class="form-inline">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input type="text" name="trade_no" value="{$Request.get.trade_no}"
+                                               class="form-control" placeholder="订单">
+                                    </div>
+                                    <div class="input-group">
+                                        <input type="text" name="username" value="{$Request.get.username}"
+                                               class="form-control" placeholder="渠道名称">
+                                        <span class="input-group-btn">
+                                    <button id="btnSearch" class="btn btn-success" type="submit"
+                                            onclick="$('#p').val('');$('#form1').attr('action','');"><i
+                                            class="icon-search3"></i></button>
+                                            <!--                                    <button id="btnExport" class="btn btn-primary" type="submit" onclick="$('#form1').attr('action','exportOrder');"><i class="glyphicon glyphicon-download-alt"></i></button>-->
+                                    <a href="{:url('usercenter/guarantee_orders/index')}" class="btn btn-warning"><i
+                                            class="icon-circle-with-cross"></i></a>
+                                </span>
+                                    </div>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>订单号</th>
+                        <th>担保金额</th>
+                        <th>usdt(数量)</th>
+                        <th>渠道名称</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="listBody">
+                    {volist name="lists" id="vo"}
+                    <tr>
+                        <td>{$vo['trade_no']}</td>
+                        <td><span style="color: red;font-weight: bold">￥{$vo['amount']}</span></td>
+                        <td><span style="color: red;font-weight: bold">{$vo['usdt_sum']}</span></td>
+                        <td>{$vo['rest_username']}</td>
+                        <td>
+
+                            {if condition="$vo.status eq 0"}
+                            <a href="javascript:voio(0)" class="btn btn-xs btn-danger btn-rounded"> 已关闭</a>
+                            {elseif condition="$vo.status eq 1"/}
+                            <a href="javascript:voio(0)" class="btn btn-xs btn-warning btn-rounded"> 待支付</a>
+                            {elseif condition="$vo.status eq 2"/}
+                            <a href="javascript:voio(0)" class="btn btn-xs btn-success btn-rounded"> 支付成功</a>
+                            {/if}
+                        </td>
+                        <td></td>
+                    </tr>
+
+                    {/volist}
+
+                    {empty name="lists"}
+                    <tr>
+                        <td colspan="12" class="text-center">
+                            未查到数据
+                        </td>
+                    </tr>
+                    {/empty}
+                    </tbody>
+                    <tfoot>
+                    <td colspan="10" class="text-right">
+                        <nav aria-label="Page navigation">
+                            {$lists->render()}
+                        </nav>
+                    </td>
+                    </tfoot>
+                </table>
+                {/if}
+                {if condition="$user_info['user_type'] == 1"}
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <td colspan="10">
+                            <form id="form1" action="index.html" class="form-inline">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input type="text" name="trade_no" value="{$Request.get.trade_no}"
+                                               class="form-control" placeholder="订单">
+                                    </div>
+                                    <div class="input-group">
+                                        <input type="text" name="username" value="{$Request.get.username}"
+                                               class="form-control" placeholder="商户名称">
+                                        <span class="input-group-btn">
+                                    <button id="btnSearch" class="btn btn-success" type="submit"
+                                            onclick="$('#p').val('');$('#form1').attr('action','');"><i
+                                            class="icon-search3"></i></button>
+                                            <!--                                    <button id="btnExport" class="btn btn-primary" type="submit" onclick="$('#form1').attr('action','exportOrder');"><i class="glyphicon glyphicon-download-alt"></i></button>-->
+                                    <a href="{:url('usercenter/guarantee_orders/index')}" class="btn btn-warning"><i
+                                            class="icon-circle-with-cross"></i></a>
+                                </span>
+                                    </div>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>订单号</th>
+                        <th>担保金额</th>
+                        <th>usdt(数量)</th>
+                        <th>商户</th>
+                        <th>支付剩余时间</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="listBody">
+                    {volist name="lists" id="vo"}
+                    <tr>
+                        <td>{$vo['trade_no']}</td>
+                        <td><span style="color: red;font-weight: bold">￥{$vo['amount']}</span></td>
+                        <td><span style="color: red;font-weight: bold">{$vo['usdt_sum']}</span></td>
+                        <td>{$vo['rest_username']}</td>
+                        <td class="effective-time" data-effective-time="{$vo['effective_time']}"></td>
+                        <td>
+
+                            {if condition="$vo.status eq 0"}
+                            <a href="javascript:voio(0)" class="btn btn-xs btn-danger btn-rounded"> 已关闭</a>
+                            {elseif condition="$vo.status eq 1"/}
+                            <a href="javascript:voio(0)" class="btn btn-xs btn-warning btn-rounded"> 待支付</a>
+                            {elseif condition="$vo.status eq 2"/}
+                            <a href="javascript:voio(0)" class="btn btn-xs btn-success btn-rounded"> 支付成功</a>
+                            {/if}
+                        </td>
+                        <td>
+                            {if condition="$vo.status eq 1"}
+                                <a href="javascript:voio(0)" class="btn btn-sm btn-info">支付</a>
+                            {/if}
+                        </td>
+                    </tr>
+
+                    {/volist}
+
+                    {empty name="lists"}
+                    <tr>
+                        <td colspan="12" class="text-center">
+                            未查到数据
+                        </td>
+                    </tr>
+                    {/empty}
+                    </tbody>
+                    <tfoot>
+                    <td colspan="10" class="text-right">
+                        <nav aria-label="Page navigation">
+                            {$lists->render()}
+                        </nav>
+                    </td>
+                    </tfoot>
+                </table>
+                {/if}
+
+            </div>
+            <script src="__STATIC__/index/baisha/js/WdatePicker.js"></script>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(function (){
+
+        var effectiveTime = document.getElementsByClassName('effective-time');
+
+        if (effectiveTime){
+
+            for (var i=0;  i< effectiveTime.length; i++){
+                //结束时间
+                let endTime = effectiveTime[i].getAttribute('data-effective-time') * 1000;
+                endTime = new Date(endTime);
+                $this =  effectiveTime[i];
+                //当前时间
+
+                if (endTime - (new Date()) <= 0){
+                    $this.setAttribute("style", "color:red;font-weight: bold;");
+                    $this.innerText = '订单结束';
+                }else{
+                    setInterval(function showtime() {
+                        let beginTime = new Date();
+                        //计算间隔的毫秒数
+                        var jgTime = endTime - beginTime;
+                        //获得天数
+                        var dd = parseInt(jgTime /1000/ 24 / 60 /60);
+                        dd = dd < 10 ? '0' +dd : dd;
+                        //获得小时数，24小时之内
+                        var HH= parseInt(jgTime /1000/ 60 / 60 % 24);
+                        HH= HH< 10 ? '0' +HH: HH;
+                        //获得分钟数，60分钟之内
+                        var mm = parseInt(jgTime /1000/ 60  % 60);
+                        mm = mm < 10 ? '0' +mm : mm;
+                        //获得秒数，60秒之内
+                        var ss = parseInt(jgTime/1000  % 60);
+                        ss = ss < 10 ? '0' +ss : ss;
+                        // console.log(dd + '天' + HH+ '时' + mm + '分' + ss +'秒')
+                        /* var jg = document.getElementById("jgTime");
+                         jg.innerText =dd + '天' + HH+ '时' + mm + '分' + ss +'秒';*/
+                        $this.setAttribute("style", "color:green;font-weight: bold;");
+
+                        console.log( dd + '天' + HH+ '时' + mm + '分' + ss +'秒')
+                        $this.innerHTML = '<span class="icon-stop-watch3"></span>'+ dd + '天' + HH+ '时' + mm + '分' + ss +'秒';
+                    },1000);
+                }
+                console.log( effectiveTime[i]);
+            }
+        }
+
+    })
+
+</script>
+
+
+
+<script src="https://cdn.staticfile.org/sweetalert/2.1.2/sweetalert.min.js"></script>
+<script type="text/javascript">
+    var controller = "Order";
+    $.ajaxSetup({
+        //async: false,
+        cache: false,
+        timeout: 15000,
+        dataType: "json",
+        //contentType: "application/json; charset=utf-8",
+        crossDomain: true,
+        success: function (data) {
+            if (data.code == "anonymous") {
+                window.location.href = '/';
+            } else if (this.isuccess) {
+                this.isuccess(data);
+            }
+        },
+        error: function (xhr, status, e) {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    var domObj = xhr.responseXML;
+                    if (domObj) {
+                        var messageNodes = domObj.getElementsByTagName("message");
+                        if (messageNodes.length > 0) {
+                            var textNode = messageNodes[0].firstChild;
+                            var responseMessage = textNode.nodeValue;
+                            swal({title: "操作错误", text: responseMessage, icon: "error"});
+                        } else {
+                            swal({title: "提交错误:" + xhr.status, text: xhr.responseText, icon: "error"});
+                        }
+                    } else {
+                        swal({title: "提交错误:" + xhr.status, text: xhr.responseText, icon: "error"});
+                    }
+                } else {
+                    swal({title: "提交错误:" + xhr.status, text: "参考信息：无", icon: "error"});
+                }
+            }
+        },
+        beforeSend: function (xhr) {
+            $("#loading").show();
+        },
+        complete: function (xhr, status) {
+            $("#loading").hide();
+            if (this.icomplete) {
+                this.icomplete();
+            }
+        }
+    });
+    $(function () {
+        FastClick.attach(document.body);
+    });
+</script>
+{/block}
+</body>
+</html>

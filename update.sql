@@ -154,3 +154,12 @@ CREATE TABLE `cm_guarantee_orders` (
   `update_time` int(11) NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+insert into cm_config(`name`, `title`, `type`, `sort`, `group`, `value`, `extra`, `describe`, `status`, `create_time`, `update_time`)
+values ('usdt_rate', 'usdt费率', 1, 0, 0, '6.5', '', '', 1, unix_timestamp(now()),unix_timestamp(now()));
+
+insert into cm_config(`name`, `title`, `type`, `sort`, `group`, `value`, `extra`, `describe`, `status`, `create_time`, `update_time`)
+values ('usdt_address', 'usdt地址', 1, 0, 0, 'TB1VCPsLF9ekbM3D7whth8WDtRLiZoWpQa', '', '', 1, unix_timestamp(now()),unix_timestamp(now()));
+
+alter table cm_guarantee_orders add column `effective_time` int(11) NOT NULL COMMENT '订单有效时间';
