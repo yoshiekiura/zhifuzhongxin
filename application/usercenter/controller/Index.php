@@ -13,8 +13,6 @@ class Index extends Base
         $where = [];
         $username = $request->param('username');
 
-
-
         $createTime = $this->request->param('createTime', '');
         $username && $where['username'] = ['like', '%'.$username.'%'];
         if ($createTime){
@@ -44,7 +42,7 @@ class Index extends Base
                 break;
             case '2':
                 $where['a.user_type'] = 1;
-                $users = $users->join('guarantee_orders go', 'go.channel_user_id = a.id', 'left')
+                $users = $users->join('guarantee_orders go', 'go.channel_user_id = a.id and merchant_user_id =' . $this->user['id'] , 'left')
                     ->field('a.*, go.id as guarantee_id');
                 break;
             default:

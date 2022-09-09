@@ -57,4 +57,11 @@ class GuaranteeOrders extends Base
         return $this->result($this->logicGuaranteeOrders->addOrder(  array_merge($request->param(),  ['merchant_user_id' => $this->user['id']]) ));
     }
 
+    /**
+     * 余额支付
+     */
+    public function balancePay()
+    {
+        $this->result($this->logicGuaranteeOrders->balancePay());
+    }
 }

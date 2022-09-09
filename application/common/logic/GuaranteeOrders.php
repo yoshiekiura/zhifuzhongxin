@@ -115,4 +115,14 @@ class GuaranteeOrders extends BaseLogic
         $this->modelGuaranteeOrders->limit = !$paginate;
         return $this->modelGuaranteeOrders->getList($where, $field, $order, $paginate);
     }
+
+    /**
+     * 余额支付
+     */
+    public function balancePay($data)
+    {
+        $validate = $validate =  $this->validateGuaranteeOrders->scene('balancePay')->check($data);
+
+
+    }
 }

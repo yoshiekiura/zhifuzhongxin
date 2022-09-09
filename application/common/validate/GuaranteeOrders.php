@@ -8,6 +8,8 @@ class GuaranteeOrders extends BaseValidate
 {
 
     protected $rule = [
+        '__token__' => 'token',
+        'id'                => 'require',
         'amount'      => 'require|number',
         'channel_user_id'  => 'require|integer',
     ];
