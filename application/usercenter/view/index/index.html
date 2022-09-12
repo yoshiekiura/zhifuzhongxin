@@ -1,6 +1,6 @@
 {extend name="../user-layout" /}
 {block name="content"}
-
+<!--<link rel="stylesheet" href="__STATIC__/usercenter/css/bootstrap-select.css">-->
 <style>
     .merchant-body {
         padding: 12px;
@@ -484,117 +484,47 @@
         </div>
         <div>
             <div class="row">
-                {volist name="users" id="vo"}
-                <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-                    <div class="card-wrapper ">
-                        <div class="card clearfix detail-content" style="color: #ACAFB3">
-                            <span class="card-type"></span>
-                            <img src="{$vo.avatar}" class="img-responsive card-avatar" alt="{$vo.username}" >
 
-                            <h3 style="font-weight: bold">{$vo.username}</h3>
-                            <p class="detail-content">{$vo.create_time}</p>
+                {if condition="$user_info['user_type'] eq 1"}
 
-                            <table class="table" style="width: 100%;border: none">
-                                <tr>
-                                    <td>成交单数</td>
-                                    <td><?php echo rand(1000,9999) ?></td>
-                                </tr>
-                                <tr>
-                                    <td>客户类型</td>
-                                    <td>{$vo.user_type_text}</td>
-                                </tr>
-                                <tr>
-                                    <td>供应类型</td>
-                                    <td>微信扫码</td>
-                                </tr>
-                                <tr>
-                                    <td>联系方式</td>
-                                    <td>136xxxx<?php echo rand(1000,9999) ?></td>
-                                </tr>
-                            </table>
+                {elseif condition="$user_info['user_type'] eq 2"}
+                    {volist name="$lists" id="vo"}
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                        <div class="card-wrapper ">
+                            <div class="card clearfix detail-content" style="color: #ACAFB3">
+                                <span class="card-type"></span>
+                                <img src="{$vo.avatar}" class="img-responsive card-avatar" alt="{$vo.name}" >
 
-                            {if condition="$user_info['user_type'] eq 2"}
-                            <div class="btn-group">
-                                {if condition="$vo.guarantee_id"}
-                                <button type="button" class="btn btn-sm btn-info guarantee-invite disabled"> <i class="icon-circle-with-minus"></i>邀请担保</button>
-                                {else/}
-                                <button type="button" class="btn btn-sm btn-info guarantee-invite" onclick="guaranteeInvite('{$vo.id}')"> <i class="icon-log-out"></i>邀请担保</button>
+                                <h4 style="font-weight: bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="{$vo.name}">{$vo.name}</h4>
+                                <p class="detail-content">{$vo.create_time}</p>
+
+                                <table class="table" style="width: 100%;border: none">
+                                    <tr>
+                                        <td>所属用户</td>
+                                        <td>{$vo.username}</td>
+                                    </tr>
+                                </table>
+
+                                {if condition="$user_info['user_type'] eq 2"}
+                                <div class="input-group-text">
+                                    {if condition="$vo.guarantee_id"}
+                                    <button type="button" class="btn btn-sm btn-info guarantee-invite disabled"> <i class="icon-circle-with-minus"></i>邀请担保</button>
+                                    {else/}
+                                    <button type="button" class="btn btn-sm btn-info guarantee-invite" onclick="guaranteeInvite('{$vo.pay_center_uid}', '{$vo.id}')"> <i class="icon-log-out"></i>邀请担保</button>
+                                    {/if}
+                                    <button type="button" class="btn btn-sm btn-info guarantee-invite" onclick="bindChannel('{$vo.id}')"> <i class="icon-add-user"></i>渠道绑定</button>
+                                </div>
                                 {/if}
                             </div>
-                            {/if}
-
-
-
-                            <!--<div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
-                                    <p>成交单数：</p>
-                                    <p>客户类型：</p>
-                                    <p>供应类型：</p>
-                                    <p>联系方式：</p>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <p><?php echo rand(1000,9999) ?></p>
-                                    <p>{$vo.user_type_text}</p>
-                                    <p>微信扫码</p>
-                                    <p>136xxxx<?php echo rand(1000,9999) ?></p>
-                                </div>
-                            </div>-->
-
-<!--
-                            <p>成交单数: </p>
-                            <p >客户类型: </p>
-                            <p>供应类型:</p>
-                            <p>联系方式: </p>-->
-                           <!-- <p>I am <strong>#Founder</strong> and <strong>#Designer</strong> from North. <strong>#Icecream</strong>
-                                lover.</p>-->
-                        </div>
-<!--                        <ul class="card-actions clearfix">-->
-<!--                            <li>-->
-<!--                                <a href="#" class="action-btn">-->
-<!--                                    <i class="icon-facebook-with-circle"></i>-->
-<!--                                </a>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <a href="#" class="action-btn">-->
-<!--                                    <i class="icon-twitter-with-circle"></i>-->
-<!--                                </a>-->
-<!--                            </li>-->
-<!--                        </ul>-->
-                    </div>
-                </div>
-                {/volist}
-                <!--<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" style="margin-bottom: 15px">
-                    <div class="merchant-body">
-                        <div class="users-info">
-                            <div class="users-avatar">
-                                <img class="img-circle img-responsive" src="" alt="">
-                            </div>
-                            <div class="users-detail">
-
-                                <div class="users-detail-title">
-                                    <p style="display: inline-block;margin-bottom: 4px;font-weight: bold;font-size: 3rem">
-                                       </p>
-                                    <p style="float: right;white-space: nowrap;;display: inline-block;  text-overflow: ellipsis; font-size: 1.5rem;
-                                                line-height: 48px;margin-right: 15px"></p>
-                                </div>
-                                <div  style="display: inline-block;margin-right: 3rem;">
-                                    <p>成交单数: <?php echo rand(1000,9999) ?></p>
-                                    <p>客户类型: </p>
-                                </div>
-                                <div class="" style="display: inline-block;">
-                                    <p>供应类型: 微信扫码</p>
-                                    <p>联系方式: 136xxxx<?php echo rand(1000,9999) ?></p>
-                                </div>
-                            </div>
                         </div>
                     </div>
-                </div>-->
-
-
+                    {/volist}
+                {else/}
+                {/if}
             </div>
             <div class="page-body-wrapper text-center">
                 <nav aria-label="Page navigation">
-                    {$users->render()}
+                    {$lists->render()}
                 </nav>
             </div>
         </div>
@@ -611,9 +541,37 @@
             <div class="modal-body">
                 <form class="form-horizontal" id="add-guarantee-form">
                     <input type="text" name="channel_user_id" hidden value="">
+                    <input type="text" name="channel_id" hidden value="">
                     <div class="form-group">
                         <div class="col-sm-12 col-md-12">
                             <input type="number" class="form-control" required  id="amount" name="amount" value="" placeholder="请输入担保金额">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-info">保存</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="bindChannel" tabindex="-1"  role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content"  data-backdrop="red">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">绑定渠道</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="add-bind-channel">
+                    <input type="text" name="channel_id" id="bindChannelId" hidden value="">
+                    <div class="form-group">
+                        <div class="col-sm-12 col-md-12">
+                            <select name="uid"  class="selectpicker form-control" id="bindChannelUid">
+
+
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -669,17 +627,94 @@
             submitHandler: function (form) {
                 DoPost();
             }
+        })
 
+        $("#add-bind-channel").validate({
+            errorElement: 'span',
+            errorClass: 'help-block',
+            rules: {
+                channel_id: {
+                    required: true,
+                },
+                uid: {
+                    required: true,
+                }
+            },
+            messages: {
+                channel_id: {
+                    required: "<span style='padding: 15px'>渠道标识不能为空！</span>",
+                },
+                uid: {
+                    required: "<span style='padding: 15px'>商户不能为空！</span>",
+                }
+            },
+            focusInvalid: true,
+            errorPlacement: function (error, element) {
+                if(element.parent().hasClass("input-group"))
+                    element.parent().next().remove();
+                else
+                    element.next().remove();
+                //element.after('<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>');
+                element.closest('.form-group').append(error);
+                //element.after(error);
+            },
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error has-feedback');
+            },
+            success: function (label) {
+                var el = label.closest('.form-group').find("input");
+                if (el.parent().hasClass("input-group"))
+                    el.parent().next().remove();
+                else
+                    el.next().remove();
+                //el.after('<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>');
+                label.closest('.form-group').removeClass('has-error').addClass("has-feedback has-success");
+                label.remove();
+            },
+            submitHandler: function (form) {
+                bindChannelSubmit();
+            }
         })
     })
 
-    var guaranteeInvite = function (id){
+    var guaranteeInvite = function (channel_user_id, id){
         $('#guaranteeModal').modal({
             keyword:false
         });
-        $('[name="channel_user_id"]').val(id);
+        $('[name="channel_user_id"]').val(channel_user_id);
+        $('[name="channel_id"]').val(id);
     }
 
+    var bindChannel = function (channel_id) {
+
+        $.ajax({
+            url: "{:url('/usercenter/merchants/getBindChannelUserList')}",
+            type: "POST",
+            data: {channel_id:channel_id},
+            success: function (data) {
+                code = data.code;
+                message = data.msg;
+                users = data.data;
+            },
+            error: function () {
+                message = "提交失败";
+            },
+            complete: function () {
+                if (code == 1) {
+                    $('#bindChannelId').val(channel_id);
+                    $('#bindChannelUid').children().remove();
+                    $('#bindChannelUid').append($('<option value="">请选择商户</option>'));
+                    for (var i=0; i<users.length;i++){
+                        $('#bindChannelUid').append($('<option value='+ users[i].uid +'>'+ users[i].username +'</option>'))
+                    }
+                    $('#bindChannel').modal('toggle');
+                }
+                else {
+                    swal({ title: "错误", text: message, icon: "error" });
+                }
+            }
+        });
+    }
 
     var DoPost = function () {
         var code = "", message = "";
@@ -715,16 +750,33 @@
         $(form1).submit()
     }
 
-    $('.screen-body span').on('click', function () {
-        $.each($(this).siblings(), function (index, elem) {
-            $(elem).removeClass('active')
-        })
-        let optionField = $(this).attr('data-field');
-        let optionVal = $(this).attr('data-value');
-        let input = document.getElementById(optionField);
-        input.value = optionVal
-        submit();
-    })
+    var  bindChannelSubmit = function () {
+        var code = "", message = "";
+        $.ajax({
+            url: "{:url('/usercenter/merchants/bindChannel')}",
+            type: "POST",
+            data: $("#add-bind-channel").serialize(),
+            success: function (data) {
+                code = data.code;
+                message = data.msg;
+            },
+            error: function () {
+                message = "提交失败";
+            },
+            complete: function () {
+                if (code == "1") {
+                    $('#bindChannel').modal('toggle')
+                    swal({ title: "申请成功，等待渠道审核", text: "正在跳转...", icon: "success", button: false, timer: 3000 }).then(function (isConfirm) {
+                        window.location.href = '/usercenter/bind_channel/index';
+                    });
+                }
+                else {
+                    swal({ title: "错误", text: message, icon: "error" });
+                }
+            }
+        });
+    }
+
 </script>
 
 

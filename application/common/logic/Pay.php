@@ -323,6 +323,27 @@ class Pay extends BaseLogic
         return $this->modelPayChannel->getList($where, $field, $order, $paginate);
     }
 
+    /**
+     * 获取渠道列表
+     *
+     * @param array $where
+     * @param $field
+     * @param string $order
+     * @return mixed
+     * @author 勇敢的小笨羊 <brianwaring98@gmail.com>
+     *
+     */
+    public function getChannelListV2($where = [], $field = true, $join = null, $order = 'create_time desc', $paginate = 15)
+    {
+        $this->modelPayChannel->alias('a');
+
+        if ( $join){
+            $this->modelPayChannel->join = $join;
+        }
+
+        $this->modelPayChannel->paginate = !$paginate;
+        return $this->modelPayChannel->getList($where, $field, $order, $paginate);
+    }
 
     /**
      * 渠道统计

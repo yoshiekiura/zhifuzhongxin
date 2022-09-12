@@ -60,8 +60,59 @@ class GuaranteeOrders extends Base
     /**
      * 余额支付
      */
-    public function balancePay()
+    public function balancePay(Request $request)
     {
-        $this->result($this->logicGuaranteeOrders->balancePay());
+        $data = array_merge(['channel_user_id' => $this->user['id']], $request->param());
+        $this->result($this->logicGuaranteeOrders->balancePay($data));
     }
+
+    /**
+     * usdt在线支付
+     */
+    public function onlinePay(Request $request)
+    {
+        $data = array_merge(['channel_user_id' => $this->user['id']], $request->param());
+        $this->result($this->logicGuaranteeOrders->onlinePay($data));
+    }
+
+    /**
+     * 申请退保
+     */
+    public function applyRefund(Request $request)
+    {
+        $data = array_merge(['channel_user_id' => $this->user['id']], $request->param());
+        $this->result($this->logicGuaranteeOrders->applyRefund($data));
+    }
+
+    /**
+     * 订单详情
+     * @param Request $request
+     */
+    public function orderDetails(Request $request)
+    {
+        $id = $request->param('id');
+        $where = array(
+            'a.id' => $id,
+//            'a.merchant_user_id' => $this->user['id']
+        );
+        $field = 'a.*, c.name as channel_name, u.username as channel_username';
+        $order = $this->logicGuaranteeOrders->getOrderInfo($where, $field);
+        if ($order){
+            $order['effective_time'] = date('Y-m-d H:i:s',   $order['effective_time']);
+            $order['refund_time'] =  $order['refund_time'] ?  date('Y-m-d H:i:s',   $order['refund_time']) : '';
+            $this->result('1', 'success', $order);
+        }else{
+            $this->result(0, '订单错误');
+        }
+    }
+
+    /**
+     * 退保操作
+     */
+    public function refundHandle(Request $request)
+    {
+        $data = array_merge(['merchant_user_id' => $this->user['id']], $request->param());
+        $this->result($this->logicGuaranteeOrders->refundHandle($data));
+    }
+
 }

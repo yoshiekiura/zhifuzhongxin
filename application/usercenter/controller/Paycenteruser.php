@@ -47,7 +47,7 @@ class Paycenteruser extends Base
         if ($this->request->isPost()){
             $params = $this->request->param();
             $params['id'] = $this->user['id'];
-            $this->modelPayCenterUser->allowField(['is_info_public', 'avatar'])->isUpdate(true)->save($params);
+            $this->modelPayCenterUser->allowField(['is_info_public'])->isUpdate(true)->save($params);
             $this->success('操作成功');
         }
         return $this->fetch('pay_center_user/info');

@@ -139,4 +139,17 @@ class BaseValidate extends Validate
         }
         return true;
     }
+
+    /**
+     * 验证数据最大长度
+     * @access protected
+     * @param mixed     $value  字段值
+     * @param mixed     $rule  验证规则
+     * @return bool
+     */
+    protected function cusMax($value, $rule)
+    {
+        $length = mb_strlen((string) $value, 'utf8');
+        return $length <= $rule;
+    }
 }
