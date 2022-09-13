@@ -1,6 +1,12 @@
 {extend name="../user-layout" /}
 {block name="content"}
 
+<style>
+    #orderDetails table th{
+        width: 16rem;
+    }
+
+</style>
 <div class="container-fluid panel">
     <div class="row">
         <div class="col-xs-12 main">
@@ -59,9 +65,21 @@
                             <a href="javascript:voio(0)" class="btn btn-xs btn-warning btn-rounded"> 待支付</a>
                             {elseif condition="$vo.status eq 2"/}
                             <a href="javascript:voio(0)" class="btn btn-xs btn-success btn-rounded"> 支付成功</a>
+                            {elseif condition="$vo.status eq 3"/}
+                            <a href="javascript:voio(0)" class="btn btn-xs btn-primary btn-rounded"> 退保中</a>
+                            {elseif condition="$vo.status eq 4"/}
+                            <a href="javascript:voio(0)" class="btn btn-xs btn-success btn-rounded"> 退保成功</a>
+                            {elseif condition="$vo.status eq 5"/}
+                            <a href="javascript:voio(0)" class="btn btn-xs btn-danger btn-rounded"> 拒绝退保</a>
                             {/if}
                         </td>
-                        <td></td>
+                        <td>
+                            <a href="javascript:voio(0)" onclick="refundDetails('{$vo.id}')" class="btn btn-sm btn-warning">详情</a>
+                            {if condition="$vo.status eq 3"}
+                            <a href="javascript:voio(0)" onclick="refundHandle('{$vo.id}', 4)" class="btn btn-sm btn-info">同意退保</a>
+                            <a href="javascript:voio(0)" onclick="refundHandle('{$vo.id}', 5)" class="btn btn-sm btn-danger">拒绝退保</a>
+                            {/if}
+                        </td>
                     </tr>
 
                     {/volist}
@@ -127,7 +145,7 @@
                         <td><span style="color: red;font-weight: bold">￥{$vo['amount']}</span></td>
                         <td><span style="color: red;font-weight: bold">{$vo['usdt_sum']}</span></td>
                         <td>{$vo['rest_username']}</td>
-                        <td class="effective-time" data-effective-time="{$vo['effective_time']}"></td>
+                        <td class="effective-time" data-effective-time="{$vo['effective_time']}" data-status="{$vo['status']}"></td>
                         <td>
 
                             {if condition="$vo.status eq 0"}
@@ -136,12 +154,21 @@
                             <a href="javascript:voio(0)" class="btn btn-xs btn-warning btn-rounded"> 待支付</a>
                             {elseif condition="$vo.status eq 2"/}
                             <a href="javascript:voio(0)" class="btn btn-xs btn-success btn-rounded"> 支付成功</a>
+                            {elseif condition="$vo.status eq 3"/}
+                            <a href="javascript:voio(0)" class="btn btn-xs btn-primary btn-rounded"> 退保中</a>
+                            {elseif condition="$vo.status eq 4"/}
+                            <a href="javascript:voio(0)" class="btn btn-xs btn-success btn-rounded"> 退保成功</a>
+                            {elseif condition="$vo.status eq 5"/}
+                            <a href="javascript:voio(0)" class="btn btn-xs btn-danger btn-rounded"> 拒绝成功</a>
                             {/if}
                         </td>
                         <td>
-                            {if condition="$vo.status eq 1"}
+                            <a href="javascript:voio(0)" onclick="refundDetails('{$vo.id}')" class="btn btn-sm btn-warning">详情</a>
+                            {if condition="$vo.status eq 1 && time()<=$vo.effective_time"}
                                 <a href="javascript:voio(0)" onclick="balancePay('{$vo.id}')" class="btn btn-sm btn-info">余额支付</a>
-                                <a href="javascript:voio(0)" class="btn btn-sm btn-info">USDT支付</a>
+                                <a href="javascript:voio(0)" onclick="onlinePay('{$vo.id}')" class="btn btn-sm btn-info">USDT支付</a>
+                            {elseif condition="$vo.status eq 2 or $vo.status eq 5"}
+                                <a href="javascript:voio(0)" onclick="applyRefund('{$vo.id}')" class="btn btn-sm btn-info">申请退保</a>
                             {/if}
                         </td>
                     </tr>
@@ -172,8 +199,70 @@
     </div>
 </div>
 
-<script type="text/javascript">
 
+<div class="modal fade" id="orderDetails"  role="dialog">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+        <div class="modal-content"  data-backdrop="red">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">订单详情</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>订单号</th>
+                        <td id="de_trade_no"></td>
+                    </tr>
+                    <tr>
+                        <th>担保金额</th>
+                        <td id="de_amount" style="color: red;font-weight: bold"></td>
+                    </tr>
+                    <tr>
+                        <th>数量（USDT）</th>
+                        <td id="de_usdt_sum" style="color: red;font-weight: bold"></td>
+                    </tr>
+                    <tr>
+                        <th>支付渠道</th>
+                        <td id="de_channel_name"></td>
+                    </tr>
+                    <tr>
+                        <th>交易方式</th>
+                        <td id="de_pay_type"></td>
+                    </tr>
+                    <tr>
+                        <th>退保成功时间</th>
+                        <td id="de_refund_time"></td>
+                    </tr>
+                    <tr>
+                        <th>渠道申请退款描述</th>
+                        <td id="de_channel_refund_note"></td>
+                    </tr>
+                    <tr>
+                        <th>商户审核退款描述</th>
+                        <td id="de_merchant_refund_note"></td>
+                    </tr>
+                    <tr>
+                        <th>订单创建时间</th>
+                        <td id="de_create_time"></td>
+                    </tr>
+                    <tr>
+                        <th>支付有效期</th>
+                        <td id="de_effective_time"></td>
+                    </tr>
+                    <tr>
+                        <th>状态</th>
+                        <td id="de_status"></td>
+                    </tr>
+                </table>
+                <div class="center-text" id="bottonBtn" style="padding: 15px;">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
     $(function (){
 
         const effectiveTime = document.getElementsByClassName('effective-time');
@@ -182,12 +271,39 @@
             for (let i=0;  i< effectiveTime.length; i++){
                 //结束时间
                 let endTime = effectiveTime[i].getAttribute('data-effective-time') * 1000;
+                let status = effectiveTime[i].getAttribute('data-status');
                 endTime = new Date(endTime);
                 //当前时间
                 if (endTime - (new Date()) <= 0){
+                    if (status == 1){
+                        effectiveTime[i].setAttribute("style", "color:red;font-weight: bold;");
+                        effectiveTime[i].innerText = '订单过期';
+                    }else if(status == 2){
+                        effectiveTime[i].setAttribute("style", "color:green;font-weight: bold;");
+                        effectiveTime[i].innerText = '已支付';
+                    }else if(status == 3){
+                        effectiveTime[i].setAttribute("style", "color:green;font-weight: bold;");
+                        effectiveTime[i].innerText = '退保中';
+                    }else if(status == 4){
+                        effectiveTime[i].setAttribute("style", "color:green;font-weight: bold;");
+                        effectiveTime[i].innerText = '已退保';
+                    }else if(status == 5){
+                        effectiveTime[i].setAttribute("style", "color:red;font-weight: bold;");
+                        effectiveTime[i].innerText = '拒绝退保';
+                    }
+                }else if(status == 2){
+                    effectiveTime[i].setAttribute("style", "color:green;font-weight: bold;");
+                    effectiveTime[i].innerText = '已支付';
+                }else if(status == 3){
+                    effectiveTime[i].setAttribute("style", "color:green;font-weight: bold;");
+                    effectiveTime[i].innerText = '退保中';
+                }else if(status == 4){
+                    effectiveTime[i].setAttribute("style", "color:green;font-weight: bold;");
+                    effectiveTime[i].innerText = '已退保';
+                }else if(status == 5){
                     effectiveTime[i].setAttribute("style", "color:red;font-weight: bold;");
-                    effectiveTime[i].innerText = '订单结束';
-                }else{
+                    effectiveTime[i].innerText = '拒绝退保';
+                }  else{
                    let timer = setInterval(function () {
                         let beginTime = new Date();
                         //计算间隔的毫秒数
@@ -226,28 +342,202 @@
     })
 
     var balancePay = function (order_id) {
+        swal({
+            title: "确定使用余额支付改订单",
+            buttons: {
+                confirm: true,
+                cancel: true
+            },
+        }).then(function (isConfirm) {
+            if (isConfirm){
+                var token='{$Request.token}';
+                $.ajax({
+                    url: "{:url('balancePay')}",
+                    type: "POST",
+                    data: {id:order_id, '__token__':token},
+                    isuccess: function (data) {
+                        code = data.code;
+                        message = data.msg;
+                    },
+                    error: function () {
+                        message = "提交失败";
+                    },
+                    icomplete: function () {
+                        if (code == "1") {
+                            swal({ title: "保存成功", text: "正在跳转...", icon: "success", button: false, timer: 2000 }).then(function (isConfirm) {
+                                window.location.href = '/usercenter/guarantee_orders/index.html';
+                            });
+                        }
+                        else {
+                            swal({ title: "错误", text: message, icon: "error" });
+                        }
+                    }
+                });
+            }
+        })
+    }
+
+    var onlinePay = function (order_id) {
+        var token='{$Request.token}';
         $.ajax({
-            url: "{:url('')}",
+            url: "{:url('onlinePay')}",
             type: "POST",
-            data: $("#form1").serialize(),
+            data: {id:order_id, '__token__':token},
             isuccess: function (data) {
                 code = data.code;
                 message = data.msg;
+                usdtData = data.data;
             },
             error: function () {
                 message = "提交失败";
             },
             icomplete: function () {
                 if (code == "1") {
-                    swal({ title: "保存成功", text: "正在跳转...", icon: "success", button: false, timer: 2000 }).then(function (isConfirm) {
-                        window.location.href = 'list_merchant';
-                    });
+                    var div = document.createElement('div');
+                    var p = document.createElement('p');
+                    var p1 =document.createElement('p');
+                    var img = document.createElement('img');
+                    img.setAttribute('src', usdtData.usdt_qr);
+                    p.innerHTML = '请支付<span style="color: red;font-weight: bold;">'+ usdtData.usdt_num + '</span>USDT'
+                    p1.innerHTML ='<strong style="color: red;font-weight: bold">注意：USDT数量不能多转或少转，否则订单不会支付成功！！！</strong>';
+                    div.appendChild(p);
+                    div.appendChild(p1);
+                    div.appendChild(img);
+                    swal({
+                        title:'USDT扫码支付',
+                        content:div,
+                        confirmButtonText: "确定",
+                    })
                 }
                 else {
                     swal({ title: "错误", text: message, icon: "error" });
                 }
             }
         });
+    }
+
+    var applyRefund = function (order_id) {
+        var div = document.createElement('div');
+        div.innerHTML =   '<textarea class="form-control" name="channel_refund_note" id="" cols="30" rows="5" placeholder="退款描述（选填）"></textarea>';
+        swal({
+            title:'申请退保',
+            content:div,
+            confirmButtonText: "确定",
+            buttons: {
+                confirm: true,
+                cancel: true
+            },
+        }).then(function (isConfirm) {
+            if (isConfirm){
+                let channel_refund_note = $('[name="channel_refund_note"]').val();
+                $.ajax({
+                    url: "{:url('applyRefund')}",
+                    type: "POST",
+                    data: {id:order_id, channel_refund_note:channel_refund_note},
+                    isuccess: function (data) {
+                        code = data.code;
+                        message = data.msg;
+                    },
+                    error: function () {
+                        message = "提交失败";
+                    },
+                    icomplete: function () {
+                        if (code == "1") {
+                            swal({ title: message, text: "正在跳转...", icon: "success", button: false, timer: 2000 }).then(function (isConfirm) {
+                                window.location.href = '/usercenter/guarantee_orders/index.html';
+                            });
+                        }
+                        else {
+                            swal({ title: "错误", text: message, icon: "error" });
+                        }
+                    }
+                });
+            }
+        })
+    }
+
+    var refundDetails = function (order_id) {
+        $.ajax({
+            url: "{:url('orderDetails')}",
+            type: "POST",
+            data: {id:order_id},
+            isuccess: function (data) {
+                code = data.code;
+                message = data.msg;
+                orderData = data.data;
+            },
+            error: function () {
+                message = "提交失败";
+            },
+            icomplete: function () {
+                if (code == "1") {
+                    $('#de_trade_no').text(orderData.trade_no);
+                    $('#de_amount').text('￥'+orderData.amount);
+                    $('#de_usdt_sum').text(orderData.usdt_sum);
+                    $('#de_channel_name').text(orderData.channel_name);
+                    $('#de_status').text(orderData.status_text);
+                    $('#de_pay_type').text(orderData.pay_type_text);
+                    $('#de_refund_time').text(orderData.refund_time);
+                    $('#de_merchant_refund_note').text(orderData.merchant_refund_note);
+                    $('#de_channel_refund_note').text(orderData.channel_refund_note);
+                    $('#de_effective_time').text(orderData.effective_time);
+                    $('#de_create_time').text(orderData.create_time);
+
+                    if ('{$user_info["user_type"]}' == 2 && orderData.status==3){
+                        $('#bottonBtn').children().remove();
+                        let t = $('<a href="javascript:voio(0)" onclick="refundHandle('+ orderData.id +', 4)" class="btn btn-sm btn-info" style="margin-right:5px; ">同意退保</a>');
+                        let j = $('<a href="javascript:voio(0)" onclick="refundHandle('+ orderData.id +', 5)" class="btn btn-sm btn-danger">拒绝退保</a>');
+                        $('#bottonBtn').append(t)
+                        $('#bottonBtn').append(j)
+                    }
+                    $('#orderDetails').modal('toggle')
+                }
+                else {
+                    swal({ title: "错误", text: message, icon: "error" });
+                }
+            }
+        });
+    }
+
+    var refundHandle = function (order_id, status) {
+        let msgText = (status == 4) ? '同意' : '拒绝';
+        let div = document.createElement('div');
+        div.innerHTML =   '<textarea class="form-control" name="merchant_refund_note" id="" cols="30" rows="5" placeholder="审核退款描述（选填）"></textarea>';
+        swal({
+            title: msgText+ '退保',
+            content:div,
+            confirmButtonText: "确定",
+            buttons: {
+                confirm: true,
+                cancel: true
+            },
+        }).then(function (isConfirm) {
+            if (isConfirm){
+                let merchant_refund_note = $('[name="merchant_refund_note"]').val();
+                $.ajax({
+                    url: "{:url('refundHandle')}",
+                    type: "POST",
+                    data: {id:order_id, merchant_refund_note:merchant_refund_note, status:status},
+                    isuccess: function (data) {
+                        code = data.code;
+                        message = data.msg;
+                    },
+                    error: function () {
+                        message = "提交失败";
+                    },
+                    icomplete: function () {
+                        if (code == "1") {
+                            swal({ title: message, text: "正在跳转...", icon: "success", button: false, timer: 2000 }).then(function (isConfirm) {
+                                window.location.href = '/usercenter/guarantee_orders/index.html';
+                            });
+                        }
+                        else {
+                            swal({ title: "错误", text: message, icon: "error" });
+                        }
+                    }
+                });
+            }
+        })
     }
 </script>
 

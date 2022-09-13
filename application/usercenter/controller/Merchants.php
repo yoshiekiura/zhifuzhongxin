@@ -6,6 +6,7 @@ namespace app\usercenter\controller;
 
 use app\common\logic\User;
 use think\exception\Handle;
+use think\Request;
 
 class Merchants extends Base
 {
@@ -285,5 +286,34 @@ class Merchants extends Base
         $this->assign('uid', $uid);
         $this->assign('channels', $channels);
         return $this->fetch();
+    }
+
+    /**
+     * 获取可绑定渠道的商户列表
+     */
+    public function getBindChannelUserList(Request $request)
+    {
+        $channel_id = $request->param('channel_id');
+        $userIds = $this->logicBindChannel->where(array(
+            'channel_id' => $channel_id,
+            'merchant_user_id' => $this->user['id'],
+            'status' => array('neq', 2)
+        ))->column('user_id');
+
+        $users = $this->logicUser->where(array(
+            'status' => 1,
+            'uid' => array('not in', $userIds),
+            'pay_center_uid' => $this->user['id']
+        ))->field('uid,username')->select();
+
+        $this->result(1, 'success', $users);
+    }
+
+    /**
+     * 申请绑定渠道
+     */
+    public function bindChannel(Request $request)
+    {
+       $this->result($this->logicBindChannel->saveBind($request->param()));
     }
 }

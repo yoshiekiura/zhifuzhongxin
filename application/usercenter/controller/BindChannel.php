@@ -183,6 +183,45 @@ class BindChannel extends Base
 
 
     /**
+     * 商户申请绑定支付渠道
+     */
+    /**
+     *商户申请渠道
+     */
+    public function applyChannel()
+    {
+        $uid = $this->request->param('uid');
+        $map = array(
+            'uid' => $uid,
+            'pay_center_uid' => $this->user['id']
+        );
+        $user = $this->modelUser->where($map)->find();
+        if (!$user) $this->error('数据错误');
+
+        if ($this->request->isAjax()) $this->result($this->logicBindChannel->saveBind($this->request->param()));
+
+        /*过滤已经申请过的渠道*/
+        $userBindChannelWh = array(
+            'merchant_user_id'=> $this->user['id'],
+            'user_id' => $uid,
+        );
+        $userBindChannels = $this->modelBindChannel->where($userBindChannelWh)->column('channel_id');
+
+        $where = ['a.status' => 1, 'a.id' => ['NOT IN' ,array_unique($userBindChannels)]];
+
+        $channels = $this->modelPayChannel
+            ->alias('a')
+            ->join('cm_pay_center_user pu', 'pu.id = a.pay_center_uid')
+            ->field('a.*, pu.username')
+            ->where($where)
+            ->select();
+        $this->assign('uid', $uid);
+        $this->assign('channels', $channels);
+        return $this->fetch();
+    }
+
+
+    /**
      * 商户渠道测试
      */
     public function channelTest()
@@ -269,5 +308,7 @@ class BindChannel extends Base
         }
 
     }
+
+
 
 }

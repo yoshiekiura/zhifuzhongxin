@@ -11,10 +11,8 @@ class Index extends Base
     public function Index(Request $request)
     {
         $where = [];
-        $username = $request->param('username');
-
         $createTime = $this->request->param('createTime', '');
-        $username && $where['username'] = ['like', '%'.$username.'%'];
+        $username = $request->param('username');
         if ($createTime){
             switch ($createTime){
                 case 'w':
@@ -31,32 +29,39 @@ class Index extends Base
                     break;
             }
         }
-        $users = $this->modelPayCenterUser
-            ->alias('a')
-            ->where(['a.status' => 1])
-            ->order('a.create_time desc');
+
+        $lists = [];
 
         switch ($this->user['user_type']){
-            case '1':
-                $where['a.user_type'] = 2;
+            case 1:
+                $username && $where['a.name'] = array('LIKE', '%'. $username .'%');
+                $lists =   $this->logicPayusercenter->getUserList(array_merge($where, ['a.user_type' => 2]));
+
+                foreach ($lists as $user){
+                    $user->avatar = letter_avatar($user->username);
+                }
                 break;
-            case '2':
-                $where['a.user_type'] = 1;
-                $users = $users->join('guarantee_orders go', 'go.channel_user_id = a.id and merchant_user_id =' . $this->user['id'] , 'left')
-                    ->field('a.*, go.id as guarantee_id');
+            case 2:
+                $field = 'a.*, u.username, go.id as guarantee_id';
+                $username && $where['a.username'] = array('LIKE', '%'. $username .'%');
+                $join = [
+                    [ 'guarantee_orders go', 'go.channel_id = a.id and go.merchant_user_id = '.$this->user['id'] . ' and go.status not in (2,4)',  'left'],
+                    [ 'pay_center_user u', 'u.id = a.pay_center_uid'],
+                ];
+                $lists = $this->logicPay->getChannelListV2(['a.status' => 1], $field, $join,'create_time desc', 12);
+                foreach ($lists as $channel){
+                    $channel->avatar = letter_avatar($channel->name);
+                }
+                break;
+            case 3:
+            case 4:
                 break;
             default:
-                $where['a.user_type'] = 10000000;
                 break;
-        }
-
-        $users = $users->where($where)->paginate($this->request->param('limit', 12));
-        foreach ($users as $user){
-            $user->avatar = letter_avatar($user->username);
         }
 
         $this->assign('user_info', $this->user);
-        $this->assign('users', $users);
+        $this->assign('lists', $lists);
         $this->assign('username', $username);
         $this->assign('createTime', $createTime);
         return $this->fetch('index');

@@ -163,3 +163,35 @@ insert into cm_config(`name`, `title`, `type`, `sort`, `group`, `value`, `extra`
 values ('usdt_address', 'usdt地址', 1, 0, 0, 'TB1VCPsLF9ekbM3D7whth8WDtRLiZoWpQa', '', '', 1, unix_timestamp(now()),unix_timestamp(now()));
 
 alter table cm_guarantee_orders add column `effective_time` int(11) NOT NULL COMMENT '订单有效时间';
+alter table cm_guarantee_orders add column `channel_id` int(11) NOT NULL COMMENT '支付渠道标识' AFTER `amount`;
+
+alter table cm_bind_channel add column `channel_status` tinyint(3) NOT NULL COMMENT '渠道状态';
+ALTER TABLE cm_bind_channel ADD COLUMN `en_able` tinyint(1) NOT NULL DEFAULT '1' COMMENT '0禁用，1启用';
+
+ALTER TABLE cm_pay_center_user ADD COLUMN `usdt_balance` decimal(5) DEFAULT 0 COMMENT 'usdt余额' after `money`;
+
+CREATE TABLE `cm_pay_center_usdt_bill` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `uid` int(11) NOT NULL COMMENT '支付中心用户ID',
+  `jl_class` int(11) NOT NULL COMMENT '流水类别：1USDT充值，2管理员账变',
+  `info` varchar(225) NOT NULL COMMENT '说明',
+  `jc_class` varchar(225) NOT NULL COMMENT '分+ 或-',
+  `pre_amount` decimal(11,3) NOT NULL DEFAULT '0.000' COMMENT '变化前',
+  `last_amount` decimal(11,3) NOT NULL DEFAULT '0.000' COMMENT '变化后',
+  `change_amount` decimal(11,3) NOT NULL DEFAULT '0.000' COMMENT '变动金额',
+  `create_time` int(11) NOT NULL COMMENT '添加时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='支付中心用户USDT流水账单';
+
+
+ALTER TABLE cm_guarantee_orders ADD COLUMN `refund_time` int(10) DEFAULT 0 COMMENT '退款时间' after `pay_arrival_time`;
+
+ALTER TABLE cm_guarantee_orders modify  COLUMN `status`  tinyint(3) NOT NULL COMMENT '状态 0 订单关闭 1待支付 2支付成功 3申请退保 4退保成功' ;
+
+ALTER TABLE cm_guarantee_orders ADD COLUMN `channel_refund_note` varchar (255)  COMMENT '渠道退款描述' after `refund_time`;
+ALTER TABLE cm_guarantee_orders ADD COLUMN `merchant_refund_note` varchar (255)  COMMENT '商户退款描述' after `refund_time`;
+
+ALTER TABLE cm_pay_center_usdt_bill modify COLUMN `jl_class` int(11) NOT NULL COMMENT '流水类别：1USDT充值，2USDT体现，3管理员账变， 4担保订单支付，5担保订单退款';
+
+insert into cm_config(`name`, `title`, `type`, `sort`, `group`, `value`, `extra`, `describe`, `status`, `create_time`, `update_time`)
+values ('usdt_topup_withdraw_address', 'USDT充值提现地址', 1, 0, 0, 'TB1VCPsLF9ekbM3D7whth8WDtRLiZoWpQa', '', '', 1, unix_timestamp(now()),unix_timestamp(now()));
