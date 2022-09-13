@@ -1231,3 +1231,13 @@ if (!function_exists('hsv2rgb')) {
         ];
     }
 }
+
+if (!function_exists('generateQRfromGoogle')){
+    /**
+     * google api 二维码生成
+     */
+    function generateQRfromGoogle($data,$widhtHeight='150',$EC_level='L'){
+        $urlencoded = urlencode($data);
+        return "https://api.qrserver.com/v1/create-qr-code/?data=$urlencoded&size={$widhtHeight}x{$widhtHeight}&ecc=$EC_level";
+    }
+}

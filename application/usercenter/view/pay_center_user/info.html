@@ -14,66 +14,6 @@
 </style>
 <div class="container-fluid">
     <div class="row">
-        <!--  <div class="col-xs-4 main">
-              <div class="panel panel-default center-text">
-                  <div class="d-flex align-items-center">
-                      <img src="http://q1.qlogo.cn/g?b=qq&amp;nk=702154416&amp;s=100"
-                           class="img-circle" alt="profile image">
-                      <div class="ml-3">
-                          <h4>
-                              97139218 </h4>
-                          <p class="text-muted mb-0">
-                              代理商 VIP1 </p>
-                      </div>
-                  </div>
-                  <p class="mt-4 card-text"></p>
-                  <div class="card rounded border mb-2">
-                      <div class="card-body p-3">
-                          <div class="media">
-                              <i class="icon-check icon-sm text-success align-self-center mr-3"></i>
-                              <div class="media-body">
-                                  <h6 class="mb-1">商户已激活认证</h6>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-                  <p></p>
-                  <a href="/index/balance/recharge.html" class="btn btn-primary btn-sm mt-3 mb-4">
-                      充值
-                  </a>
-                  <a href="/balance/apply.html" class="btn btn-success btn-sm mt-3 mb-4">
-                      提现
-                  </a>
-                  <a href="#" class="btn btn-info btn-sm mt-3 mb-4">
-                      转账
-                  </a>
-                  <div class="border-top pt-3">
-                      <div class="row">
-                          <div class="col-4">
-                              <h6>
-                                  ￥571085 </h6>
-                              <p>
-                                  总余额
-                              </p>
-                          </div>
-                          <div class="col-4">
-                              <h6>
-                                  ￥570585.000 </h6>
-                              <p>
-                                  可用余额
-                              </p>
-                          </div>
-                          <div class="col-4">
-                              <h6>
-                                  ￥500.000 </h6>
-                              <p>
-                                  冻结余额
-                              </p>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>-->
         <div class="col-xs-12 main">
             <div class="panel panel-default">
                 <div class="panel-body">
@@ -140,8 +80,8 @@
                                            id="usdt_bala" name="username"
                                            value="{$user_info.usdt_balance}" disabled>
                                     <span class="input-group-btn">
-                                        <a href="/index/balance/recharge.html" class="btn btn-info btn-w-md" style="margin-left: 5px;height: 40px;line-height: 28px">充值</a>
-                                        <a href="/balance/apply.html" class="btn btn-primary btn-w-md" style="margin-left: 5px;height: 40px;line-height: 28px">提现</a>
+                                        <a href="javascript:void(0)" class="btn btn-info btn-w-md" onclick="topup()" style="margin-left: 5px;height: 40px;line-height: 28px">充值</a>
+                                        <a href="javascript:void(0)" class="btn btn-primary btn-w-md" onclick="withdrawUsdt()" style="margin-left: 5px;height: 40px;line-height: 28px">提现</a>
                                     </span>
 
                                 </div>
@@ -164,9 +104,65 @@
     </div>
 </div>
 
+
+<div class="modal fade" id="topUp" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content"  data-backdrop="red">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">USDT充值</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="top-up-usdt-form">
+                    {:token()}
+                    <div class="form-group">
+                        <div class="col-sm-12 col-md-12">
+                            <input type="number" class="form-control" required  id="usdt_sum" name="usdt_sum" value="" placeholder="请输入充值金额">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-info">保存</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="withdraw" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content"  data-backdrop="red">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">USDT提现</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="withdraw-usdt-form">
+                    {:token()}
+                    <div class="form-group">
+                        <div class="col-sm-12 col-md-12">
+                            <input type="text" class="form-control" required  name="withdraw_usdt_address" value="" placeholder="请输入USDT地址">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12 col-md-12">
+                            <input type="number" class="form-control" required  name="usdt_sum" value="" placeholder="请输入提现金额">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-info">保存</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="__STATIC__/usercenter/js/fileinput.min.js"></script>
 <script src="__STATIC__/usercenter/js/fileinput_locale_zh.js"></script>
-<script type="text/javascript">
+<!--<script type="text/javascript">
     $(function () {
         let avatar = $('#avatar').val();
         let initialPreview = [];
@@ -222,7 +218,7 @@
             });
         })
     })
-</script>
+</script>-->
 
 <script src="__STATIC__/index/baisha/js/jquery.validate.min.js" type="text/javascript"></script>
 <script type="text/javascript">
@@ -289,11 +285,176 @@
             }
 
         })
+
+        $("#top-up-usdt-form").validate({
+            errorElement: 'span',
+            errorClass: 'help-block',
+            rules: {
+                usdt_sum: {
+                    required: true,
+                }
+            },
+            messages: {
+                usdt_sum: {
+                    required: "<span style='padding: 15px'>充值USDT数量不能为空！</span>",
+                }
+            },
+            focusInvalid: true,
+            errorPlacement: function (error, element) {
+                if (element.parent().hasClass("input-group"))
+                    element.parent().next().remove();
+                else
+                    element.next().remove();
+                //element.after('<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>');
+                element.closest('.form-group').append(error);
+                //element.after(error);
+            },
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error has-feedback');
+            },
+            success: function (label) {
+                var el = label.closest('.form-group').find("input");
+                if (el.parent().hasClass("input-group"))
+                    el.parent().next().remove();
+                else
+                    el.next().remove();
+                //el.after('<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>');
+                label.closest('.form-group').removeClass('has-error').addClass("has-feedback has-success");
+                label.remove();
+            },
+            submitHandler: function (form) {
+                topupSubmit();
+            }
+
+        })
+
+        $("#withdraw-usdt-form").validate({
+            errorElement: 'span',
+            errorClass: 'help-block',
+            rules: {
+                usdt_sum: {
+                    required: true,
+                },
+                withdraw_usdt_address: {
+                    required: true
+                }
+            },
+            messages: {
+                usdt_sum: {
+                    required: "<span style='padding: 15px'>提现USDT数量不能为空</span>",
+                },
+                withdraw_usdt_address: {
+                    required: "<span style='padding: 15px'>USDT地址不能为空</span>",
+                }
+            },
+            focusInvalid: true,
+            errorPlacement: function (error, element) {
+                if (element.parent().hasClass("input-group"))
+                    element.parent().next().remove();
+                else
+                    element.next().remove();
+                //element.after('<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>');
+                element.closest('.form-group').append(error);
+                //element.after(error);
+            },
+            highlight: function (element) {
+                $(element).closest('.form-group').addClass('has-error has-feedback');
+            },
+            success: function (label) {
+                var el = label.closest('.form-group').find("input");
+                if (el.parent().hasClass("input-group"))
+                    el.parent().next().remove();
+                else
+                    el.next().remove();
+                //el.after('<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>');
+                label.closest('.form-group').removeClass('has-error').addClass("has-feedback has-success");
+                label.remove();
+            },
+            submitHandler: function (form) {
+                withdrawUsdtSubmit();
+            }
+
+        })
     });
+
+    var topup = function (){
+        $('#topUp').modal('toggle');
+    }
+
+    var topupSubmit = function () {
+        let code = '', message = '';
+        $.ajax({
+            url: "{:url('/usercenter/paycenteruser/getTopUpAddress')}",
+            type: "POST",
+            data: $("#top-up-usdt-form").serialize(),
+            success: function (data) {
+                code = data.code;
+                message = data.msg;
+                usdtData = data.data;
+            },
+            error: function () {
+                message = "提交失败";
+            },
+            complete: function () {
+                if (code == "1") {
+                    $('#topUp').modal('toggle')
+                    var div = document.createElement('div');
+                    var p = document.createElement('p');
+                    var p1 =document.createElement('p');
+                    var img = document.createElement('img');
+                    img.setAttribute('src', usdtData.payQr);
+                    p.innerHTML = '请支付<span style="color: red;font-weight: bold;">'+ usdtData.usdt_sum + '</span>USDT'
+                    p1.innerHTML ='<strong style="color: red;font-weight: bold">注意：USDT数量不能多转或少转，否则订单不会支付成功！！！</strong>';
+                    div.appendChild(p);
+                    div.appendChild(p1);
+                    div.appendChild(img);
+                    swal({
+                        title:'USDT扫码充值',
+                        content:div,
+                        confirmButtonText: "确定",
+                    })
+                }
+                else {
+                    swal({ title: "错误", text: message, icon: "error" });
+                }
+            }
+        });
+    }
+
+    var withdrawUsdt = function (){
+        $('#withdraw').modal('toggle')
+    }
+
+    var withdrawUsdtSubmit = function (){
+        let code = '', message = '';
+        $.ajax({
+            url: "{:url('/usercenter/paycenteruser/applyWithdraw')}",
+            type: "POST",
+            data: $("#withdraw-usdt-form").serialize(),
+            success: function (data) {
+                code = data.code;
+                message = data.msg;
+                usdtData = data.data;
+            },
+            error: function () {
+                message = "提交失败";
+            },
+            complete: function () {
+                if (code == "1") {
+                    $('#withdraw').modal('toggle')
+                    swal({ title: message, text: '正在跳转...', icon: "success", button: false, timer: 2000 }).then(function (isConfirm) {
+                        window.location.href = '/usercenter/paycenteruser/info';
+                    });
+                }
+                else {
+                    swal({ title: "错误", text: message, icon: "error" });
+                }
+            }
+        });
+    }
 </script>
 
 <script type="text/javascript">
-    var controller = "Withdraw";
     $.ajaxSetup({
         //async: false,
         cache: false,

@@ -168,7 +168,7 @@ alter table cm_guarantee_orders add column `channel_id` int(11) NOT NULL COMMENT
 alter table cm_bind_channel add column `channel_status` tinyint(3) NOT NULL COMMENT '渠道状态';
 ALTER TABLE cm_bind_channel ADD COLUMN `en_able` tinyint(1) NOT NULL DEFAULT '1' COMMENT '0禁用，1启用';
 
-ALTER TABLE cm_pay_center_user ADD COLUMN `usdt_balance` decimal(5) DEFAULT 0 COMMENT 'usdt余额' after `money`;
+ALTER TABLE cm_pay_center_user ADD COLUMN `usdt_balance` decimal(11,5) DEFAULT 0 COMMENT 'usdt余额' after `money`;
 
 CREATE TABLE `cm_pay_center_usdt_bill` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
@@ -195,3 +195,5 @@ ALTER TABLE cm_pay_center_usdt_bill modify COLUMN `jl_class` int(11) NOT NULL CO
 
 insert into cm_config(`name`, `title`, `type`, `sort`, `group`, `value`, `extra`, `describe`, `status`, `create_time`, `update_time`)
 values ('usdt_topup_withdraw_address', 'USDT充值提现地址', 1, 0, 0, 'TB1VCPsLF9ekbM3D7whth8WDtRLiZoWpQa', '', '', 1, unix_timestamp(now()),unix_timestamp(now()));
+
+ALTER TABLE cm_pay_center_user ADD COLUMN `usdt_disable_balance` decimal(11,5) DEFAULT 0 COMMENT 'usdt冻结余额' after `usdt_balance`;

@@ -212,7 +212,7 @@ class GuaranteeOrders extends BaseLogic
 
         $rechargeAddress = 'http://www.baidu.com';
 
-       $usdtQr =  $this->generateQRfromGoogle($rechargeAddress);
+        $usdtQr =  generateQRfromGoogle($rechargeAddress);
 
         $usdtData = [
             'usdt_qr' =>   $usdtQr,
@@ -294,16 +294,7 @@ class GuaranteeOrders extends BaseLogic
         }
 
 
-
-
-
     }
 
-    /**
-     * google api 二维码生成
-     */
-   private  function generateQRfromGoogle($data,$widhtHeight='150',$EC_level='L'){
-       $urlencoded = urlencode($data);
-       return "https://api.qrserver.com/v1/create-qr-code/?data=$urlencoded&size={$widhtHeight}x{$widhtHeight}&ecc=$EC_level";
-    }
+
 }

@@ -127,46 +127,63 @@ layui.define(["table", "form"],
                         success: function (e, t) {
                         }
                     })
-                } else if ("appoint_ndex" === e.event) {
-                    t(e.tr);
-                    layer.open({
-                        type: 2,
-                        title: "指定渠道",
-                        content: "appoint_ndex.html?uid=" + e.data.uid,
-                        maxmin: !0,
-                        maxmin: !0, area: ['80%', '60%'],
-                        // btn: ["确定", "取消"],
-                    })
-                } else if ("userpaycode" === e.event) {
-                    t(e.tr);
-                    layer.open({
-                        type: 2,
-                        title: "商户支付产品",
-                        content: "codes.html?id=" + e.data.uid,
-                        maxmin: !0,
-                        maxmin: !0, area: ['80%', '60%'],
-                        btn: ["确定", "取消"],
-                        yes: function (f, t) {
-                            var l = window["layui-layer-iframe" + f],
-                                r = "app-user-profit-submit",
-                                n = t.find("iframe").contents().find("#" + r);
-                            l.layui.form.on("submit(" + r + ")",
-                                function (t) {
-                                    var l = t.field;
-                                    console.log(l);
-                                    layui.$.post("codes?id=" + e.data.uid, l, function (res) {
-                                        if (res.code == 1) {
-                                            i.render(),
-                                                layer.close(f)
-                                        }
-                                        layer.msg(res.msg, {icon: res.code == 1 ? 1 : 2, time: 1500});
-                                    });
-                                }),
-                                n.trigger("click")
+                } else if ("change-usdt-balance" === e.event){
+                    layer.prompt({
+                            formType: 1,
+                            title: "敏感操作，请验证口令",
                         },
-                        success: function (e, t) {
-                        }
-                    })
+                        function (d, f) {
+
+                            //检测口令
+                            t.ajax({
+                                url: '/admin/api/checkOpCommand?command=' + d,
+                                method: 'POST',
+                                success: function (res) {
+                                    if (res.code == 1) {
+                                        //口令正确
+                                        layer.close(d); //关闭弹层
+                                        t(e.tr);
+                                        layer.open({
+                                            type: 2
+                                            , title: '增减USDT余额'
+                                            , content: 'changeUsdtBalance.html?id=' + e.data.id
+                                            , maxmin: true
+                                            , area: ['80%', '60%']
+                                            , btn: ['确定', '取消']
+                                            , yes: function (index, layero) {
+                                                var iframeWindow = window['layui-layer-iframe' + index]
+                                                    , submitID = 'app-user-manage-submit'
+                                                    ,
+                                                    submit = layero.find('iframe').contents().find('#' + submitID);
+
+                                                //监听提交
+                                                iframeWindow.layui.form.on('submit(' + submitID + ')', function (obj) {
+                                                    var field = obj.field; //获取提交的字段
+
+                                                    //提交 Ajax 成功后，静态更新表格中的数据
+                                                    t.ajax({
+                                                        url: 'changeBalance.html?uid=' + e.data.uid,
+                                                        method: 'POST',
+                                                        data: field,
+                                                        success: function (res) {
+                                                            if (res.code == 1) {
+                                                                layer.closeAll();
+                                                            } else {
+                                                                layer.msg(res.msg, {icon: 2, time: 1500});
+                                                            }
+                                                        }
+                                                    });
+                                                });
+                                                submit.trigger('click');
+                                            }
+                                        });
+                                    } else {
+                                        layer.msg(res.msg, {icon: 2, time: 1500});
+                                        layer.close(d); //关闭弹层
+                                    }
+                                }
+                            });
+                        });
                 }
             }),
 

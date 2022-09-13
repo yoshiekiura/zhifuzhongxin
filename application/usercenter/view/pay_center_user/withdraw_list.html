@@ -1,0 +1,338 @@
+{extend name="../user-layout" /}
+{block name="content"}
+
+<div class="container-fluid panel">
+    <div class="row">
+        <div class="col-xs-12 main">
+            <h3>
+                充值列表
+            </h3>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <td colspan="10">
+                            <form id="form1" action="index.html" class="form-inline">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <input type="text" name="usdt_sum" value="{$Request.get.usdt_sum}"
+                                               class="form-control" placeholder="USDT数量">
+                                        <span class="input-group-btn">
+                                    <button id="btnSearch" class="btn btn-success" type="submit"
+                                            onclick="$('#p').val('');$('#form1').attr('action','');"><i
+                                            class="icon-search3"></i></button>
+                                    <a href="{:url('/usercenter/paycenteruser/topupList')}" class="btn btn-warning"><i
+                                            class="icon-circle-with-cross"></i></a>
+                                </span>
+                                    </div>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>订单号</th>
+                        <th>数量（USDT）</th>
+                        <th>USDT地址</th>
+                        <th>状态</th>
+                        <th>创建时间</th>
+                    </tr>
+                    </thead>
+                    <tbody id="listBody">
+                    {volist name="lists" id="vo"}
+                    <tr>
+                        <td>{$vo['trade_no']}</td>
+                        <td style="font-weight: bold;color:red;">{$vo['usdt_sum']}</td>
+                        <td>{$vo['withdraw_usdt_address']}</td>
+                        <td>
+                            {if condition="$vo.status eq 0"} <a href="javascript:void(0)" class="btn btn-xs btn-danger btn-rounded">驳回</a>
+                            {elseif condition="$vo.status eq 1"} <a href="javascript:void(0)" class="btn btn-xs btn-warning btn-rounded">待审核</a>
+                            {elseif condition="$vo.status eq 2"} <a href="javascript:void(0)" class="btn btn-xs btn-success btn-rounded">已打款</a>
+                            {else/}--
+                            {/if}
+                        </td>
+                        <td>{$vo.create_time}</td>
+                    </tr>
+
+                    {/volist}
+
+                    {empty name="lists"}
+                    <tr>
+                        <td colspan="12" class="text-center">
+                            未查到数据
+                        </td>
+                    </tr>
+                    {/empty}
+                    </tbody>
+                    <tfoot>
+                    <td colspan="10">
+                        <nav aria-label="Page navigation">
+                            {$lists->render()}
+                        </nav>
+                    </td>
+                    </tfoot>
+                </table>
+            </div>
+            <script src="__STATIC__/index/baisha/js/WdatePicker.js"></script>
+            <!--<script src="/Content/js/bootstrap-paginator.min.js"></script>-->
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var code, message;
+    PostCancel = function (uid) {
+        swal({
+            title: "确定要删除该商户？",
+            buttons: {
+                confirm: true,
+                cancel: true
+            },
+        }).then(function (isConfirm) {
+            if (isConfirm) {
+                $.ajax({
+                    url: "del_merchant",
+                    type: "POST",
+                    data: {uid: uid, _ajax: '1'},
+                    isuccess: function (data) {
+                        code = data.code;
+                        message = data.message;
+                    },
+                    error: function () {
+                        message = "提交失败";
+                    },
+                    icomplete: function () {
+                        if (code == 1) {
+                            swal({
+                                title: "处理成功",
+                                text: "正在更新...",
+                                icon: "success",
+                                button: false,
+                                timer: 2000
+                            }).then(function (isConfirm) {
+                                window.location.reload();
+                            });
+                        } else {
+                            swal({title: "错误", text: message, icon: "error"});
+                        }
+                    }
+                });
+            }
+        });
+    };
+
+    PostTestChannel = function (uid) {
+        $.ajax({
+            url: "/usercenter/bind_channel/getBindChannelCodes",
+            type: "POST",
+            data: {uid: uid, _ajax: '1'},
+            isuccess: function (data) {
+                code = data.code;
+                message = data.msg;
+                responseData = data.data;
+            },
+            error: function () {
+                message = "提交失败";
+            },
+            icomplete: function () {
+                if (code == 1) {
+                    var div = document.createElement('div');
+                    var wrapper = document.createElement('select');
+                    var input = document.createElement('input');
+                    wrapper.classList.add('form-control');
+                    wrapper.setAttribute('id', 'code');
+                    input.classList.add('form-control');
+                    input.setAttribute('id', 'amount');
+                    input.setAttribute('placeholder', '请输入金额');
+                    input.setAttribute('type', 'number');
+                    input.setAttribute('min', '1');
+                    input.setAttribute('style', 'margin-top:10px');
+                    let option_html = '<option value="">请选择</option>\n';
+                    responseData.forEach(function (element) {
+                        option_html += '<option value="' + element.code + '">' + element.code + '</option>\n';
+                    });
+                    wrapper.innerHTML = option_html;
+                    input.innerHTML = option_html;
+                    div.appendChild(wrapper);
+                    div.appendChild(input);
+                    var br = document.createElement("br");
+                    div.appendChild(br);
+                    swal({
+                        title: "选择通道测试",
+                        content: div,
+                        confirmButtonText: "确定",
+                        buttons: {
+                            confirm: true,
+                            cancel: true
+                        },
+                    }).then(function (isConfirm) {
+                        if (isConfirm) {
+                            let code = $('#code').val();
+                            let amount = $('#amount').val();
+                            if (code == '') {
+                                swal("通道编码不能为空请重新输入！");
+                            } else if (amount <= 0) {
+                                swal("金额不能为空获金额不正确！");
+                            } else {
+                                $.ajax({
+                                    url: "/usercenter/bind_channel/channelTest",
+                                    type: "POST",
+                                    data: {uid: uid, code: code, amount: amount, _ajax: '1'},
+                                    isuccess: function (data) {
+                                        if (data.code == 1) {
+                                            swal({
+                                                title: "处理成功",
+                                                text: "正在跳转...",
+                                                icon: "success",
+                                                button: false,
+                                                timer: 2000
+                                            }).then(function (isConfirm) {
+                                                window.location.href = data.url
+                                            });
+                                        } else {
+                                            swal({title: "错误", text: data.msg, icon: "error"});
+                                        }
+                                    }
+                                })
+                            }
+                        }
+                    });
+                } else {
+                    swal({title: "错误", text: message, icon: "error"});
+                }
+            }
+        });
+    };
+
+    InitPage = function () {
+
+        $('#divPage').bootstrapPaginator({
+            currentPage: 1,
+            totalPages: 0,
+            size: "normal",
+            bootstrapMajorVersion: 3,
+            alignment: "right",
+            pageUrl: "javascript:void(0);",
+            numberOfPages: 8,
+            itemTexts: function (type, page, current) {
+                switch (type) {
+                    case "first":
+                        return "<<";
+                    case "prev":
+                        return "<";
+                    case "next":
+                        return ">";
+                    case "last":
+                        return ">>";
+                    case "page":
+                        return page;
+                }
+            },
+            onPageClicked: function (event, originalEvent, type, page) {
+                $("#p").val(page);
+                $("#s").val(15);
+                $("#form1").submit();
+            }
+        });
+    }();
+
+    $(function () {
+    });
+
+</script>
+
+<script type="text/javascript">
+
+    InitPage = function () {
+
+        $('#divPage').bootstrapPaginator({
+            currentPage: 1,
+            totalPages: 1,
+            size: "normal",
+            bootstrapMajorVersion: 3,
+            alignment: "right",
+            pageUrl: "javascript:void(0);",
+            numberOfPages: 8,
+            itemTexts: function (type, page, current) {
+                switch (type) {
+                    case "first":
+                        return "<<";
+                    case "prev":
+                        return "<";
+                    case "next":
+                        return ">";
+                    case "last":
+                        return ">>";
+                    case "page":
+                        return page;
+                }
+            },
+            onPageClicked: function (event, originalEvent, type, page) {
+                $("#p").val(page);
+                $("#s").val(15);
+                $("#form1").submit();
+            }
+        });
+    }();
+
+    $(function () {
+    });
+
+</script>
+
+
+<script src="https://cdn.staticfile.org/sweetalert/2.1.2/sweetalert.min.js"></script>
+<script type="text/javascript">
+    var controller = "Order";
+    $.ajaxSetup({
+        //async: false,
+        cache: false,
+        timeout: 15000,
+        dataType: "json",
+        //contentType: "application/json; charset=utf-8",
+        crossDomain: true,
+        success: function (data) {
+            if (data.code == "anonymous") {
+                window.location.href = '/';
+            } else if (this.isuccess) {
+                this.isuccess(data);
+            }
+        },
+        error: function (xhr, status, e) {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    var domObj = xhr.responseXML;
+                    if (domObj) {
+                        var messageNodes = domObj.getElementsByTagName("message");
+                        if (messageNodes.length > 0) {
+                            var textNode = messageNodes[0].firstChild;
+                            var responseMessage = textNode.nodeValue;
+                            swal({title: "操作错误", text: responseMessage, icon: "error"});
+                        } else {
+                            swal({title: "提交错误:" + xhr.status, text: xhr.responseText, icon: "error"});
+                        }
+                    } else {
+                        swal({title: "提交错误:" + xhr.status, text: xhr.responseText, icon: "error"});
+                    }
+                } else {
+                    swal({title: "提交错误:" + xhr.status, text: "参考信息：无", icon: "error"});
+                }
+            }
+        },
+        beforeSend: function (xhr) {
+            $("#loading").show();
+        },
+        complete: function (xhr, status) {
+            $("#loading").hide();
+            if (this.icomplete) {
+                this.icomplete();
+            }
+        }
+    });
+    $(function () {
+        FastClick.attach(document.body);
+    });
+</script>
+{/block}
+</body>
+</html>

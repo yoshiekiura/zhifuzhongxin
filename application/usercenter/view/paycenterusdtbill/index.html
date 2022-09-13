@@ -1,0 +1,104 @@
+{extend name="../user-layout" /}
+{block name="content"}
+
+<div class="container-fluid panel">
+    <div class="row">
+        <div class="col-xs-12 main">
+            <h3>
+                账单列表
+            </h3>
+            <div class="table-responsive">
+
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <td colspan="5">
+                            <form id="form1" action="index.html" class="form-inline">
+                                <div class="form-group" >
+                                    <select name="jl_class" id="jl_class" class="form-control"  style="width: 150px;">
+                                        <option value="">选择类型</option>
+                                        <option value="1" {if condition="$Request.get.jl_class == 1" } selected {/if}>USDT充值</option>
+                                        <option value="2" {if condition="$Request.get.jl_class == 2" } selected {/if}>USDT体现</option>
+                                        <option value="3" {if condition="$Request.get.jl_class == 3" } selected {/if}>管理员账变</option>
+                                        <option value="4" {if condition="$Request.get.jl_class == 4" } selected {/if}>担保订单支付</option>
+                                        <option value="5" {if condition="$Request.get.jl_class == 5" } selected {/if}>担保订单退款</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+
+                                        <span class="input-group-btn">
+                                            <button id="btnSearch" class="btn btn-success" type="submit"
+                                                    onclick="$('#p').val('');$('#form1').attr('action','');"><i
+                                                    class="icon-search3"></i></button>
+                                            <a href="{:url('/usercenter/paycenterusdtbill/index')}" class="btn btn-warning"><i
+                                                    class="icon-circle-with-cross"></i></a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </form>
+                        </td>
+                        <td>
+                            <strong><span style="font-weight: bold;">USDT余额：<span style="color:green">{$user_info.usdt_balance}</span></span></strong>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>账变类型</th>
+                        <th>变动USDT</th>
+                        <th>变动前USDT</th>
+                        <th>变动后USDT</th>
+                        <th>账变说明</th>
+                        <th>创建时间</th>
+                    </tr>
+                    </thead>
+                    <tbody id="listBody">
+                    {volist name="lists" id="vo"}
+                    <tr>
+                        <td>
+                            {switch name="$vo.jl_class"}
+                            {case value='1'}USDT充值{/case}
+                            {case value='2'}USDT提现{/case}
+                            {case value='3'}管理员账变{/case}
+                            {case value='4'}担保订单支付{/case}
+                            {case value='5'}担保订单退款{/case}
+                            {default /} 未知类型
+                            {/switch}
+                        </td>
+                        <td>
+                            {if condition="$vo.jc_class == '+'"}
+                            <span style="font-weight: bold;color: forestgreen">{$vo.jc_class}{$vo.change_amount}</span>
+                            {else/}
+                            <span style="font-weight: bold;color: red">{$vo.jc_class}{$vo.change_amount}</span>
+                            {/if}
+                        </td>
+                        <td>{$vo.pre_amount}</td>
+                        <td>{$vo.last_amount}</td>
+                        <td>{$vo.info}</td>
+                        <td>{$vo.create_time}</td>
+                        </td>
+                    </tr>
+                    {/volist}
+                    {empty name="lists"}
+                    <tr>
+                        <td colspan="12" class="text-center">
+                            未查到数据
+                        </td>
+                    </tr>
+                    {/empty}
+                    </tbody>
+                    <tfoot>
+                    <td colspan="10">
+                        <nav aria-label="Page navigation">
+                            {$lists->render()}
+                        </nav>
+                    </td>
+                    </tfoot>
+                </table>
+            </div>
+            <script src="__STATIC__/index/baisha/js/WdatePicker.js"></script>
+        </div>
+    </div>
+</div>
+{/block}
+</body>
+</html>
