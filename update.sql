@@ -170,19 +170,47 @@ ALTER TABLE cm_bind_channel ADD COLUMN `en_able` tinyint(1) NOT NULL DEFAULT '1'
 
 ALTER TABLE cm_pay_center_user ADD COLUMN `usdt_balance` decimal(11,5) DEFAULT 0 COMMENT 'usdt余额' after `money`;
 
-CREATE TABLE `cm_pay_center_usdt_bill` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `uid` int(11) NOT NULL COMMENT '支付中心用户ID',
-  `jl_class` int(11) NOT NULL COMMENT '流水类别：1USDT充值，2管理员账变',
-  `info` varchar(225) NOT NULL COMMENT '说明',
-  `jc_class` varchar(225) NOT NULL COMMENT '分+ 或-',
-  `pre_amount` decimal(11,3) NOT NULL DEFAULT '0.000' COMMENT '变化前',
-  `last_amount` decimal(11,3) NOT NULL DEFAULT '0.000' COMMENT '变化后',
-  `change_amount` decimal(11,3) NOT NULL DEFAULT '0.000' COMMENT '变动金额',
-  `create_time` int(11) NOT NULL COMMENT '添加时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='支付中心用户USDT流水账单';
 
+
+CREATE TABLE `cm_pay_center_usdt_bill` (
+   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
+   `uid` int(11) NOT NULL COMMENT '支付中心用户ID',
+   `jl_class` int(11) NOT NULL COMMENT '流水类别：1USDT充值，2USDT体现，3管理员账变， 4担保订单支付，5担保订单退款',
+   `info` varchar(225) NOT NULL COMMENT '说明',
+   `jc_class` varchar(225) NOT NULL COMMENT '分+ 或-',
+   `pre_amount` decimal(11,3) NOT NULL DEFAULT '0.000' COMMENT '变化前',
+   `last_amount` decimal(11,3) NOT NULL DEFAULT '0.000' COMMENT '变化后',
+   `change_amount` decimal(11,3) NOT NULL DEFAULT '0.000' COMMENT '变动金额',
+   `create_time` int(11) NOT NULL COMMENT '添加时间',
+   PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='支付中心用户USDT流水账单';
+
+CREATE TABLE `cm_usdt_topup_orders` (
+    `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+    `trade_no` char(32) NOT NULL COMMENT '订单号',
+    `uid` int(11) NOT NULL COMMENT '支付 中心 uid',
+    `usdt_sum` decimal(11,5) NOT NULL COMMENT '充值USDT数量',
+    `complete_type` tinyint(3) DEFAULT NULL COMMENT '到账类型：0未到账 1自动到账 2后台手动到账',
+    `complete_time` int(11) DEFAULT NULL COMMENT '到账时间',
+    `admin_id` int(11) DEFAULT NULL COMMENT '管理员ID',
+    `admin_note` varchar(255) DEFAULT NULL COMMENT '手动到账描述',
+    `status` tinyint(3) NOT NULL DEFAULT '0' COMMENT '状态 0支付中 1成功到账',
+    `create_time` int(11) NOT NULL COMMENT '创建时间',
+    `update_time` int(11) NOT NULL COMMENT '修改时间',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `cm_withdraw_usdt_orders` (
+   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+   `trade_no` char(32) NOT NULL COMMENT '订单号',
+   `uid` int(11) NOT NULL COMMENT '支付中心UID',
+   `usdt_sum` decimal(11,5) NOT NULL COMMENT '提现USDT数量',
+   `withdraw_usdt_address` char(50) NOT NULL COMMENT '转账地址',
+   `status` tinyint(3) NOT NULL DEFAULT '1' COMMENT '状态 0驳回 1等待中 2已打款',
+   `create_time` int(11) NOT NULL COMMENT '创建时间',
+   `update_time` int(11) NOT NULL COMMENT '修改时间',
+   PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 ALTER TABLE cm_guarantee_orders ADD COLUMN `refund_time` int(10) DEFAULT 0 COMMENT '退款时间' after `pay_arrival_time`;
 
