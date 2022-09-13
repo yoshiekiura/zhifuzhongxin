@@ -30,10 +30,23 @@ layui.define(["table", "form"],
                     width: 80,
                     title: "ID",
                     sort: !0
-                }, {
+                },{
                     field: "username",
                     width: 150,
                     title: "用户名"
+                },{
+                    field: "money",
+                    width: 80,
+                    title: "跑量余额"
+                },{
+                    field: "usdt_balance",
+                    width: 120,
+                    title: "USDT可用余额"
+                },{
+
+                        field: "usdt_disable_balance",
+                        width: 120,
+                        title: "USDT冻结余额"
                 },{
                     field: "pid_username",
                     width: 100,
@@ -162,12 +175,13 @@ layui.define(["table", "form"],
 
                                                     //提交 Ajax 成功后，静态更新表格中的数据
                                                     t.ajax({
-                                                        url: 'changeBalance.html?uid=' + e.data.uid,
+                                                        url: 'changeUsdtBalance.html?uid=' + e.data.id,
                                                         method: 'POST',
                                                         data: field,
                                                         success: function (res) {
                                                             if (res.code == 1) {
                                                                 layer.closeAll();
+                                                                i.reload('app-pay-paycenteruser-list');
                                                             } else {
                                                                 layer.msg(res.msg, {icon: 2, time: 1500});
                                                             }

@@ -110,34 +110,59 @@ class Payusercenter extends BaseLogic
      * @param string $message 资金流水备注
      * @return bool
      */
-    function usdtChange($uid, $type = 1, $add_subtract = 1, $money = 0.00, $message = '')
+    function usdtChange($uid, $type = 1, $add_subtract = 1, $money = 0.00, $message = '', $change_type='enable')
     {
-        $user = $this->modelPayCenterUser->where(['id' => $uid])->find();
 
-        if ($user) {
+        Db::startTrans();
+        try {
+            $user = $this->modelPayCenterUser->lock(true)->where(['id' => $uid])->find();
+
+            if (empty($user)){
+                throw new Exception('用户不存在');
+            }
+            if (!$add_subtract){
+                if ($change_type=='enable'){
+                    if (bccomp($user->usdt_balance, $money) == -1){
+                        throw new Exception('余额不足');
+                    }
+                }else{
+                    if (bccomp($user->usdt_disable_balance, $money) == -1){
+                        throw new Exception('冻结余额不足');
+                    }
+                }
+            }
+
             $moneys = ($add_subtract == 1) ? $money : 0 - $money;
-            $updateBalanceRes = $this->modelPayCenterUser->where(['id' => $uid])->setInc('usdt_balance', $moneys);
-
-            if ($updateBalanceRes) {
-                //记录流水
-                $insert['uid'] = $uid;
-                $insert['jl_class'] = $type;
-                $insert['info'] = $message;
-                $insert['jc_class'] = ($add_subtract) ? "+" : "-";
-                $insert['change_amount'] = $money;
+            if ($change_type=='enable'){
+                $this->modelPayCenterUser->where(['id' => $uid])->setInc('usdt_balance', $moneys);
                 $insert['pre_amount'] = $user['usdt_balance'];
                 $insert['last_amount'] = $user['usdt_balance'] + $moneys;
-                $insert['change_amount'] = $moneys;
-                $insert['create_time'] = time();
-                if ($this->modelPayCenterUsdtBill->insert($insert)) {
-                    return true;
-                }
-                return false;
-            } else {
-                return false;
+            }else{
+                $this->modelPayCenterUser->where(['id' => $uid])->setInc('usdt_disable_balance', $moneys);
+                $insert['pre_amount'] = $user['usdt_disable_balance'];
+                $insert['last_amount'] = $user['usdt_disable_balance'] + $moneys;
             }
+
+
+            //记录流水
+            $insert['uid'] = $uid;
+            $insert['jl_class'] = $type;
+            $insert['type'] = $change_type;
+            $insert['info'] = $message;
+            $insert['jc_class'] = ($add_subtract) ? "+" : "-";
+            $insert['change_amount'] = $money;
+
+            $insert['change_amount'] = $moneys;
+            $insert['create_time'] = time();
+
+            $this->modelPayCenterUsdtBill->insert($insert);
+            Db::commit();
+            return true;
+        }catch (Exception $ex){
+            Db::rollback();
+            throw new Exception('余额变动失败');
         }
-        return false;
+
     }
 
     /**

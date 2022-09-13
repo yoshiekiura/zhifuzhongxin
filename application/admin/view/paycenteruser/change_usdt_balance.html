@@ -18,23 +18,32 @@
         <label class="layui-form-label">操作类型：</label>
         <div class="layui-input-block">
             <select name="change_type" lay-verify="required">
-                <option value="0">增加</option>
-                <option value="1">减少</option>
+                <option value="1">增加</option>
+                <option value="0">减少</option>
             </select>
         </div>
     </div>
 
+    <div class="layui-form-item">
+        <label class="layui-form-label">资金类别：</label>
+        <div class="layui-input-block">
+            <select name="type" lay-verify="required">
+                <option value="enable">可用余额</option>
+                <option value="disable">冻结金额</option>
+            </select>
+        </div>
+    </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">操作资金：</label>
         <div class="layui-input-block">
-            <input type="number" name="amount" required  placeholder="请输入本次操作usdt"  autocomplete="off" class="layui-input">
+            <input type="number" name="change_amount" required  placeholder="请输入本次操作usdt"  autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">操作备注</label>
+        <label class="layui-form-label">操作备注：</label>
         <div class="layui-input-block">
-            <textarea name="remarks" lay-verify="required" autocomplete="off" class="layui-textarea">后台管理员账变</textarea>
+            <textarea name="info" lay-verify="required" autocomplete="off" class="layui-textarea">后台管理员账变</textarea>
         </div>
     </div>
     {:token()}

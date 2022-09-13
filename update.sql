@@ -225,3 +225,5 @@ insert into cm_config(`name`, `title`, `type`, `sort`, `group`, `value`, `extra`
 values ('usdt_topup_withdraw_address', 'USDT充值提现地址', 1, 0, 0, 'TB1VCPsLF9ekbM3D7whth8WDtRLiZoWpQa', '', '', 1, unix_timestamp(now()),unix_timestamp(now()));
 
 ALTER TABLE cm_pay_center_user ADD COLUMN `usdt_disable_balance` decimal(11,5) DEFAULT 0 COMMENT 'usdt冻结余额' after `usdt_balance`;
+
+ALTER TABLE cm_pay_center_usdt_bill ADD COLUMN `type` char(10) DEFAULT 'enable' COMMENT '资金类型' after `uid`;
