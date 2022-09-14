@@ -256,7 +256,7 @@ CREATE TABLE `cm_center_usdt_balance_change` (
      `status` tinyint(3) NOT NULL DEFAULT '1' COMMENT '状态 0禁用 1正常',
      `create_time` int(10) unsigned NOT NULL COMMENT '创建时间',
      `update_time` int(10) unsigned NOT NULL COMMENT '更新时间',
-     `is_flat_op` tinyint(1) NOT NULL DEFAULT '0' COMMENT '人工操作',
+     `is_plat_op` tinyint(1) NOT NULL DEFAULT '0' COMMENT '人工操作',
      PRIMARY KEY (`id`),
      UNIQUE KEY `change_index` (`id`,`uid`,`type`,`status`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COMMENT='用户资产变动记录表';
