@@ -63,7 +63,7 @@ layui.define(["table", "form"],
                 },{
                     title: "操作",
                     align: "center",
-                    minWidth:500,
+                    minWidth:200,
                     fixed: "right",
                     toolbar: "#table-pay-channel"
                 }

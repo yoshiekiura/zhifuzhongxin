@@ -225,8 +225,10 @@ class Payusercenter extends BaseLogic
                 : bcsub($insert['preinc'], $money, 5);
             $insert['remarks'] = $remarks;
             $insert['is_plat_op'] = $is_plat_op;
+            $insert['create_time'] = time();
+            $insert['update_time'] = time();
 
-            $this->modelCenterUsdtBalanceChange->save($insert);
+            $this->modelCenterUsdtBalanceChange->insert($insert);
             Db::commit();
             return true;
         }catch (Exception $ex){
@@ -335,10 +337,6 @@ class Payusercenter extends BaseLogic
                 return ['code' => CodeEnum::ERROR, 'msg'=> '用户错误'];
             }
 
-            if (bccomp($centerUser->usdt_balance, $data['usdt_sum'], 5)  == '-1'){
-                return ['code' => CodeEnum::ERROR, 'msg'=> '余额小于提现数量'];
-            }
-
             $this->modelPayCenterUser->where($centerUserWh)->setInc('usdt_disable_balance', $data['usdt_sum']);
 
             $withdrawData = array(
@@ -351,7 +349,11 @@ class Payusercenter extends BaseLogic
 
             $this->modelWithdrawUsdtOrders->save($withdrawData);
 
-            $this->usdtChange($data['uid'], 2, 0, $data['usdt_sum'], '用户申请提现'. $data['usdt_sum'] .'USDT，订单：'.
+            //减少可用余额
+            $this->usdtChangeV2($data['uid'], 'enable', 0, 2, $data['usdt_sum'],'用户申请提现'. $data['usdt_sum'] .'USDT，订单：'.
+                $withdrawData['trade_no']);
+            //加入冻结余额
+            $this->usdtChangeV2($data['uid'], 'disable', 1, 2, $data['usdt_sum'],'用户申请提现加入冻结余额'. $data['usdt_sum'] .'USDT，订单：'.
                 $withdrawData['trade_no']);
 
             Db::commit();

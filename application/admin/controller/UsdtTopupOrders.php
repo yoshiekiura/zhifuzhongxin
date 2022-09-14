@@ -43,4 +43,10 @@ class UsdtTopupOrders extends BaseAdmin
                 'data'=>$data->items()
             ]);
     }
+
+    public function manualFinish(Request $request)
+    {
+        if ($request->isAjax()) $this->result($this->logicUsdtTopupOrders->manualFinish($request->param()));
+        return $this->fetch();
+    }
 }

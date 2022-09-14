@@ -98,6 +98,11 @@ class Paycenteruser extends Base
         $this->result($this->logicPayusercenter->applyWithdraw($data));
     }
 
+    /**
+     * 提现列表
+     * @param Request $request
+     * @return mixed
+     */
     public function withdrawList(Request $request)
     {
         $usdt_sum =  $request->param('usdt_sum');
