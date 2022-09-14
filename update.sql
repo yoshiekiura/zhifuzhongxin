@@ -280,3 +280,7 @@ ALTER TABLE cm_guarantee_orders modify COLUMN `pay_type` tinyint(3) DEFAULT '0' 
 ALTER TABLE cm_guarantee_orders ADD COLUMN `admin_id` int(11) COMMENT '管理员ID' after `from_transaction_address`;
 ALTER TABLE cm_guarantee_orders ADD COLUMN `admin_success_note` varchar(255) COMMENT '成功描述' after `from_transaction_address`;
 
+ALTER TABLE cm_withdraw_usdt_orders ADD COLUMN `admin_id` int(11) COMMENT '管理员id' after `status`;
+ALTER TABLE cm_withdraw_usdt_orders ADD COLUMN `admin_success_note` varchar (255) COMMENT '管理员手动成功备注' after `status`;
+ALTER TABLE cm_withdraw_usdt_orders ADD COLUMN `transfer_time` int (11) COMMENT '转账时间' after `status`;
+ALTER TABLE cm_withdraw_usdt_orders ADD COLUMN `transfer_type` int (11) COMMENT '转账类型 1自动转账 2手动转账' after `status`;

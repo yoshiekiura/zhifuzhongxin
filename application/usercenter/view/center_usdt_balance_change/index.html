@@ -16,7 +16,7 @@
                             <form id="form1" action="index.html" class="form-inline">
                                 <div class="form-group" >
                                     <select name="change_category" id="change_category" class="form-control"  style="width: 150px;">
-                                        <option value="">选择类型</option>
+                                        <option value="">选择账变类型</option>
                                         <option value="1" {if condition="$Request.get.change_category == 1" } selected {/if}>USDT充值</option>
                                         <option value="2" {if condition="$Request.get.change_category == 2" } selected {/if}>USDT体现</option>
                                         <option value="3" {if condition="$Request.get.change_category == 3" } selected {/if}>管理员账变</option>
@@ -24,9 +24,15 @@
                                         <option value="5" {if condition="$Request.get.change_category == 5" } selected {/if}>担保订单退款</option>
                                     </select>
                                 </div>
+                                <div class="form-group" >
+                                    <select name="type" id="type" class="form-control"  style="width: 150px;">
+                                        <option value="">选中资金类型</option>
+                                        <option value="enable" {if condition="$Request.get.type == 'enable'" } selected {/if}>可用余额</option>
+                                        <option value="disable" {if condition="$Request.get.type == 'disable'" } selected {/if}>冻结余额</option>
+                                    </select>
+                                </div>
                                 <div class="form-group">
                                     <div class="input-group">
-
                                         <span class="input-group-btn">
                                             <button id="btnSearch" class="btn btn-success" type="submit"
                                                     onclick="$('#p').val('');$('#form1').attr('action','');"><i
@@ -43,6 +49,7 @@
 <!--                        </td>-->
                     </tr>
                     <tr>
+                        <th>资金类型</th>
                         <th>账变类型</th>
                         <th>增加余额</th>
                         <th>减少余额</th>
@@ -55,6 +62,7 @@
                     <tbody id="listBody">
                     {volist name="lists" id="vo"}
                     <tr>
+                        <td>{$vo.type=='enable' ? '可用余额':'冻结余额'}</td>
                         <td>{$vo.change_category_text}</td>
                         <td style="font-weight: bold;color: green">{$vo.increase}</td>
                         <td style="font-weight: bold;color: red">{$vo.reduce}</td>
