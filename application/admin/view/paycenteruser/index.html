@@ -23,7 +23,7 @@
                 <label class="layui-form-label">用户类型：</label>
                 <div class="layui-input-inline">
                     <select name="user_type" id="user_type">
-                        <option value="">请选择</option>
+                        <option value="-1">请选择</option>
                         <option value="1" {if condition="input('user_type') == 1"}selected{/if}>渠道用户</option>
                         <option value="2" {if condition="input('user_type') == 2"}selected{/if}>商户用户</option>
                         <option value="3" {if condition="input('user_type') == 3"}selected{/if}>三方用户</option>
@@ -55,7 +55,8 @@
 
                 <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
                 <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
-                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="change-usdt-balance"><i class="layui-icon layui-icon-edit"></i>增减USDT余额</a>
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="change-usdt-balance"><i class="layui-icon layui-icon-edit"></i>增减余额</a>
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="usdt-balance-details"><i class="layui-icon layui-icon-edit"></i>余额明细</a>
             </script>
         </div>
     </div>

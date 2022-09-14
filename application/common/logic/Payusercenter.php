@@ -44,12 +44,21 @@ class Payusercenter extends BaseLogic
             $data['create_time'] = time();
         }
 
-        $ret = $this->modelPayCenterUser->allowField(true)->isUpdate($data['scene'] == 'add' ? false : true)->save($data);
-        $msg = $data['scene'] == 'add' ? '添加' : '修改';
-        if (!$ret) {
-            return ['code' => CodeEnum::SUCCESS, 'msg' => $msg . '失败'];
+        Db::startTrans();
+        try {
+            $this->modelPayCenterUser->allowField(true)->isUpdate($data['scene'] == 'add' ? false : true)->save($data);
+            $msg = $data['scene'] == 'add' ? '添加' : '修改';
+            if ($data['scene'] == 'add'){
+                //资金记录
+                $this->modelCenterBalance->setInfo(['uid' => $this->modelPayCenterUser->id]);
+            }
+            Db::commit();
+            return ['code' => CodeEnum::SUCCESS, 'msg' => $msg . '成功'];
+        }catch (Exception $ex){
+            Db::rollback();
+            return ['code' => CodeEnum::SUCCESS, 'msg' => $ex->getMessage()];
         }
-        return ['code' => CodeEnum::SUCCESS, 'msg' => $msg . '成功'];
+
     }
 
 
@@ -161,6 +170,68 @@ class Payusercenter extends BaseLogic
         }catch (Exception $ex){
             Db::rollback();
             throw new Exception('余额变动失败');
+        }
+
+    }
+
+    /**
+     * @param $uid
+     * @param string $type
+     * @param $add_subtract
+     * @param int $change_category
+     * @param float $money
+     * @param string $remarks
+     * @param int $is_plat_op
+     * @return bool
+     * @throws Exception
+     */
+    function usdtChangeV2($uid, $type = 'enable', $add_subtract, $change_category = 3, $money = 0.00, $remarks = '', $is_plat_op= 0)
+    {
+        Db::startTrans();
+        try {
+
+            if (!in_array($type, array('enable', 'disable'))) throw new Exception('资金类型错误');
+
+            $user = $this->modelCenterBalance->lock(true)->where(['uid' => $uid])->find();
+
+            if (empty($user)){
+                throw new Exception('用户不存在');
+            }
+            if (!$add_subtract){
+                if ($type=='enable'){
+                    if (bccomp($user->usdt_enable, $money) == -1){
+                        throw new Exception('余额不足');
+                    }
+                }else{
+                    if (bccomp($user->usdt_disable, $money) == -1){
+                        throw new Exception('冻结余额不足');
+                    }
+                }
+            }
+
+            $moneys = ($add_subtract == 1) ? $money : 0 - $money;
+
+            $this->modelCenterBalance->where(['uid' => $uid])->setInc('usdt_'.$type, $moneys);
+
+
+            //记录流水
+            $insert['uid'] = $uid;
+            $insert['type'] = $type;
+            $insert['change_category'] = $change_category;
+            $insert['preinc'] = $user['usdt_' . $insert['type']];
+            $insert['increase'] = $add_subtract ? $money : '0.00000';
+            $insert['reduce'] = $add_subtract ? '0.000' : $money; //改变减少金额
+            $insert['suffixred'] = $add_subtract ? bcadd($insert['preinc'] , $money,5)
+                : bcsub($insert['preinc'], $money, 5);
+            $insert['remarks'] = $remarks;
+            $insert['is_plat_op'] = $is_plat_op;
+
+            $this->modelCenterUsdtBalanceChange->save($insert);
+            Db::commit();
+            return true;
+        }catch (Exception $ex){
+            Db::rollback();
+            throw new Exception($ex->getMessage());
         }
 
     }

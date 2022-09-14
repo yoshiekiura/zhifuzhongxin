@@ -123,15 +123,13 @@ class GuaranteeOrders extends BaseLogic
         return $this->modelGuaranteeOrders->getList($where, $field, $order, $paginate);
     }
 
-    public function getOrderInfo($where = [], $field = true)
+    public function getOrderInfo($where = [], $join = null, $field = true)
     {
         $this->modelGuaranteeOrders->alias('a');
-        $join = [
-            ['cm_pay_channel c', 'c.id = a.channel_id'],
-            ['cm_pay_center_user u', 'u.id = c.pay_center_uid']
-        ];
+
         return $this->modelGuaranteeOrders->where($where)->field($field)->join($join)->find();
     }
+
 
     /**
      * 余额支付
@@ -161,12 +159,9 @@ class GuaranteeOrders extends BaseLogic
             }
 
             $user = $this->modelPayCenterUser->lock(true)->find($data['channel_user_id']);
-            if (bccomp($user->usdt_balance, $guaranteeOrders->usdt_sum) != 1) {
-                return ['code' => CodeEnum::ERROR, 'msg' => '用户余额不足！'];
-            }
 
-            $this->logicPayusercenter->usdtChange(
-                $user->id, 4, 0, $guaranteeOrders->usdt_sum,
+            $this->logicPayusercenter->usdtChangeV2(
+                $user->id, 'enable', 0, 4, $guaranteeOrders->usdt_sum,
                 '渠道担保余额支付'. $guaranteeOrders->usdt_sum .'，订单号：'. $guaranteeOrders->trade_no
             );
 
@@ -178,7 +173,7 @@ class GuaranteeOrders extends BaseLogic
             return ['code' => CodeEnum::SUCCESS, 'msg' => '支付成功'];
         }catch (Exception $ex){
             Db::rollback();
-            return ['code' => CodeEnum::ERROR, config('app_debug') ? $ex->getMessage() : '未知错误'];
+            return ['code' => CodeEnum::ERROR, 'msg' => config('app_debug') ? $ex->getMessage() : '未知错误'];
         }
 
     }
@@ -278,7 +273,7 @@ class GuaranteeOrders extends BaseLogic
         Db::startTrans();
         try {
             if ($data['status'] == 4){
-                    $this->logicPayusercenter->usdtChange($guaranteeOrders->channel_user_id, 5, 1,
+                    $this->logicPayusercenter->usdtChangeV2($guaranteeOrders->channel_user_id, 'enable', 1, 5,
                         $guaranteeOrders->usdt_sum, '担保订单：'.  $guaranteeOrders->trade_no .'，退保成功');
                     $guaranteeOrders->refund_time = time();
             }
@@ -296,5 +291,34 @@ class GuaranteeOrders extends BaseLogic
 
     }
 
+    /**
+     * 后台管理员手动成功担保订单
+     * @param $data
+     * @return array
+     */
+    public function successOrder($data)
+    {
+        Db::startTrans();
+        try {
+            $guarantee_orders  = $this->modelGuaranteeOrders->lock(true)->find($data['id'] ?? 0);
+            if (empty($guarantee_orders)){
+                return ['code' => CodeEnum::ERROR, 'msg' => '订单不存在'];
+            }
+            if ($guarantee_orders->status != 1){
+                return ['code' => CodeEnum::ERROR, 'msg' => '订单状态错误'];
+            }
+            isset($data['admin_success_note']) ? ($guarantee_orders->admin_success_note = $data['admin_success_note'] ): '';
+            $guarantee_orders->admin_id = is_admin_login();
+            $guarantee_orders->status = 2;
+            $guarantee_orders->pay_type = 3;
+            $guarantee_orders->save();
+            Db::commit();
+            return ['code' => CodeEnum::SUCCESS, 'msg' => '操作成功'];
+        }catch (Exception $ex){
+            Db::rollback();
+            \think\Log::error('后台手动成功担保订单：' . $ex->getMessage());
+            return ['code' => CodeEnum::ERROR, 'msg' => $ex->getMessage()];
+        }
+    }
 
 }

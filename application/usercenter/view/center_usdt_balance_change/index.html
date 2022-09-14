@@ -1,0 +1,91 @@
+{extend name="../user-layout" /}
+{block name="content"}
+
+<div class="container-fluid panel">
+    <div class="row">
+        <div class="col-xs-12 main">
+            <h3>
+                账单列表
+            </h3>
+            <div class="table-responsive">
+
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <td colspan="7">
+                            <form id="form1" action="index.html" class="form-inline">
+                                <div class="form-group" >
+                                    <select name="change_category" id="change_category" class="form-control"  style="width: 150px;">
+                                        <option value="">选择类型</option>
+                                        <option value="1" {if condition="$Request.get.change_category == 1" } selected {/if}>USDT充值</option>
+                                        <option value="2" {if condition="$Request.get.change_category == 2" } selected {/if}>USDT体现</option>
+                                        <option value="3" {if condition="$Request.get.change_category == 3" } selected {/if}>管理员账变</option>
+                                        <option value="4" {if condition="$Request.get.change_category == 4" } selected {/if}>担保订单支付</option>
+                                        <option value="5" {if condition="$Request.get.change_category == 5" } selected {/if}>担保订单退款</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+
+                                        <span class="input-group-btn">
+                                            <button id="btnSearch" class="btn btn-success" type="submit"
+                                                    onclick="$('#p').val('');$('#form1').attr('action','');"><i
+                                                    class="icon-search3"></i></button>
+                                            <a href="{:url('/usercenter/center_usdt_balance_change/index')}" class="btn btn-warning"><i
+                                                    class="icon-circle-with-cross"></i></a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </form>
+                        </td>
+<!--                        <td>-->
+<!--                            <strong><span style="font-weight: bold;">USDT余额：<span style="color:green">{$user_info.usdt_balance}</span></span></strong>-->
+<!--                        </td>-->
+                    </tr>
+                    <tr>
+                        <th>账变类型</th>
+                        <th>增加余额</th>
+                        <th>减少余额</th>
+                        <th>变动前USDT</th>
+                        <th>变动后USDT</th>
+                        <th>账变说明</th>
+                        <th>创建时间</th>
+                    </tr>
+                    </thead>
+                    <tbody id="listBody">
+                    {volist name="lists" id="vo"}
+                    <tr>
+                        <td>{$vo.change_category_text}</td>
+                        <td style="font-weight: bold;color: green">{$vo.increase}</td>
+                        <td style="font-weight: bold;color: red">{$vo.reduce}</td>
+                        <td>{$vo.preinc}</td>
+                        <td>{$vo.suffixred}</td>
+                        <td>{$vo.remarks}</td>
+                        <td>{$vo.create_time}</td>
+                        </td>
+                    </tr>
+                    {/volist}
+                    {empty name="lists"}
+                    <tr>
+                        <td colspan="12" class="text-center">
+                            未查到数据
+                        </td>
+                    </tr>
+                    {/empty}
+                    </tbody>
+                    <tfoot>
+                    <td colspan="10">
+                        <nav aria-label="Page navigation">
+                            {$lists->render()}
+                        </nav>
+                    </td>
+                    </tfoot>
+                </table>
+            </div>
+            <script src="__STATIC__/index/baisha/js/WdatePicker.js"></script>
+        </div>
+    </div>
+</div>
+{/block}
+</body>
+</html>

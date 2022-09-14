@@ -227,3 +227,56 @@ values ('usdt_topup_withdraw_address', 'USDT充值提现地址', 1, 0, 0, 'TB1VC
 ALTER TABLE cm_pay_center_user ADD COLUMN `usdt_disable_balance` decimal(11,5) DEFAULT 0 COMMENT 'usdt冻结余额' after `usdt_balance`;
 
 ALTER TABLE cm_pay_center_usdt_bill ADD COLUMN `type` char(10) DEFAULT 'enable' COMMENT '资金类型' after `uid`;
+
+
+CREATE TABLE `cm_center_balance` (
+ `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+ `uid` int(11) NOT NULL COMMENT '支付中心ID',
+ `usdt_enable` decimal(11,5) NOT NULL DEFAULT '0.00000',
+ `usdt_disable` decimal(11,5) NOT NULL DEFAULT '0.00000',
+ `pl_enable` decimal(11,3) NOT NULL DEFAULT '0.000',
+ `pl_disable` decimal(11,3) NOT NULL DEFAULT '0.000',
+ `status` tinyint(3) NOT NULL DEFAULT '1' COMMENT '状态 0禁用 1正常',
+ `create_time` int(11) NOT NULL,
+ `update_time` int(11) NOT NULL,
+ PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `cm_center_usdt_balance_change` (
+     `id` bigint(10) unsigned NOT NULL AUTO_INCREMENT,
+     `uid` mediumint(8) NOT NULL COMMENT '用户ID',
+     `type` varchar(20) NOT NULL DEFAULT 'enable' COMMENT '资金类型',
+     `change_category` tinyint(3) NOT NULL COMMENT '1USDT充值，2USDT体现，3管理员账变， 4担保订单支付，5担保订单退款',
+     `preinc` decimal(12,3) unsigned NOT NULL DEFAULT '0.000' COMMENT '变动前金额',
+     `increase` decimal(12,3) unsigned NOT NULL DEFAULT '0.000' COMMENT '增加金额',
+     `reduce` decimal(12,3) unsigned NOT NULL DEFAULT '0.000' COMMENT '减少金额',
+     `suffixred` decimal(12,3) unsigned NOT NULL DEFAULT '0.000' COMMENT '变动后金额',
+     `remarks` varchar(255) NOT NULL COMMENT '资金变动说明',
+     `status` tinyint(3) NOT NULL DEFAULT '1' COMMENT '状态 0禁用 1正常',
+     `create_time` int(10) unsigned NOT NULL COMMENT '创建时间',
+     `update_time` int(10) unsigned NOT NULL COMMENT '更新时间',
+     `is_flat_op` tinyint(1) NOT NULL DEFAULT '0' COMMENT '人工操作',
+     PRIMARY KEY (`id`),
+     UNIQUE KEY `change_index` (`id`,`uid`,`type`,`status`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COMMENT='用户资产变动记录表';
+
+
+INSERT INTO cm_menu(`pid`, `sort`, `name`, `module`, `url`, `is_hide`, `icon`, `status`, `update_time`,  `create_time`)
+VALUES('145' , '100', '用户资金', 'admin', 'Paycenteruser/centerBalance', '0', '',  '1', unix_timestamp(now()),unix_timestamp(now()));
+
+INSERT INTO cm_menu(`pid`, `sort`, `name`, `module`, `url`, `is_hide`, `icon`, `status`, `update_time`,  `create_time`)
+VALUES('145' , '100', '担保列表', 'admin', 'GuaranteeOrders/index', '0', '',  '1', unix_timestamp(now()),unix_timestamp(now()));
+
+INSERT INTO cm_menu(`pid`, `sort`, `name`, `module`, `url`, `is_hide`, `icon`, `status`, `update_time`,  `create_time`)
+VALUES('145' , '100', '充值列表', 'admin', 'UsdtTopupOrders/index', '0', '',  '1', unix_timestamp(now()),unix_timestamp(now()));
+
+INSERT INTO cm_menu(`pid`, `sort`, `name`, `module`, `url`, `is_hide`, `icon`, `status`, `update_time`,  `create_time`)
+VALUES('145' , '100', '提现列表', 'admin', 'WithdrawUsdtOrders/index', '0', '',  '1', unix_timestamp(now()),unix_timestamp(now()));
+
+
+
+ALTER TABLE cm_guarantee_orders modify COLUMN `pay_type` tinyint(3) DEFAULT '0' COMMENT '交易方式 0为交易 1余额转账 2usdt转账 3后台手动';
+ALTER TABLE cm_guarantee_orders ADD COLUMN `admin_id` int(11) COMMENT '管理员ID' after `from_transaction_address`;
+ALTER TABLE cm_guarantee_orders ADD COLUMN `admin_success_note` varchar(255) COMMENT '成功描述' after `from_transaction_address`;
+

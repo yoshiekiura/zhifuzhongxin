@@ -254,7 +254,6 @@ class Balance extends BaseAdmin
     public function getDetails()
     {
         $where = [];
-
         //组合搜索
         $where['uid'] = ['eq', $this->request->param('uid')];
 

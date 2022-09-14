@@ -96,7 +96,11 @@ class GuaranteeOrders extends Base
 //            'a.merchant_user_id' => $this->user['id']
         );
         $field = 'a.*, c.name as channel_name, u.username as channel_username';
-        $order = $this->logicGuaranteeOrders->getOrderInfo($where, $field);
+        $join = [
+            ['cm_pay_channel c', 'c.id = a.channel_id'],
+            ['cm_pay_center_user u', 'u.id = c.pay_center_uid']
+        ];
+        $order = $this->logicGuaranteeOrders->getOrderInfo($where, $join, $field);
         if ($order){
             $order['effective_time'] = date('Y-m-d H:i:s',   $order['effective_time']);
             $order['refund_time'] =  $order['refund_time'] ?  date('Y-m-d H:i:s',   $order['refund_time']) : '';

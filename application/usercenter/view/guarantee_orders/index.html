@@ -64,7 +64,7 @@
                             {elseif condition="$vo.status eq 1"/}
                             <a href="javascript:voio(0)" class="btn btn-xs btn-warning btn-rounded"> 待支付</a>
                             {elseif condition="$vo.status eq 2"/}
-                            <a href="javascript:voio(0)" class="btn btn-xs btn-success btn-rounded"> 支付成功</a>
+                            <a href="javascript:voio(0)" class="btn btn-xs btn-success btn-rounded"> 进行中</a>
                             {elseif condition="$vo.status eq 3"/}
                             <a href="javascript:voio(0)" class="btn btn-xs btn-primary btn-rounded"> 退保中</a>
                             {elseif condition="$vo.status eq 4"/}
@@ -153,7 +153,7 @@
                             {elseif condition="$vo.status eq 1"/}
                             <a href="javascript:voio(0)" class="btn btn-xs btn-warning btn-rounded"> 待支付</a>
                             {elseif condition="$vo.status eq 2"/}
-                            <a href="javascript:voio(0)" class="btn btn-xs btn-success btn-rounded"> 支付成功</a>
+                            <a href="javascript:voio(0)" class="btn btn-xs btn-success btn-rounded"> 进行中</a>
                             {elseif condition="$vo.status eq 3"/}
                             <a href="javascript:voio(0)" class="btn btn-xs btn-primary btn-rounded"> 退保中</a>
                             {elseif condition="$vo.status eq 4"/}
@@ -280,7 +280,7 @@
                         effectiveTime[i].innerText = '订单过期';
                     }else if(status == 2){
                         effectiveTime[i].setAttribute("style", "color:green;font-weight: bold;");
-                        effectiveTime[i].innerText = '已支付';
+                        effectiveTime[i].innerText = '进行中';
                     }else if(status == 3){
                         effectiveTime[i].setAttribute("style", "color:green;font-weight: bold;");
                         effectiveTime[i].innerText = '退保中';
@@ -293,7 +293,7 @@
                     }
                 }else if(status == 2){
                     effectiveTime[i].setAttribute("style", "color:green;font-weight: bold;");
-                    effectiveTime[i].innerText = '已支付';
+                    effectiveTime[i].innerText = '进行中';
                 }else if(status == 3){
                     effectiveTime[i].setAttribute("style", "color:green;font-weight: bold;");
                     effectiveTime[i].innerText = '退保中';

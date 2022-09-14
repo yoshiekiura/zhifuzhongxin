@@ -16,69 +16,58 @@ layui.define(["table", "form"],
             i = layui.table,
             u = layui.util,
             n = layui.form;
-        //渲染码商二维码
         i.render({
-            elem: "#app-pay-paycenteruser-list",
-            url: "index",
+            elem: "#app-usdt-topup-orders-list",
+            url: "getTopupList",
             //自定义响应字段
             response: {
-                statusCode: 1 //数据状态一切正常的状态码
+                statusCode: 1
             },
             cols: [
                 [{
                     field: "id",
-                    width: 80,
+                    width: 60,
                     title: "ID",
                     sort: !0
+                },{
+                    field: "uid",
+                    width: 60,
+                    title: "UID"
                 },{
                     field: "username",
                     width: 150,
                     title: "用户名"
                 },{
-                    field: "money",
-                    width: 80,
-                    title: "跑量余额"
+                    field: "trade_no",
+                    width: 180,
+                    title: "订单号"
                 },{
-                    field: "usdt_balance",
-                    width: 120,
-                    title: "USDT可用余额"
-                },{
-
-                        field: "usdt_disable_balance",
-                        width: 120,
-                        title: "USDT冻结余额"
-                },{
-                    field: "pid_username",
+                    field: "usdt_sum",
                     width: 100,
-                    title: "所属代理"
-                }, {
-                    field: "alias_name",
-                    width: 100,
-                    title: "别名"
-                }, {
-                    field: "user_type",
-                    width: 100,
-                    title: "用户类型",
+                    title: "USDT数量",
                     templet: function (d) {
-                        let str = '';
-
-                        if (d.user_type == 1){
-                            str = '渠道用户'
-                        }else if(d.user_type == 2){
-                            str = '商户用户'
-                        }else if(d.user_type == 3){
-                            str = '三方用户';
-                        }else if(d.user_type==4){
-                            str = '代理用户';
-                        }
-                        return str;
+                        return "<span  style='color:red;font-weight: bold'>"+ d.usdt_sum +"</span>"
                     }
+                },{
+                    field: "complete_type",
+                    templet:"#completeTpl",
+                    width: 80,
+                    title: "到账类型",
+                },{
+                    field: "status",
+                    width: 80,
+                    templet:"#statusTpl",
+                    title: "状态",
+                },{
+                    field: "create_time",
+                    width: 200,
+                    title: "创建时间",
                 },{
                     title: "操作",
                     align: "center",
                     minWidth:500,
                     fixed: "right",
-                    toolbar: "#table-pay-channel"
+                    toolbar: "#table-usdt-topup-order"
                 }
                 ]
             ],
@@ -87,117 +76,74 @@ layui.define(["table", "form"],
             limits: [10, 15, 20, 25, 30],
             text: "对不起，加载出现异常！"
         })
-        i.on("tool(app-pay-paycenteruser-list)",
+        i.on("tool(app-guarantee-orders-list)",
             function (e) {
-                if ("del" === e.event) {
-                    layer.prompt({
-                            formType: 1,
-                            title: "敏感操作，请验证口令"
-                        },
-                        function (d, i) {
-                            layer.close(i),
-                                layer.confirm("真的删除此用户吗？",
-                                    function (d) {
-                                        t.ajax({
-                                            url: 'delUser?id=' + e.data.id,
-                                            method: 'POST',
-                                            success: function (res) {
-                                                if (res.code == 1) {
-                                                    e.del()
-                                                }
-                                                layer.msg(res.msg, {icon: res.code == 1 ? 1 : 2, time: 1500});
-                                                layer.close(d); //关闭弹层
-                                            }
-                                        });
-                                    })
-                        });
-                }  else if ("edit" === e.event) {
+                if ("details" === e.event) {
                     t(e.tr);
                     layer.open({
                         type: 2,
-                        title: "编辑用户",
-                        content: "editUser.html?id=" + e.data.id,
+                        title: "担保订单详情",
+                        content: "details.html?id=" + e.data.id,
                         maxmin: !0,
-                        maxmin: !0, area: ['80%', '60%'],
+                        area: ['80%','70%'],
                         btn: ["确定", "取消"],
-                        yes: function (f, t) {
-                            var l = window["layui-layer-iframe" + f],
-                                r = "app-pay-paycenteruser-submit",
-                                n = t.find("iframe").contents().find("#" + r);
-                            l.layui.form.on("submit(" + r + ")",
-                                function (t) {
-                                    var l = t.field;
-                                    layui.$.post("editUser", l, function (res) {
-                                        if (res.code == 1) {
-                                            i.render(),
-                                                layer.close(f)
-                                        }
-                                        layer.msg(res.msg, {icon: res.code == 1 ? 1 : 2, time: 1500});
-                                    });
-                                }),
-                                n.trigger("click")
+                        yes: function(e, t) {
+                            layer.closeAll();
                         },
-                        success: function (e, t) {
-                        }
+                        success: function(e, t) {}
                     })
-                } else if ("change-usdt-balance" === e.event){
+                }  else if ("success-order" === e.event) {
                     layer.prompt({
-                            formType: 1,
-                            title: "敏感操作，请验证口令",
-                        },
-                        function (d, f) {
-
-                            //检测口令
-                            t.ajax({
-                                url: '/admin/api/checkOpCommand?command=' + d,
-                                method: 'POST',
-                                success: function (res) {
-                                    if (res.code == 1) {
-                                        //口令正确
-                                        layer.close(d); //关闭弹层
-                                        t(e.tr);
-                                        layer.open({
-                                            type: 2
-                                            , title: '增减USDT余额'
-                                            , content: 'changeUsdtBalance.html?id=' + e.data.id
-                                            , maxmin: true
-                                            , area: ['80%', '60%']
-                                            , btn: ['确定', '取消']
-                                            , yes: function (index, layero) {
-                                                var iframeWindow = window['layui-layer-iframe' + index]
-                                                    , submitID = 'app-user-manage-submit'
-                                                    ,
-                                                    submit = layero.find('iframe').contents().find('#' + submitID);
-
-                                                //监听提交
-                                                iframeWindow.layui.form.on('submit(' + submitID + ')', function (obj) {
-                                                    var field = obj.field; //获取提交的字段
-
-                                                    //提交 Ajax 成功后，静态更新表格中的数据
-                                                    t.ajax({
-                                                        url: 'changeUsdtBalance.html?uid=' + e.data.id,
-                                                        method: 'POST',
-                                                        data: field,
-                                                        success: function (res) {
-                                                            if (res.code == 1) {
-                                                                layer.closeAll();
-                                                                i.reload('app-pay-paycenteruser-list');
-                                                            } else {
-                                                                layer.msg(res.msg, {icon: 2, time: 1500});
-                                                            }
-                                                        }
-                                                    });
-                                                });
-                                                submit.trigger('click');
+                        formType: 1,
+                        title: "敏感操作，请验证口令"
+                    }, function(d, f) {
+                        //检测口令
+                        t.ajax({
+                            url: '/admin/api/checkOpCommand?command='+ d,
+                            method:'POST',
+                            success:function (res) {
+                                if (res.code == 1){
+                                    //口令正确
+                                    layer.close(f); //关闭弹层
+                                    t(e.tr);
+                                    layer.open({
+                                        type: 2,
+                                        title: "手动成功详情",
+                                        content: "successOrder.html?id=" + e.data.id,
+                                        maxmin: !0,
+                                        area: ['60%','40%'],
+                                        btn: ["确定", "取消"],
+                                        yes: function(e1, layero) {
+                                            var admin_success_note= t.trim(layero.find('iframe').contents().find('#admin_success_note').val());
+                                            if(admin_success_note===''){
+                                                layer.msg('手动成功备注不能为空',{icon:2,time:1500});
                                             }
-                                        });
-                                    } else {
-                                        layer.msg(res.msg, {icon: 2, time: 1500});
-                                        layer.close(d); //关闭弹层
-                                    }
+                                            if(admin_success_note.length >255){
+                                                layer.msg('备注最长255个字符',{icon:2,time:1500});
+                                            }
+                                            //正式补单操作
+                                            t.ajax({
+                                                url: 'successOrder?id='+ e.data.id,
+                                                method:'POST',
+                                                data:{admin_success_note:admin_success_note},
+                                                success:function (res) {
+                                                    if (res.code == 1){
+                                                        layer.closeAll();
+                                                        i.reload('app-guarantee-orders-list');
+                                                    }else{
+                                                        layer.msg(res.msg, {icon: 2,time: 1500});
+                                                    }
+                                                }
+                                            });
+                                        },
+                                    })
+                                }else{
+                                    layer.msg(res.msg,{icon:2,time:1500});
+                                    layer.close(d); //关闭弹层
                                 }
-                            });
+                            }
                         });
+                    });
                 }
             }),
         i.render({
@@ -406,5 +352,5 @@ layui.define(["table", "form"],
                 },
                 text: "对不起，加载出现异常！"
             }),
-        e("paycenteruser", {})
+        e("guarantee_orders", {})
     });

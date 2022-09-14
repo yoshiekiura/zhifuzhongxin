@@ -36,7 +36,7 @@ class UsdtTopupOrders extends BaseLogic
 
         $this->modelUsdtTopupOrders->paginate = !$paginate;
 
-        return $this->modelUsdtTopupOrders->getListV2($where, $field, $order, $paginate);
+        return $this->modelUsdtTopupOrders->getList($where, $field, $order, $paginate);
     }
 
 }
