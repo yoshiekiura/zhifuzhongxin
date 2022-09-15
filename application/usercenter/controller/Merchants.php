@@ -10,13 +10,17 @@ use think\Request;
 
 class Merchants extends Base
 {
+    /**
+     * 商户列表
+     * @return mixed
+     * @throws \think\exception\DbException
+     */
     public function list_merchant()
     {
         $map['a.pay_center_uid'] = $this->user['id'];
         $map['a.status'] = 1;
         !empty($this->request->get('username')) && $map['a.username']
             = ['like', '%' . $this->request->get('username') . '%'];
-        $logicUser = new User();
 
         $data = $this->modelUser->where($map)
             ->alias('a')
@@ -28,6 +32,9 @@ class Merchants extends Base
         $this->assign('list', $data);
         return $this->fetch('list_merchant');
     }
+
+
+
     /**
      * 添加商户
      *

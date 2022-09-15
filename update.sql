@@ -299,3 +299,5 @@ CREATE TABLE `cm_tg_group_links` (
      PRIMARY KEY (`id`),
      UNIQUE KEY `link_address` (`link_address`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+ALTER TABLE cm_user ADD COLUMN `is_channel_test` tinyint(3) default 0 COMMENT '渠道测试';
