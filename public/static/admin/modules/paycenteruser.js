@@ -34,11 +34,13 @@ layui.define(["table", "form"],
                     field: "username",
                     width: 150,
                     title: "用户名"
-                },{
+                },
+               /*     {
                     field: "money",
                     width: 80,
                     title: "跑量余额"
-                },{
+                },
+                    {
                     field: "usdt_balance",
                     width: 120,
                     title: "USDT可用余额"
@@ -47,7 +49,8 @@ layui.define(["table", "form"],
                         field: "usdt_disable_balance",
                         width: 120,
                         title: "USDT冻结余额"
-                },{
+                },*/
+                    {
                     field: "pid_username",
                     width: 100,
                     title: "所属代理"
@@ -129,8 +132,8 @@ layui.define(["table", "form"],
                                     var l = t.field;
                                     layui.$.post("editUser", l, function (res) {
                                         if (res.code == 1) {
-                                            i.render(),
-                                                layer.close(f)
+                                            i.reload('app-pay-paycenteruser-list');
+                                            layer.close(f)
                                         }
                                         layer.msg(res.msg, {icon: res.code == 1 ? 1 : 2, time: 1500});
                                     });
