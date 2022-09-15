@@ -129,7 +129,7 @@
                                 success:function (res) {
                                     if (res.code == 1) {
                                         //更新数据表
-                                        table.reload('app-pay-channel-list'); //数据刷新
+                                        table.reload('app-pay-paycenteruser-list'); //数据刷新
                                         layer.close(index); //关闭弹层
                                     }
                                     layer.msg(res.msg, {icon: res.code == 1 ? 1: 2,time: 1500});
