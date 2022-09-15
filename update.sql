@@ -263,19 +263,19 @@ CREATE TABLE `cm_center_usdt_balance_change` (
 
 
 INSERT INTO cm_menu(`pid`, `sort`, `name`, `module`, `url`, `is_hide`, `icon`, `status`, `update_time`,  `create_time`)
-VALUES('145' , '100', '用户资金', 'admin', 'Paycenteruser/centerBalance', '0', '',  '1', unix_timestamp(now()),unix_timestamp(now()));
+VALUES('153' , '100', '用户资金', 'admin', 'Paycenteruser/centerBalance', '0', '',  '1', unix_timestamp(now()),unix_timestamp(now()));
 
 INSERT INTO cm_menu(`pid`, `sort`, `name`, `module`, `url`, `is_hide`, `icon`, `status`, `update_time`,  `create_time`)
-VALUES('145' , '100', '担保列表', 'admin', 'GuaranteeOrders/index', '0', '',  '1', unix_timestamp(now()),unix_timestamp(now()));
+VALUES('153' , '100', '担保列表', 'admin', 'GuaranteeOrders/index', '0', '',  '1', unix_timestamp(now()),unix_timestamp(now()));
 
 INSERT INTO cm_menu(`pid`, `sort`, `name`, `module`, `url`, `is_hide`, `icon`, `status`, `update_time`,  `create_time`)
-VALUES('145' , '100', '充值列表', 'admin', 'UsdtTopupOrders/index', '0', '',  '1', unix_timestamp(now()),unix_timestamp(now()));
+VALUES('153' , '100', '充值列表', 'admin', 'UsdtTopupOrders/index', '0', '',  '1', unix_timestamp(now()),unix_timestamp(now()));
 
 INSERT INTO cm_menu(`pid`, `sort`, `name`, `module`, `url`, `is_hide`, `icon`, `status`, `update_time`,  `create_time`)
-VALUES('145' , '100', '提现列表', 'admin', 'WithdrawUsdtOrders/index', '0', '',  '1', unix_timestamp(now()),unix_timestamp(now()));
+VALUES('153' , '100', '提现列表', 'admin', 'WithdrawUsdtOrders/index', '0', '',  '1', unix_timestamp(now()),unix_timestamp(now()));
 
 INSERT INTO cm_menu(`pid`, `sort`, `name`, `module`, `url`, `is_hide`, `icon`, `status`, `update_time`,  `create_time`)
-VALUES('145' , '100', '链接列表', 'admin', 'TgGroupLinks/index', '0', '',  '1', unix_timestamp(now()),unix_timestamp(now()));
+VALUES('153' , '100', '链接列表', 'admin', 'TgGroupLinks/index', '0', '',  '1', unix_timestamp(now()),unix_timestamp(now()));
 
 ALTER TABLE cm_guarantee_orders modify COLUMN `pay_type` tinyint(3) DEFAULT '0' COMMENT '交易方式 0为交易 1余额转账 2usdt转账 3后台手动';
 ALTER TABLE cm_guarantee_orders ADD COLUMN `admin_id` int(11) COMMENT '管理员ID' after `from_transaction_address`;
@@ -287,3 +287,15 @@ ALTER TABLE cm_withdraw_usdt_orders ADD COLUMN `transfer_time` int (11) COMMENT 
 ALTER TABLE cm_withdraw_usdt_orders ADD COLUMN `transfer_type` int (11) default 0 COMMENT '转账类型 0未转账 1自动转账 2手动转账' after `status`;
 
 ALTER TABLE cm_guarantee_orders ADD COLUMN `link_id` int (11) default 0 COMMENT '链接ID' after `status`;
+
+CREATE TABLE `cm_tg_group_links` (
+     `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+     `allocation_type` tinyint(3) DEFAULT NULL COMMENT '类型 1担保订单 ',
+     `status` tinyint(3) NOT NULL COMMENT '状态 0禁用 1待分配 2已分配',
+     `trade_no` varchar(100) DEFAULT NULL COMMENT '对应类型表的订单号',
+     `link_address` varchar(255) NOT NULL COMMENT '链接地址',
+     `create_time` int(11) NOT NULL,
+     `update_time` int(11) NOT NULL COMMENT '修改时间',
+     PRIMARY KEY (`id`),
+     UNIQUE KEY `link_address` (`link_address`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
