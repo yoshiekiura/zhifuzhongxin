@@ -250,6 +250,10 @@
                         <td id="de_effective_time"></td>
                     </tr>
                     <tr>
+                        <th>分配的链接地址 </th>
+                        <td id="de_link_address"></td>
+                    </tr>
+                    <tr>
                         <th>状态</th>
                         <td id="de_status"></td>
                     </tr>
@@ -481,6 +485,7 @@
                     $('#de_merchant_refund_note').text(orderData.merchant_refund_note);
                     $('#de_channel_refund_note').text(orderData.channel_refund_note);
                     $('#de_effective_time').text(orderData.effective_time);
+                    $('#de_link_address').text(orderData.link_address);
                     $('#de_create_time').text(orderData.create_time);
 
                     if ('{$user_info["user_type"]}' == 2 && orderData.status==3){

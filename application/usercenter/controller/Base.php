@@ -15,7 +15,7 @@ class Base extends Common
     protected $logined = false; //登录状态
     public $user = null; //用户信息
     private $noCheck = [
-        'usercenter/index/apidoc'
+        'usercenter/index/apidoc',
     ];
 
     public function _initialize()

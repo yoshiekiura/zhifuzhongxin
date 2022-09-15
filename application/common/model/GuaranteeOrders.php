@@ -24,7 +24,7 @@ class GuaranteeOrders extends BaseModel
 
     public function getStatusTextAttr($value, $data)
     {
-        $status = ['订单关闭', '待支付', '支付成功', '申请退保', '退保成功', '拒绝退保'];
+        $status = ['订单关闭', '待支付', '进行中', '申请退保', '退保成功', '拒绝退保'];
 
         return isset($status[$data['status']]) ? $status[$data['status']] : '';
     }

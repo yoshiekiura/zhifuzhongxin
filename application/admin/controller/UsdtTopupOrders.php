@@ -22,6 +22,14 @@ class UsdtTopupOrders extends BaseAdmin
     public function getTopupList(Request $request)
     {
         $where = [];
+        $trade_no = $request->param('trade_no');
+        $username = $request->param('username');
+        $status = $request->param('status', -1);
+        $complete_type = $request->param('complete_type', -1);
+        $trade_no && $where['a.trade_no'] = $trade_no;
+        $username && $where['u.username'] = array('like', '%'. $username .'%');
+        $status >= 0 && $where['a.status'] = $status;
+        $complete_type >= 0 && $where['a.complete_type'] = $complete_type;
         $join = [
             ['pay_center_user u', 'u.id = a.uid']
         ];

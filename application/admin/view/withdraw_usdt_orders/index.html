@@ -16,29 +16,39 @@
         <!--头部-->
         <div class="layui-form layui-card-header layuiadmin-card-header-auto">
             <div class="layui-form-item">
-                <label class="layui-form-label">商户名称：</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="merchant_username" placeholder="请输入商户用户名称" autocomplete="off" class="layui-input" >
+                <div class="layui-inline">
+                    <label class="layui-form-label">订单号：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="trade_no" placeholder="请输入订单号" autocomplete="off" class="layui-input" >
+                    </div>
                 </div>
-                <label class="layui-form-label">渠道名称：</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="channel_username" placeholder="请输入渠道用户名称" autocomplete="off" class="layui-input" >
+                <div class="layui-inline">
+                    <label class="layui-form-label">用户名称：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="username" placeholder="请输入用户名称" autocomplete="off" class="layui-input" >
+                    </div>
                 </div>
-                <label class="layui-form-label">支付渠道：</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="channel_name" placeholder="请输入支付渠道名称" autocomplete="off" class="layui-input" >
+                <div class="layui-inline">
+                    <label class="layui-form-label">状态：</label>
+                    <div class="layui-input-inline">
+                        <select name="status" id="status">
+                            <option value="-1">请选择</option>
+                            <option value="0" {if condition="input('status') === 0"}selected{/if}>驳回</option>
+                            <option value="1" {if condition="input('status') == 1"}selected{/if}>待审核</option>
+                            <option value="2" {if condition="input('status') == 2"}selected{/if}>已打款</option>
+                        </select>
+                    </div>
                 </div>
-                <label class="layui-form-label">状态：</label>
-                <div class="layui-input-inline">
-                    <select name="status" id="status">
-                        <option value="-1">请选择</option>
-                        <option value="0" {if condition="input('status') == 0"}selected{/if}>订单关闭</option>
-                        <option value="1" {if condition="input('status') == 1"}selected{/if}>待支付</option>
-                        <option value="2" {if condition="input('status') == 2"}selected{/if}>支付成功</option>
-                        <option value="3" {if condition="input('status') == 3"}selected{/if}>申请退保</option>
-                        <option value="4" {if condition="input('status') == 4"}selected{/if}>退保成功</option>
-                        <option value="5" {if condition="input('status') == 5"}selected{/if}>拒绝退保</option>
-                    </select>
+                <div class="layui-inline">
+                    <label class="layui-form-label">转账类型：</label>
+                    <div class="layui-input-inline">
+                        <select name="transfer_type" id="transfer_type">
+                            <option value="-1">请选择</option>
+                            <option value="0" {if condition="input('transfer_type') === 0"}selected{/if}>未打款</option>
+                            <option value="1" {if condition="input('transfer_type') == 1"}selected{/if}>自动打款</option>
+                            <option value="2" {if condition="input('transfer_type') == 2"}selected{/if}>手动打款</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="layui-inline">
                     <button class="layui-btn layuiadmin-btn-order" lay-submit lay-filter="app-usdt-withdraw-orders-list-search">
@@ -53,7 +63,7 @@
 
             <script type="text/html" id="statusTpl">
                 {{#  if(d.status == '0'){ }}
-                <button class="layui-btn layui-btn layui-btn-xs">驳回</button>
+                <button class="layui-btn layui-btn-danger layui-btn-xs">驳回</button>
                 {{#  } else if(d.status == '1'){ }}
                 <button class="layui-btn layui-btn-warm layui-btn-xs">待打款</button>
                 {{#  } else if(d.status == '2'){ }}
@@ -61,16 +71,20 @@
                 {{#  } }}
             </script>
             <script type="text/html" id="transferTypeTpl">
-                {{#  if(d.status == '1'){ }}
-                <button class="layui-btn layui-btn layui-btn-xs">自动转账</button>
+                {{#  if(d.transfer_type == '0'){ }}
+                <button class="layui-btn layui-btn-primary layui-btn-xs">未打款</button>
+                {{# }else if(d.status == '1'){ }}
+                <button class="layui-btn layui-btn-normal layui-btn-xs">自动打款</button>
                 {{#  } else if(d.status == '2'){ }}
-                <button class="layui-btn layui-btn-warm layui-btn-xs">手动转账</button>
+                <button class="layui-btn layui-btn-success layui-btn-xs">手动打款</button>
                 {{#  } }}
             </script>
             <script type="text/html" id="table-usdt-withdraw">
                 {{#  if(d.status == '1'){ }}
                 <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="remit"><i class="layui-icon layui-icon-edit"></i>打款</a>
                 <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="reject"><i class="layui-icon layui-icon-edit"></i>驳回</a>
+                {{# } }}
+                {{#  if(d.status == '2' && d.transfer_type == '0'){ }}
                 <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="manual-remit"><i class="layui-icon layui-icon-edit"></i>手动到账</a>
                 {{# } }}
             </script>
@@ -89,12 +103,13 @@
             ,form = layui.form
             ,table = layui.table;
 
+
         //监听搜索
-        form.on('submit(app-guarantee-orders-list-search)', function(data){
+        form.on('submit(app-usdt-withdraw-orders-list-search)', function(data){
             var field = data.field;
 
             //执行重载
-            table.reload('app-guarantee-orders-list', {
+            table.reload('app-usdt-withdraw-orders-list', {
                 where: field
             });
         });

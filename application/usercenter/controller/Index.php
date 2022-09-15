@@ -34,9 +34,12 @@ class Index extends Base
 
         switch ($this->user['user_type']){
             case 1:
-                $username && $where['a.name'] = array('LIKE', '%'. $username .'%');
-                $lists =   $this->logicPayusercenter->getUserList(array_merge($where, ['a.user_type' => 2]));
-
+                $username && $where['a.username'] = array('LIKE', '%'. $username .'%');
+                $join = [
+                    ['pay_center_user pu', 'pu.id = a.pay_center_uid'],
+                ];
+                $field = 'a.*, pu.username as merchant_username';
+                $lists =   $this->logicUser->getUserListV2($where, $join, $field, 'create_time desc', 12);
                 foreach ($lists as $user){
                     $user->avatar = letter_avatar($user->username);
                 }

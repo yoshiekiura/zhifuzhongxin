@@ -164,11 +164,20 @@ class GuaranteeOrders extends BaseLogic
                 $user->id, 'enable', 0, 4, $guaranteeOrders->usdt_sum,
                 '渠道担保余额支付'. $guaranteeOrders->usdt_sum .'，订单号：'. $guaranteeOrders->trade_no
             );
-
+            //分配链接
+            $link = $this->modelTgGroupLinks->where('status', 1)->find();
+            if (empty($link)){
+                return ['code' => CodeEnum::ERROR, 'msg' => '暂无可分配链接，请联系管理员'];
+            }
+            $guaranteeOrders->link_id = $link->id;
             $guaranteeOrders->status = 2;
             $guaranteeOrders->pay_type = 1;
             $guaranteeOrders->pay_arrival_time = time();
             $guaranteeOrders->save();
+            $link->trade_no = $guaranteeOrders->trade_no;
+            $link->status = 2;
+            $link->allocation_type = 1;
+            $link->save();
             Db::commit();
             return ['code' => CodeEnum::SUCCESS, 'msg' => '支付成功'];
         }catch (Exception $ex){

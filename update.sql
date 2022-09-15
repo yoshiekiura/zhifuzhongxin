@@ -274,7 +274,8 @@ VALUES('145' , '100', '充值列表', 'admin', 'UsdtTopupOrders/index', '0', '',
 INSERT INTO cm_menu(`pid`, `sort`, `name`, `module`, `url`, `is_hide`, `icon`, `status`, `update_time`,  `create_time`)
 VALUES('145' , '100', '提现列表', 'admin', 'WithdrawUsdtOrders/index', '0', '',  '1', unix_timestamp(now()),unix_timestamp(now()));
 
-
+INSERT INTO cm_menu(`pid`, `sort`, `name`, `module`, `url`, `is_hide`, `icon`, `status`, `update_time`,  `create_time`)
+VALUES('145' , '100', '链接列表', 'admin', 'TgGroupLinks/index', '0', '',  '1', unix_timestamp(now()),unix_timestamp(now()));
 
 ALTER TABLE cm_guarantee_orders modify COLUMN `pay_type` tinyint(3) DEFAULT '0' COMMENT '交易方式 0为交易 1余额转账 2usdt转账 3后台手动';
 ALTER TABLE cm_guarantee_orders ADD COLUMN `admin_id` int(11) COMMENT '管理员ID' after `from_transaction_address`;
@@ -283,4 +284,6 @@ ALTER TABLE cm_guarantee_orders ADD COLUMN `admin_success_note` varchar(255) COM
 ALTER TABLE cm_withdraw_usdt_orders ADD COLUMN `admin_id` int(11) COMMENT '管理员id' after `status`;
 ALTER TABLE cm_withdraw_usdt_orders ADD COLUMN `admin_success_note` varchar (255) COMMENT '管理员手动成功备注' after `status`;
 ALTER TABLE cm_withdraw_usdt_orders ADD COLUMN `transfer_time` int (11) COMMENT '转账时间' after `status`;
-ALTER TABLE cm_withdraw_usdt_orders ADD COLUMN `transfer_type` int (11) COMMENT '转账类型 1自动转账 2手动转账' after `status`;
+ALTER TABLE cm_withdraw_usdt_orders ADD COLUMN `transfer_type` int (11) default 0 COMMENT '转账类型 0未转账 1自动转账 2手动转账' after `status`;
+
+ALTER TABLE cm_guarantee_orders ADD COLUMN `link_id` int (11) default 0 COMMENT '链接ID' after `status`;

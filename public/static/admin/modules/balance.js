@@ -171,7 +171,7 @@ layui.define(["table", "form"],
 
             i.render({
                 elem: "#app-balance-details-list",
-                url: 'getDetails',
+                url: 'getDetailsDetails',
                 //添加请求字段
                 where: {
                     uid:  t("input[ name='uid' ] ").val()

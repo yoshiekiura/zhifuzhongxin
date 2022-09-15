@@ -50,6 +50,28 @@ class User extends BaseLogic
     }
 
     /**
+     * 获取商户列表
+     *
+     * @param array $where
+     * @param string $fieldaddUser
+     * @param string $order
+     * @param int $paginate
+     * @return mixed
+     * @author 勇敢的小笨羊 <brianwaring98@gmail.com>
+     *
+     */
+    public function getUserListV2($where = [], $join = null, $field = '*', $order = '', $paginate = 20)
+    {
+        $this->modelUser->alias('a');
+        $this->modelUser->limit = !$paginate;
+
+        if ( !is_null($join)){
+            $this->modelUser->join = $join;
+        }
+        return $this->modelUser->getList($where, $field, $order, $paginate);
+    }
+
+    /**
      * 获取商户认证列表
      *
      * @param array $where

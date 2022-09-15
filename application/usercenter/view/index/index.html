@@ -442,8 +442,7 @@
 
                         <div class="screen">
                             <div class="screen-body">
-                                <strong style="font-weight: bold;margin-right: 25px">创建时间 <i class="icon-chevron-right"
-                                                                                             style="font-size: 1.2rem"></i>
+                                <strong style="font-weight: bold;margin-right: 25px">创建时间 <i class="icon-chevron-right" style="font-size: 1.2rem"></i>
                                 </strong>
                                 {if condition="$createTime == '' "}
                                 <span class='active' data-field="createTime" data-value="">全部</span>
@@ -486,7 +485,27 @@
             <div class="row">
 
                 {if condition="$user_info['user_type'] eq 1"}
+                    {volist name="$lists" id="vo"}
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+                        <div class="card-wrapper ">
+                            <div class="card clearfix detail-content" style="color: #ACAFB3">
+                                <span class="card-type"></span>
+                                <img src="{$vo.avatar}" class="img-responsive card-avatar" alt="{$vo.username}" >
 
+                                <h4 style="font-weight: bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="{$vo.username}">{$vo.username}</h4>
+                                <p class="detail-content">{$vo.create_time}</p>
+
+                                <table class="table" style="width: 100%;border: none">
+                                    <tr>
+                                        <td>所属支付中心用户：</td>
+                                        <td>{$vo.merchant_username}</td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                    {/volist}
                 {elseif condition="$user_info['user_type'] eq 2"}
                     {volist name="$lists" id="vo"}
                     <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
@@ -777,6 +796,18 @@
         });
     }
 
+    $('.screen-body span').on('click', function () {
+
+        $.each($(this).siblings(), function (index, elem) {
+            $(elem).removeClass('active')
+        })
+        let optionField = $(this).attr('data-field');
+        let optionVal = $(this).attr('data-value');
+        let input = document.getElementById(optionField);
+        input.value = optionVal
+        submit();
+
+    })
 </script>
 
 
