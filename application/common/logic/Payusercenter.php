@@ -46,9 +46,12 @@ class Payusercenter extends BaseLogic
 
         Db::startTrans();
         try {
+
             $this->modelPayCenterUser->allowField(true)->isUpdate($data['scene'] == 'add' ? false : true)->save($data);
             $msg = $data['scene'] == 'add' ? '添加' : '修改';
             if ($data['scene'] == 'add'){
+                $this->modelPayCenterUser->mch_secret = md5($this->modelPayCenterUser->id.getRandChar(12));
+                $this->modelPayCenterUser->save();
                 //资金记录
                 $this->modelCenterBalance->setInfo(['uid' => $this->modelPayCenterUser->id]);
             }
@@ -362,5 +365,14 @@ class Payusercenter extends BaseLogic
             Db::rollback();
             return ['code' => CodeEnum::ERROR, 'msg'=> config('app_debug') ? $ex->getMessage() : '未知错误' ];
         }
+    }
+
+
+    /**
+     * 绑定用户飞机号
+     */
+    public function bindTg($tg_id, $secret)
+    {
+        $this->modelPayCenterUser->where('mch_secret', $secret)->setField('tg_group_id', $tg_id);
     }
 }

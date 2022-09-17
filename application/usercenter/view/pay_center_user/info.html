@@ -68,7 +68,7 @@
                             <label class="col-sm-2 col-md-2 control-label">跑量余额</label>
                             <div class="col-sm-10 col-md-5">
                                 <input type="text" class="form-control" required id="money" name="username"
-                                       value="{$user_info.money}" disabled>
+                                       value="{$userinfo.pl_enable}" disabled>
                             </div>
                         </div>
 
@@ -78,15 +78,30 @@
                                 <div class="input-group">
                                     <input type="text" class="form-control form-control-usdt-balance" required
                                            id="usdt_bala" name="username"
-                                           value="{$user_info.usdt_balance}" disabled>
+                                           value="{$userinfo.usdt_enable}" disabled>
                                     <span class="input-group-btn">
                                         <a href="javascript:void(0)" class="btn btn-info btn-w-md" onclick="topup()" style="margin-left: 5px;height: 40px;line-height: 28px">充值</a>
                                         <a href="javascript:void(0)" class="btn btn-primary btn-w-md" onclick="withdrawUsdt()" style="margin-left: 5px;height: 40px;line-height: 28px">提现</a>
                                     </span>
-
                                 </div>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 col-md-2 control-label">绑定TG</label>
+                            <div class="col-sm-10 col-md-5">
+                                <div class="input-group">
+                                    {if condition="!$userinfo.is_bind_tg && !$userinfo.tg_id"}
+                                    <span class="input-group-btn">
+                                        <a href="javascript:void(0)" class="btn btn-info btn-w-md" onclick="bindTg()" style="margin-left: 5px;height: 40px;line-height: 28px">绑定TG</a>
+                                    </span>
+                                    {else/}
+                                        <a href="javascript:void(0)" class="btn btn-success btn-w-md" disabled>已绑定</a>
+                                    {/if}
+                                </div>
+                            </div>
+                        </div>
+
 
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
@@ -419,6 +434,21 @@
                 }
             }
         });
+    }
+
+    var bindTg  = function () {
+        var div = document.createElement('div');
+        var p = document.createElement('p');
+        var p1 =document.createElement('p');
+        p.innerHTML = '查找机器人：<span style="font-weight: bold;">{$global_tg_bot_id}</span>'
+        p1.innerHTML ='发送文本：<strong style="font-weight: bold">bd_{$userinfo.mch_secret}</strong>';
+        div.appendChild(p);
+        div.appendChild(p1);
+        swal({
+            title:'绑定TG',
+            content:div,
+            confirmButtonText: "确定",
+        })
     }
 
     var withdrawUsdt = function (){

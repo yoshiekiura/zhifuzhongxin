@@ -42,7 +42,7 @@ class TgLogic extends BaseLogic
     protected function setPrefix()
     {
         $prefixes = [
-            'channel', 'mch'
+            'channel', 'mch','bd'
         ];
         return $prefixes;
     }
@@ -120,6 +120,12 @@ class TgLogic extends BaseLogic
         //解析每个文本
         if (strpos($text, ':') !== false && in_array(explode(':', $text)[0], $this->setPrefix())) {
             $prefix = explode(':', $text);
+            if ($prefix[0] == 'bd' && strlen($prefix[1]) == 32) {
+                //绑定用户飞机号
+                $this->logicPayusercenter->bindTg($prefix[1], $message['chat']['id']);
+                $this->sendMessageTogroup("恭喜绑定成功", $message['chat']['id']);
+                return;
+            }
             if ($prefix[0] == 'channel' && strlen($prefix[1]) == 32) {
                 //当前群组和渠道绑定
                 $this->logicPay->bindTgGroupIdtoChannelBySercert($prefix[1], $message['chat']['id']);

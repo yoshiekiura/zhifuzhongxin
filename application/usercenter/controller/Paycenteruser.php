@@ -52,6 +52,13 @@ class Paycenteruser extends Base
             $this->modelPayCenterUser->allowField(['is_info_public'])->isUpdate(true)->save($params);
             $this->success('操作成功');
         }
+        $userinfo = $this->modelPayCenterUser->alias('a')
+            ->join('center_balance b', 'b.uid = a.id', 'left')
+            ->where('a.id', $this->user['id'])
+            ->field('a.*, b.usdt_enable, b.pl_enable')
+            ->find();
+        $this->assign('userinfo', $userinfo);
+        $this->assign('global_tg_bot_id', $this->modelConfig->where('name', 'global_tg_bot_id')->value('value'));
         return $this->fetch('pay_center_user/info');
     }
 

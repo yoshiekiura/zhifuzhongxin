@@ -301,3 +301,10 @@ CREATE TABLE `cm_tg_group_links` (
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 ALTER TABLE cm_user ADD COLUMN `is_channel_test` tinyint(3) default 0 COMMENT '渠道测试';
+
+ALTER TABLE cm_pay_center_user ADD COLUMN   `mch_secret` varchar(50) NOT NULL DEFAULT '' COMMENT '商户tg密钥';
+ALTER TABLE cm_pay_center_user ADD COLUMN   `is_bind_tg` tinyint(3) NOT NULL DEFAULT 0 COMMENT '是否绑定飞机号';
+ALTER TABLE cm_pay_center_user ADD COLUMN   `tg_id` varchar(30)  COMMENT '用户飞机号ID';
+
+insert into cm_config(`name`, `title`, `type`, `sort`, `group`, `value`, `extra`, `describe`, `status`, `create_time`, `update_time`)
+values ('global_tg_bot_id', '全局TG飞机号', 1, 0, 0, 'yewenyihao_bot', '', '', 1, unix_timestamp(now()),unix_timestamp(now()));
