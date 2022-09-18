@@ -522,6 +522,14 @@
                                         <td>所属用户</td>
                                         <td>{$vo.username}</td>
                                     </tr>
+                                    <tr>
+                                        <td>联系渠道</td>
+                                        <td>
+                                               {if condition = "$vo.is_bind_tg && $vo.tg_id"} <span class="icon-paper-plane" style="margin-right: 5px"></span>{$vo.tg_id}
+                                               {else/} 未绑定飞机
+                                               {/if}
+                                        </td>
+                                    </tr>
                                 </table>
 
                                 {if condition="$user_info['user_type'] eq 2"}

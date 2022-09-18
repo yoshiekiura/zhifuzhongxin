@@ -166,7 +166,7 @@
                             <a href="javascript:voio(0)" onclick="refundDetails('{$vo.id}')" class="btn btn-sm btn-warning">详情</a>
                             {if condition="$vo.status eq 1 && time()<=$vo.effective_time"}
                                 <a href="javascript:voio(0)" onclick="balancePay('{$vo.id}')" class="btn btn-sm btn-info">余额支付</a>
-                                <a href="javascript:voio(0)" onclick="onlinePay('{$vo.id}')" class="btn btn-sm btn-info">USDT支付</a>
+                                <a href="javascript:voio(0)" onclick="onlinePay('{$vo.id}')" class="btn btn-sm btn-info">在线支付</a>
                             {elseif condition="$vo.status eq 2 or $vo.status eq 5"}
                                 <a href="javascript:voio(0)" onclick="applyRefund('{$vo.id}')" class="btn btn-sm btn-info">申请退保</a>
                             {/if}

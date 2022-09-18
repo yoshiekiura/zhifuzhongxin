@@ -47,7 +47,14 @@ class Base extends Common
         if (!$usercenter) {
             return false;
         }
-        $userInfo = PayCenterUser::get($usercenter);
+
+        $userInfo  = $this->modelPayCenterUser
+            ->alias('a')
+            ->join('center_balance b', 'b.uid = a.id', 'left')
+            ->field('a.*,b.usdt_enable, b.pl_enable')
+            ->where('a.id', $usercenter)
+            ->find();
+//        $userInfo = PayCenterUser::get($usercenter);
         if (!$userInfo or $userInfo['status'] !==1 ){
             return false;
         }

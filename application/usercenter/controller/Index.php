@@ -45,7 +45,7 @@ class Index extends Base
                 }
                 break;
             case 2:
-                $field = 'a.*, u.username, go.id as guarantee_id';
+                $field = 'a.*, u.username, go.id as guarantee_id,u.is_bind_tg, u.tg_id';
                 $username && $where['a.username'] = array('LIKE', '%'. $username .'%');
                 $join = [
                     [ 'guarantee_orders go', 'go.channel_id = a.id and go.merchant_user_id = '.$this->user['id'] . ' and go.status not in (2,4)',  'left'],
@@ -58,6 +58,12 @@ class Index extends Base
                 break;
             case 3:
             case 4:
+                $username && $where['a.username'] = array('LIKE', '%'. $username .'%');
+                $where['a.pid'] = $this->user['id'];
+                $lists =   $this->logicPayusercenter->getUserListV2($where, null, true,  'create_time desc', 12);
+                foreach ($lists as $user){
+                    $user->avatar = letter_avatar($user->username);
+                }
                 break;
             default:
                 break;

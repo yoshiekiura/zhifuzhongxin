@@ -51,8 +51,8 @@
                         <td>{$vo['channel_name']}</td>
                         <td>
                             {switch $vo.status}
-                            {case 0}<a href="javascript:void(0);" class="btn btn-xs btn-warning btn-rounded">待审核</a>{/case}
-                            {case 1}<a href="javascript:void(0);" class="btn btn-xs btn-success btn-rounded">审核通过</a>{/case}
+                            {case 0}<a href="javascript:void(0);" class="btn btn-xs btn-warning btn-rounded">待同意</a>{/case}
+                            {case 1}<a href="javascript:void(0);" class="btn btn-xs btn-success btn-rounded">已同意</a>{/case}
                             {case 2}<a href="javascript:void(0);" class="btn btn-xs btn-danger">审核失败</a>{/case}
                             {/switch}
                         </td>

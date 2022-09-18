@@ -28,6 +28,21 @@ class Payusercenter extends BaseLogic
     }
 
     /**
+     * 获取用户列表
+     * @param array $where
+     * @return false|\PDOStatement|string|\think\Collection|\think\Paginator|void
+     */
+    public function getUserListV2($where = [], $join = null, $field = true, $order = 'id desc', $paginate = 10)
+    {
+        $this->modelPayCenterUser->alias('a');
+        $this->modelPayCenterUser->limit = !$paginate;
+        if (!is_null($join)){
+            $this->modelPayCenterUser->join = $join;
+        }
+        return $this->modelPayCenterUser->getList($where, $field, $order, $paginate);
+    }
+
+    /**
      * 保存用户
      * @param $data
      * @return array
