@@ -308,3 +308,6 @@ ALTER TABLE cm_pay_center_user ADD COLUMN   `tg_id` varchar(30)  COMMENT '用户
 
 insert into cm_config(`name`, `title`, `type`, `sort`, `group`, `value`, `extra`, `describe`, `status`, `create_time`, `update_time`)
 values ('global_tg_bot_id', '全局TG飞机号', 1, 0, 0, 'yewenyihao_bot', '', '', 1, unix_timestamp(now()),unix_timestamp(now()));
+
+update cm_menu set  `is_hide` = 1 where url = 'Ms';
+update cm_menu set  `is_hide` = 1 where url = 'DaifuOrders';
